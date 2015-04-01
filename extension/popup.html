@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Getting Started Extension's Popup</title>
+	<link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+    <style>
+		body {
+			font-family: "Roboto", sans-serif;
+			font-size: 100%;
+			background: #fff;
+			padding:10px;
+		}
+		#status {
+			white-space: nowrap;
+			overflow: hidden;
+			max-width: 600px;
+			color: #888;
+		}
+		h2,h4{
+			display:inline;
+		}
+    </style>
+
+    <!--
+      - JavaScript and HTML must be in separate files: see our Content Security
+      - Policy documentation[1] for details and explanation.
+      -
+      - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
+     -->
+    <script src="./jquery.min.js"></script>
+    <script src="./popup.js"></script>
+  </head>
+  <body>
+    <div id="status"><i>Fetching lyrics...</i></div>
+    <img id="image-result" hidden>
+  </body>
+</html>
+
