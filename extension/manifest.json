@@ -19,7 +19,8 @@
       }
     ],
     "permissions": [
-        "activeTab"
+        "activeTab",
+		"tabs"
     ]
 }
 
