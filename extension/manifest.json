@@ -14,7 +14,8 @@
     },
     "content_scripts": [
       {
-        "matches": ["https://play.google.com/music/*", "http://play.google.com/music/*"],
+        "matches": ["https://play.google.com/music/*", "http://play.google.com/music/*",
+					"https://play.spotify.com/*", "http://play.spotify.com/*"],
         "js": ["jquery.min.js", "content_script.js"]
       }
     ],
