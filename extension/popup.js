@@ -22,7 +22,8 @@ chrome.tabs.getSelected(null, function(tab) {
 
 					// Pass back the lyrics to content_script, so if the user opens the popup again we don't need to fetch the song twice
 					chrome.tabs.sendMessage(tab.id, {query:"storeLyric", artist:response.currentArtist, song:response.currentSong, lyrics: data});
-				}).fail(function(){
+
+   				}).fail(function(){
 					// Something went wrong with the request. Alert the user
 					$("#status").html("There was an error processing your request.");
 				});
@@ -35,3 +36,8 @@ function fillPopUpWithLyrics(artist, song, lyrics){
 	var top = "<h2>"+song + "</h2><br/><i>by <h4>" +artist+"</h4></i><br/><br/>";
 	$("#status").html(top+lyrics);
 }
+
+function openPopup(){
+	chrome.windows.create({'url': 'popup_window.html', 'type': 'popup', 'width': 350, 'height': 800}, function(window) {
+	});
+}z
