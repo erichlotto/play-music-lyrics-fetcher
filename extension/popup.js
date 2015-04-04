@@ -22,7 +22,6 @@ chrome.tabs.getSelected(null, function(tab) {
 
 					// Pass back the lyrics to content_script, so if the user opens the popup again we don't need to fetch the song twice
 					chrome.tabs.sendMessage(tab.id, {query:"storeLyric", artist:response.currentArtist, song:response.currentSong, lyrics: data});
-
    				}).fail(function(){
 					// Something went wrong with the request. Alert the user
 					$("#status").html("There was an error processing your request.");
@@ -35,9 +34,13 @@ chrome.tabs.getSelected(null, function(tab) {
 function fillPopUpWithLyrics(artist, song, lyrics){
 	var top = "<h2>"+song + "</h2><br/><i>by <h4>" +artist+"</h4></i><br/><br/>";
 	$("#status").html(top+lyrics);
+	openPopup(artist, song, lyrics);
 }
 
-function openPopup(){
-	chrome.windows.create({'url': 'popup_window.html', 'type': 'popup', 'width': 350, 'height': 800}, function(window) {
+function openPopup(artist, song, lyrics){
+	chrome.runtime.getBackgroundPage(function(bgWindow) {
+		bgWindow.storeBackgroundTempData(artist, song, lyrics);
+		chrome.windows.create({'url': 'popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+20, 'height': 800, 'focused':true}, function(window) {
+		});
 	});
-}z
+}

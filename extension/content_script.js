@@ -44,8 +44,12 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 			storedArtist = message.artist;
 			storedSong = message.song;
 		break;
+		case "teste":
+			sendResponse({'teste':'teste'});
+		break;
 	}
-
-
-
 });
+
+function getData(){
+	return cachedArtist;
+}

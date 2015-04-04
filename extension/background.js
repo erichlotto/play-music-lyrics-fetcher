@@ -33,3 +33,16 @@ function checkForValidUrl(tabId, changeInfo, tab) {
 };
 // Listen for any changes to the URL of any tab.
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
+
+var backgroundTempArtist;
+var backgroundTempSong;
+var backgroundTempLyrics;
+
+function storeBackgroundTempData(artist, song, lyrics){
+    backgroundTempArtist=artist;
+    backgroundTempSong=song;
+    backgroundTempLyrics=lyrics;
+}
+function getBackgroundTempData(){
+    return {'artist':backgroundTempArtist, 'song':backgroundTempSong, 'lyrics':backgroundTempLyrics};
+}
