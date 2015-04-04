@@ -1,3 +1,4 @@
+
 chrome.tabs.getSelected(null, function(tab) {
 	chrome.tabs.sendMessage(tab.id, {query:"getInfo" },
 		function(response) {
@@ -34,13 +35,13 @@ chrome.tabs.getSelected(null, function(tab) {
 function fillPopUpWithLyrics(artist, song, lyrics){
 	var top = "<h2>"+song + "</h2><br/><i>by <h4>" +artist+"</h4></i><br/><br/>";
 	$("#status").html(top+lyrics);
-	openPopup(artist, song, lyrics);
+	$("#new_window").css("visibility","visible").click(function(){openPopup(artist, song, lyrics);});
 }
 
 function openPopup(artist, song, lyrics){
 	chrome.runtime.getBackgroundPage(function(bgWindow) {
 		bgWindow.storeBackgroundTempData(artist, song, lyrics);
-		chrome.windows.create({'url': 'popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+20, 'height': 800, 'focused':true}, function(window) {
+		chrome.windows.create({'url': 'popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+20, 'height': 800, 'focused':true }, function(window) {
 		});
 	});
 }
