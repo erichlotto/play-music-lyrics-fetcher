@@ -12,7 +12,7 @@ chrome.tabs.getSelected(null, function(tab) {
 			// Check if we already hare this song cached
 			if(response.cachedLyric.length>0){
 					// It's cached, fill the popup
-					fillPopUpWithLyrics(response.currentArtist, response.currentSong, response.cachedLyric+"<br/><small style=\"float:right;color:red;\">cached</small>");
+					fillPopUpWithLyrics(response.currentArtist, response.currentSong, response.cachedLyric/*+"<br/><small style=\"float:right;color:red;\">cached</small>"*/);
 			} else {
 
 				// We dont have it cached, make the request to the external server
@@ -41,7 +41,7 @@ function fillPopUpWithLyrics(artist, song, lyrics){
 function openPopup(artist, song, lyrics){
 	chrome.runtime.getBackgroundPage(function(bgWindow) {
 		bgWindow.storeBackgroundTempData(artist, song, lyrics);
-		chrome.windows.create({'url': 'popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+20, 'height': 800, 'focused':true }, function(window) {
+		chrome.windows.create({'url': 'popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+20, 'height': $(window).height()+20, 'focused':true }, function(window) {
 		});
 	});
 }
