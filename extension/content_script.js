@@ -62,6 +62,12 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 				currentSong = parseInfo(video_title).track;
 				currentAlbum = 'Unknown';
 				isPlaying = (document.getElementsByClassName("playing-mode").length > 0 )?true:false;
+			}else if(hostname.indexOf('songza.com') > -1 ){
+
+				currentArtist = $(".miniplayer-info-artist-name:eq(0) a:eq(0)").text().split("by ")[1];
+				currentSong = $(".miniplayer-info-track-title:eq(0) a:eq(0)").text();
+				currentAlbum = 'Unknown';
+				isPlaying = (document.getElementsByClassName("player-state-play").length > 0 )?true:false;
 			}
 
             console.log(currentArtist+": "+currentSong+" ("+currentAlbum+")");

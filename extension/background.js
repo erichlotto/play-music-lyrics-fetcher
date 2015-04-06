@@ -30,6 +30,7 @@ function checkForValidUrl(tabId, changeInfo, tab) {
 		tab.url.indexOf('pandora.com') > -1 ||
 		tab.url.indexOf('superplayer.fm') > -1 ||
 		tab.url.indexOf('youtube.com') > -1 ||
+		tab.url.indexOf('songza.com') > -1 ||
 		tab.url.indexOf('play.spotify.com') > -1) {
     // ... show the page action.
     chrome.pageAction.show(tabId);
