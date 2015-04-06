@@ -25,6 +25,7 @@ function checkForValidUrl(tabId, changeInfo, tab) {
   // If the letter 'g' is found in the tab's URL...
   if (tab.url.indexOf('play.google.com/music/listen') > -1 || 
 		tab.url.indexOf('deezer.com') > -1 ||
+		tab.url.indexOf('rdio.com') > -1 ||
 		tab.url.indexOf('play.spotify.com') > -1) {
     // ... show the page action.
     chrome.pageAction.show(tabId);

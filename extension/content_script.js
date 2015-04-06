@@ -36,6 +36,11 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 				currentSong = $(".player-track-title:eq(0)").text();
 				currentAlbum = 'Unknown';
 				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+			}else if(hostname.indexOf('rdio.com') > -1 ){
+				currentArtist = $(".drag_container:eq(0) .artist_title:eq(0)").text();
+				currentSong = $(".drag_container:eq(0) .song_title:eq(0)").text();
+				currentAlbum = 'Unknown';
+				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
 			}
 
             console.log(currentArtist+": "+currentSong+" ("+currentAlbum+")");
