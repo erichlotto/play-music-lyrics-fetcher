@@ -21,8 +21,7 @@ function openPopup(artist, song, lyrics){
 
 	chrome.runtime.getBackgroundPage(function(bgWindow) {
 		bgWindow.storeBackgroundTempData(artist, song, lyrics);
-		chrome.windows.create({'url': 'popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+20, 'height': $(window).height()-20, 'focused':true }, function(window) {
-		});
+		chrome.windows.create({'url': 'popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+20, 'height': $(window).height()-20, 'focused':true });
 	});
 }
 
