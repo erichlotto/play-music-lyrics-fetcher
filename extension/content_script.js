@@ -51,6 +51,11 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 				currentSong = $(".playerBarSong:eq(0)").text();
 				currentAlbum = $(".playerBarAlbum:eq(0)").text();
 				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+			}else if(hostname.indexOf('superplayer.fm') > -1 ){
+				currentArtist = $("span[data-function='current-artist']").first().text();
+				currentSong = $("span[data-function='current-track']").first().text();
+				currentAlbum = 'Unknown';
+				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
 			}
 
             console.log(currentArtist+": "+currentSong+" ("+currentAlbum+")");
