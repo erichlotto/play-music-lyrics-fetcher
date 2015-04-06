@@ -41,6 +41,16 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 				currentSong = $(".drag_container:eq(0) .song_title:eq(0)").text();
 				currentAlbum = 'Unknown';
 				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+			}else if(hostname.indexOf('grooveshark.com') > -1 ){
+				currentArtist = $(".now-playing-link.artist:eq(0)").text();
+				currentSong = $(".now-playing-link.song:eq(0)").text();
+				currentAlbum = 'Unknown';
+				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+			}else if(hostname.indexOf('pandora.com') > -1 ){
+				currentArtist = $(".playerBarArtist:eq(0)").text();
+				currentSong = $(".playerBarSong:eq(0)").text();
+				currentAlbum = $(".playerBarAlbum:eq(0)").text();
+				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
 			}
 
             console.log(currentArtist+": "+currentSong+" ("+currentAlbum+")");

@@ -18,6 +18,8 @@
         "matches": ["https://play.google.com/music/*", "http://play.google.com/music/*",
 					"https://play.spotify.com/*", "http://play.spotify.com/*",
 					"https://www.rdio.com/*", "http://www.rdio.com/*",
+					"https://www.pandora.com/*", "http://www.pandora.com/*",
+					"https://grooveshark.com/*", "http://grooveshark.com/*",
 					"https://www.deezer.com/*", "http://www.deezer.com/*"],
         "js": ["jquery.min.js", "content_script.js"]
       }
