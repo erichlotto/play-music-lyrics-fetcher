@@ -9,9 +9,7 @@ alert("NOK");
 /* Esse javascript roda em background, eh a unica forma de acessar o conteudo da pagina.
  * Temos um listener que fica escutando as mensagens recebidas e tomando decisoes de acordo
 */
-var storedArtist;
-var storedSong;
-var cachedLyric;
+
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 
 	switch(message.query){
@@ -35,21 +33,9 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 			var response = {isPlaying:currentSong.trim().length>0?true:false,
 						currentSong:currentSong,
 						currentArtist:currentArtist,
-						currentAlbum:currentAlbum,
-						cachedLyric:(storedArtist==currentArtist && storedSong==currentSong)?cachedLyric:""};
+						currentAlbum:currentAlbum};
 			sendResponse(response);
 		break;
-		case "storeLyric":
-			cachedLyric = message.lyrics;
-			storedArtist = message.artist;
-			storedSong = message.song;
-		break;
-		case "teste":
-			sendResponse({'teste':'teste'});
-		break;
+
 	}
 });
-
-function getData(){
-	return cachedArtist;
-}
