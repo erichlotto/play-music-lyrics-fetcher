@@ -1,3 +1,6 @@
+jQuery.getJSON("manifest.json",function(data) {
+	document.title = data.name;
+});
 chrome.runtime.getBackgroundPage(function(bgWindow) {
 	fillPopUpWithLyrics(bgWindow.getBackgroundTempData().artist, bgWindow.getBackgroundTempData().song, bgWindow.getBackgroundTempData().lyrics);
 });

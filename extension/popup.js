@@ -1,3 +1,6 @@
+jQuery.getJSON("manifest.json",function(data) {
+	document.title = data.name;
+});
 
 chrome.tabs.getSelected(null, function(tab) {
 	chrome.tabs.sendMessage(tab.id, {query:"getInfo" },
@@ -5,8 +8,10 @@ chrome.tabs.getSelected(null, function(tab) {
 			// We need to check if the user is actually playing a song
 			if(!response.isPlaying)
 				$("#status").html("Play a song first ;)");
-			else
+			else{
+				$("#status").html("<i>Fetching lyrics...</i>");
 				fetchLetra(response.currentArtist, response.currentSong);
+			}
 		}
 	);
 });
