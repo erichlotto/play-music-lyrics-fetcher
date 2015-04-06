@@ -35,13 +35,14 @@ chrome.tabs.getSelected(null, function(tab) {
 function fillPopUpWithLyrics(artist, song, lyrics){
 	var top = "<h2>"+song + "</h2><br/><i>by <h4>" +artist+"</h4></i><br/><br/>";
 	$("#status").html(top+lyrics);
-	$("#new_window").css("visibility","visible").click(function(){openPopup(artist, song, lyrics);});
+	$("#top_bar").css("display","inherit")
+	$("#new_window").click(function(){openPopup(artist, song, lyrics);});
 }
 
 function openPopup(artist, song, lyrics){
 	chrome.runtime.getBackgroundPage(function(bgWindow) {
 		bgWindow.storeBackgroundTempData(artist, song, lyrics);
-		chrome.windows.create({'url': 'popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+20, 'height': $(window).height()+20, 'focused':true }, function(window) {
+		chrome.windows.create({'url': 'popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+20, 'height': $(window).height()-20, 'focused':true }, function(window) {
 		});
 	});
 }
