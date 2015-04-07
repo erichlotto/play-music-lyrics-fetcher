@@ -34,17 +34,17 @@ function showLetra (data,art,mus,arrayid) {
 
 	if (data.type == 'exact' || data.type == 'aprox') {
 		// Print lyrics text
-		var top = "<h2>"+mus + "</h2><br/><i>by <h4>" +art+"</h4></i><br/><br/>";
+		var top = "<h2>"+data.mus[arrayid].name + "</h2><br/><i>by <h4>" +data.art.name+"</h4></i><br/><br/>";
 		$("#status").html(top+data.mus[arrayid].text);
 		$("#top_bar").css("display","inherit")
-		$("#new_window").click(function(){openPopup(art, mus, data.mus[arrayid].text);});
+		$("#new_window").click(function(){openPopup(data.art.name, data.mus[arrayid].name, data.mus[arrayid].text);});
 	} else if (data.type == 'song_notfound') {
 		// Song not found, but artist was found
 		// You can list all songs from Vagalume here
-		$("#status").text("could not find song \""+mus+"\" by "+art);
+		$("#status").text("could not find song \""+mus+"\" by "+data.art.name);
 	} else {
 		// Artist not found
-		$("#status").text("could not find artist "+art);
+		$("#status").text("could not find artist \""+art+"\"");
 	}
 }
 
