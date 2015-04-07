@@ -8,6 +8,7 @@ Now supporting also the following services:
   - Grooveshark
   - Pandora
   - Superplayer
+  - YouTube
 
 Installation instructions:
 - Enable developer mode on Google Chrome's extensions window.
