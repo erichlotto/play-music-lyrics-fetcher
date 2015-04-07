@@ -6,7 +6,7 @@ chrome.tabs.getSelected(null, function(tab) {
 	chrome.tabs.sendMessage(tab.id, {query:"getInfo" },
 		function(response) {
 			// We need to check if the user is actually playing a song
-			if(!response.isPlaying)
+			if(!response.currentSong || !response.currentArtist)
 				$("#status").html("Play a song first ;)");
 			else{
 				$("#status").html("<i>Fetching lyrics...</i>");
