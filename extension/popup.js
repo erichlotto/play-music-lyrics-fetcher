@@ -6,8 +6,21 @@ chrome.tabs.getSelected(null, function(tab) {
 	chrome.tabs.sendMessage(tab.id, {query:"getInfo" },
 		function(response) {
 			// We need to check if the user is actually playing a song
-			if(!response.currentSong || !response.currentArtist)
-				$("#status").html("Play a song first ;)");
+			if(!response.currentSong || !response.currentArtist){
+				if(!response.isPlaying){
+					$("#status").html("Play a song first ;)");
+				} else {
+					$("#status").html('<p>We could not identify your song, <br/>please use the form above.</p>'+
+									'<form method="post" id="submit_form">'+
+									'<input style="width:-webkit-calc(100% - 25px); padding:5px; margin:5px;font-size:1em;" id="artist" class="contato_text" type="text" name="artist" placeholder="Artist" value="'+response.currentArtist+'" autofocus><br/>'+
+									'<input style="width:-webkit-calc(100% - 25px); padding:5px; margin:5px;font-size:1em;" id="track" class="contato_text" type="text" name="track" placeholder="Track" value="'+response.currentSong+'"><br/>'+
+									'<input style="width:-webkit-calc(50% - 10px); padding:5px; margin:5px;font-size:1em;float:right" type="submit" value="Search" ></form>');
+					$('#submit_form').on('submit', function () {
+						fetchLetra($("#artist").val(), $("#track").val());
+						return false; // para cancelar o envio do formulario
+					});
+				}
+			}
 			else{
 				$("#status").html("<i>Fetching lyrics...</i>");
 				fetchLetra(response.currentArtist, response.currentSong);
@@ -15,7 +28,6 @@ chrome.tabs.getSelected(null, function(tab) {
 		}
 	);
 });
-
 
 function openPopup(artist, song, lyrics){
 
@@ -41,10 +53,10 @@ function showLetra (data,art,mus,arrayid) {
 	} else if (data.type == 'song_notfound') {
 		// Song not found, but artist was found
 		// You can list all songs from Vagalume here
-		$("#status").text("could not find song \""+mus+"\" by "+data.art.name);
+		$("#status").html("could not find song <b>"+mus+"</b> by "+data.art.name);
 	} else {
 		// Artist not found
-		$("#status").text("could not find artist \""+art+"\"");
+		$("#status").html("could not find artist <b>"+art+"</b>");
 	}
 }
 
@@ -70,6 +82,6 @@ function fetchLetra (art,mus) {
 		showLetra(data, art, mus);
 	}).fail(function(){
 		// Something went wrong with the request. Alert the user
-		$("#status").text("There was an error processing your request.");
+		$("#status").html("There was an error trying to reach the API.");
 	});
 }
