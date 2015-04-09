@@ -17,10 +17,10 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 			var currentSong;
 			var currentArtist;
 			var currentAlbum;
-			var isPlaying;
+			var isPlaying=false;
 
 			var hostname = $('<a>').prop('href', document.location).prop('hostname');
-
+try{
 			if(hostname == "play.google.com"){
 				currentSong = $('#playerSongTitle').text();
 				currentArtist = $('#player-artist').text();
@@ -67,9 +67,17 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 				currentSong = $(".miniplayer-info-track-title:eq(0) a:eq(0)").text();
 				currentAlbum = 'Unknown';
 				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+			}else if(hostname.indexOf('tunein.com') > -1 ){
+				currentArtist = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[1];
+				currentSong = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[0];
+				currentAlbum = 'Unknown';
+				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
 			}
+} catch(err){
+console.log("Check out this awesome error: "+err.message);
+}
 
-            console.log(currentArtist+": "+currentSong+" ("+currentAlbum+")");
+            console.log('===============\n___Artist : '+currentArtist+"\n____Track : "+currentSong+"\n____Album : "+currentAlbum+"\nisPlaying : "+isPlaying+"\n================");
 			var response = {isPlaying:isPlaying,
 						currentSong:currentSong,
 						currentArtist:currentArtist,
