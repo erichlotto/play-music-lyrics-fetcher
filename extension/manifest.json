@@ -21,7 +21,7 @@
 					"https://www.pandora.com/*", "http://www.pandora.com/*",
 					"https://grooveshark.com/*", "http://grooveshark.com/*",
 					"https://www.superplayer.fm/*", "http://www.superplayer.fm/*",
-					"https://www.youtube.com/watch?v=*", "http://www.youtube.com/watch?v=*",
+					"https://www.youtube.com/*", "http://www.youtube.com/*",
 					"https://songza.com/*", "http://songza.com/*",
 					"https://www.deezer.com/*", "http://www.deezer.com/*"],
         "js": ["jquery.min.js", "content_script.js"]

@@ -5,20 +5,13 @@ jQuery.getJSON("manifest.json",function(data) {
 chrome.tabs.getSelected(null, function(tab) {
 	chrome.tabs.sendMessage(tab.id, {query:"getInfo" },
 		function(response) {
+
 			// We need to check if the user is actually playing a song
 			if(!response.currentSong || !response.currentArtist){
 				if(!response.isPlaying){
 					$("#status").html("Play a song first ;)");
 				} else {
-					$("#status").html('<p>We could not identify your song, <br/>please use the form above.</p>'+
-									'<form method="post" id="submit_form">'+
-									'<input style="width:-webkit-calc(100% - 25px); padding:5px; margin:5px;font-size:1em;" id="artist" class="contato_text" type="text" name="artist" placeholder="Artist" value="'+response.currentArtist+'" autofocus><br/>'+
-									'<input style="width:-webkit-calc(100% - 25px); padding:5px; margin:5px;font-size:1em;" id="track" class="contato_text" type="text" name="track" placeholder="Track" value="'+response.currentSong+'"><br/>'+
-									'<input style="width:-webkit-calc(50% - 10px); padding:5px; margin:5px;font-size:1em;float:right" type="submit" value="Search" ></form>');
-					$('#submit_form').on('submit', function () {
-						fetchLetra($("#artist").val(), $("#track").val());
-						return false; // para cancelar o envio do formulario
-					});
+					showInputFields("We could not identify your song, <br/>please use the form above.", response.currentArtist, response.currentSong);
 				}
 			}
 			else{
@@ -28,6 +21,27 @@ chrome.tabs.getSelected(null, function(tab) {
 		}
 	);
 });
+
+var examples = [["Led Zeppelin","Kashmir"],
+				["Queen","Bohemian Rhapsody"],
+				["Kiss","Strutter"],
+				["Pearl Jam","Even Flow"],
+				["Aerosmith","Dream On"]];
+
+function showInputFields(popupTitle, artist, track){
+var sortedExample = examples[Math.floor(Math.random()*examples.length)];
+	$("#status").html('<p>'+popupTitle+'</p>'+
+'<form method="post" id="submit_form">'+
+'<label style="font-size:.7em;margin:5px;color:#fb8521;font-weight: bolder;" for="artist">Artist:</label>'+
+'<input style="width:-webkit-calc(100% - 25px); padding:5px; margin:5px;font-size:1em;" id="artist" class="contato_text" type="text" name="artist" placeholder="e.g. '+sortedExample[0]+'" value="'+artist+'" autofocus><br/>'+
+'<label style="font-size:.7em;margin:5px;color:#fb8521;font-weight: bolder;" for="artist">Track:</label>'+
+'<input style="width:-webkit-calc(100% - 25px); padding:5px; margin:5px;font-size:1em;" id="track" class="contato_text" type="text" name="track" placeholder="e.g. '+sortedExample[1]+'" value="'+track+'"><br/>'+
+'<input style="width:-webkit-calc(50% - 10px); padding:5px; margin:5px;font-size:1em;float:right" type="submit" value="Search" ></form>');
+	$('#submit_form').on('submit', function () {
+		fetchLetra($("#artist").val(), $("#track").val());
+		return false; // para cancelar o envio do formulario
+	});
+}
 
 function openPopup(artist, song, lyrics){
 
@@ -53,10 +67,12 @@ function showLetra (data,art,mus,arrayid) {
 	} else if (data.type == 'song_notfound') {
 		// Song not found, but artist was found
 		// You can list all songs from Vagalume here
-		$("#status").html("could not find song <b>"+mus+"</b> by "+data.art.name);
+//		$("#status").html("could not find song <b>"+mus+"</b> by "+data.art.name);
+		showInputFields("could not find song <b>"+mus+"</b> by "+data.art.name, data.art.name, mus);
 	} else {
 		// Artist not found
-		$("#status").html("could not find artist <b>"+art+"</b>");
+//		$("#status").html("could not find artist <b>"+art+"</b>");
+		showInputFields("could not find artist <b>"+art+"</b>", art, "");
 	}
 }
 
