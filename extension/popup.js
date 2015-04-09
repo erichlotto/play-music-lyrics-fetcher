@@ -31,16 +31,32 @@ var examples = [["Led Zeppelin","Kashmir"],
 function showInputFields(popupTitle, artist, track){
 var sortedExample = examples[Math.floor(Math.random()*examples.length)];
 	$("#status").html('<p>'+popupTitle+'</p>'+
-'<form method="post" id="submit_form">'+
+'<form id="fix_song_info_form" method="post">'+
 '<label style="font-size:.7em;margin:5px;color:#fb8521;font-weight: bolder;" for="artist">Artist:</label>'+
 '<input style="width:-webkit-calc(100% - 25px); padding:5px; margin:5px;font-size:1em;" id="artist" class="contato_text" type="text" name="artist" placeholder="e.g. '+sortedExample[0]+'" value="'+artist+'" autofocus><br/>'+
 '<label style="font-size:.7em;margin:5px;color:#fb8521;font-weight: bolder;" for="artist">Track:</label>'+
 '<input style="width:-webkit-calc(100% - 25px); padding:5px; margin:5px;font-size:1em;" id="track" class="contato_text" type="text" name="track" placeholder="e.g. '+sortedExample[1]+'" value="'+track+'"><br/>'+
-'<input style="width:-webkit-calc(50% - 10px); padding:5px; margin:5px;font-size:1em;float:right" type="submit" value="Search" ></form>');
-	$('#submit_form').on('submit', function () {
-		fetchLetra($("#artist").val(), $("#track").val());
+
+'<input id="input_fields_submit" type="image" src="ic_search_40px.png" alt="Search" ></form>'
+/*'<input style="width:-webkit-calc(50% - 10px); padding:5px; margin:5px;font-size:1em;float:right" type="submit" value="Search" ></form>'*/
+);
+	$('#fix_song_info_form').on('submit', function () {
+		if(validateFormLength())fetchLetra($("#artist").val(), $("#track").val());
 		return false; // para cancelar o envio do formulario
 	});
+	$('#artist').keyup(validateFormLength);
+	$('#track').keyup(validateFormLength);
+	validateFormLength();
+}
+
+function validateFormLength(){
+	if($('#artist').val().length>0 && $('#track').val().length>0){
+		$('#input_fields_submit').addClass('active');
+		return true;
+	} else {
+		$('#input_fields_submit').removeClass('active');
+		return false;
+	}
 }
 
 function openPopup(artist, song, lyrics){
@@ -67,12 +83,10 @@ function showLetra (data,art,mus,arrayid) {
 	} else if (data.type == 'song_notfound') {
 		// Song not found, but artist was found
 		// You can list all songs from Vagalume here
-//		$("#status").html("could not find song <b>"+mus+"</b> by "+data.art.name);
-		showInputFields("could not find song <b>"+mus+"</b> by "+data.art.name, data.art.name, mus);
+		showInputFields("We could not find song <b>"+mus+"</b> by "+data.art.name, data.art.name, mus);
 	} else {
 		// Artist not found
-//		$("#status").html("could not find artist <b>"+art+"</b>");
-		showInputFields("could not find artist <b>"+art+"</b>", art, "");
+		showInputFields("We could not find artist <b>"+art+"</b>", art, mus);
 	}
 }
 
