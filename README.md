@@ -9,8 +9,16 @@ Now supporting also the following services:
   - Pandora
   - Superplayer
   - YouTube
+  - Songza
+  - Tunein
+
 
 Installation instructions:
-- Enable developer mode on Google Chrome's extensions window.
-- select "Load unpacked extension"
-- Choose the "extension" directory
+
+- Method 1 - Precompiled extension:
+ - Simply install the extension.crx file located on /bin
+
+- Method 2 - From source:
+ - Enable developer mode on Google Chrome's extensions window.
+ - select "Load unpacked extension"
+ - Choose the "extension" directory
