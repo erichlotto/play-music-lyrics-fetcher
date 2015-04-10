@@ -21,4 +21,4 @@ Installation instructions:
 - Method 2 - From source:
  - Enable developer mode on Google Chrome's extensions window.
  - select "Load unpacked extension"
- - Choose the "extension" directory
+ - Choose the "source" directory
