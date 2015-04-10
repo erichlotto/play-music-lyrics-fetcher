@@ -28,10 +28,12 @@
 			height:16px;
 			padding:2px;
 		}
-		#new_window{
+		.top_bar_item{
 			float:right;
 			cursor:pointer;
 			height:100%;
+			margin-left:5px;
+			color:white;
 		}
 		#input_fields_submit{
 			float:right;
@@ -57,7 +59,8 @@
   </head>
   <body>
 	<div id="top_bar">
-		<div id="new_window"><img src="window.png" title="Open in new window" /></div>
+		<div id="new_window" class="top_bar_item"><img src="window.png" title="Open in new window" /></div>
+		<div id="wrong_lyric" class="top_bar_item" title="Wrong lyric?">o_O</div>
 	</div>
     <div id="status" style="padding:10px;">...</div>
   </body>

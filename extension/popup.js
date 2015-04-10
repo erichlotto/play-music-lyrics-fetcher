@@ -24,10 +24,22 @@ var examples = [["Led Zeppelin","Kashmir"],
 				["Queen","Bohemian Rhapsody"],
 				["Kiss","Strutter"],
 				["Pearl Jam","Even Flow"],
+				["Bob Dylan","Like a Rolling Stone"],
+				["John Lennon","Imagine"],
+				["The Beatles","Hey Jude"],
+				["Nirvana","Smells Like Teen Spirit"],
+				["U2","One"],
+				["Dire Straits","Sultans of Swing"],
+				["Bon Jovi","Livin' on a Prayer"],
+				["Led Zeppelin","Stairway to Heaven"],
+				["Black Sabbath","Paranoid"],
+				["Iron Maiden","The Number of the Beast"],
+				["Sex Pistols","Anarchy in the UK"],
 				["Aerosmith","Dream On"]];
 
 function showInputFields(popupTitle, artist, track){
-var sortedExample = examples[Math.floor(Math.random()*examples.length)];
+	$("#top_bar").css("display","none");
+	var sortedExample = examples[Math.floor(Math.random()*examples.length)];
 	$("#status").html('<p>'+popupTitle+'</p>'+
 '<form id="fix_song_info_form" method="post">'+
 '<label style="font-size:.7em;margin:5px;color:#fb8521;font-weight: bolder;" for="artist">Artist:</label>'+
@@ -76,8 +88,9 @@ function showLetra (data,art,mus,arrayid) {
 		// Print lyrics text
 		var top = "<h2>"+data.mus[arrayid].name + "</h2><br/><i>by <h4>" +data.art.name+"</h4></i><br/><br/>";
 		$("#status").html(top+data.mus[arrayid].text);
-		$("#top_bar").css("display","inherit")
+		$("#top_bar").css("display","inherit");
 		$("#new_window").click(function(){openPopup(data.art.name, data.mus[arrayid].name, data.mus[arrayid].text);});
+		$("#wrong_lyric").click(function(){showInputFields("Wrong lyric?<br/>Please fill the form above and try a new search.", data.art.name, data.mus[arrayid].name);});
 	} else if (data.type == 'song_notfound') {
 		// Song not found, but artist was found
 		// You can list all songs from Vagalume here
@@ -89,6 +102,7 @@ function showLetra (data,art,mus,arrayid) {
 }
 
 function fetchLetra (art,mus) {
+	$("#top_bar").css("display","none");
 	$("#status").html("<i>Fetching lyrics...</i>");
 	var data = jQuery.data(document,art + mus); // cache read
 	if (data) {
