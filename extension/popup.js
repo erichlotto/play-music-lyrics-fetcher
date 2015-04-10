@@ -14,7 +14,6 @@ chrome.tabs.getSelected(null, function(tab) {
 				}
 			}
 			else{
-				$("#status").html("<i>Fetching lyrics...</i>");
 				fetchLetra(response.currentArtist, response.currentSong);
 			}
 		}
@@ -90,6 +89,7 @@ function showLetra (data,art,mus,arrayid) {
 }
 
 function fetchLetra (art,mus) {
+	$("#status").html("<i>Fetching lyrics...</i>");
 	var data = jQuery.data(document,art + mus); // cache read
 	if (data) {
 		showLetra(data, art, mus);
