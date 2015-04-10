@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+<meta charset="UTF-8">
+    <title>play Music Lyrics Fetcher</title>
+	<link href='http://fonts.googleapis.com/css?family=Roboto:700,400' rel='stylesheet' type='text/css'>
+    <style>
+		body {
+			font-family: "Roboto", sans-serif;
+			font-size: 100%;
+			background: #fff;
+			padding: 0;
+			margin:0;
+		}
+		#status {
+			white-space: pre;
+			overflow: hidden;
+/*			max-width: 600px;*/
+			color: #888;
+		}
+		h2,h4{
+			white-space: nowrap;
+			display:inline;
+		}
+		#top_bar{
+			background:#fb8521;
+			display:none;
+			height:16px;
+			padding:2px;
+		}
+		.top_bar_item{
+			float:right;
+			cursor:pointer;
+			height:100%;
+			margin-left:5px;
+			color:white;
+		}
+		#input_fields_submit{
+			float:right;
+			margin:6px;
+			-webkit-transition : -webkit-filter 200ms linear;
+			opacity:0.5;
+			outline: 0;
+			-webkit-user-drag: none; /* Prevents dragging of images/divs etc */
+		}
+		#input_fields_submit.active:hover{
+			-webkit-filter: brightness(80%);
+		}
+		#input_fields_submit.active{
+			opacity:1;
+		}
+#fix_song_info_form{
+	min-width:300px;
+}
+
+    </style>
+    <script src="./jquery.min.js"></script>
+    <script src="./popup.js"></script>
+  </head>
+  <body>
+	<div id="top_bar">
+		<div id="new_window" class="top_bar_item"><img src="window.png" title="Open in new window" /></div>
+		<div id="wrong_lyric" class="top_bar_item" title="Wrong lyric?">o_O</div>
+	</div>
+    <div id="status" style="padding:10px;">...</div>
+  </body>
+</html>
+
