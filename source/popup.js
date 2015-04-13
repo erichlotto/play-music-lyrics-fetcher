@@ -170,7 +170,8 @@ function validateTiming(trackData, timingData){
 
 
 function showLyrics (trackData, timingData) {
-	var top = "<h2 style=\"margin-top:30px;\">"+trackData.mus[0].name + "</h2><br/><i>by <h4>" +trackData.art.name+"</h4></i><br/><br/>";
+	$("#status").css("padding-top","30px");
+	var top = "<h2>"+trackData.mus[0].name + "</h2><br/><i>by <h4>" +trackData.art.name+"</h4></i><br/><br/>";
 
 	if(timingData){
 		// Timing found, show awesome lyrics
@@ -214,7 +215,7 @@ chrome.tabs.getSelected(null, function(tab) {
 							$( ".lyrics_line:eq("+i+")" ).addClass( "current" );
 							if(autoScroll)
 							$('html, body').animate({
-								scrollTop: $(".current").offset().top-100
+								scrollTop: $(".current").offset().top-120
 							}, 100);
 							break;
 						}
