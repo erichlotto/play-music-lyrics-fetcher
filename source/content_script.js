@@ -84,11 +84,48 @@ console.log("Check out this awesome error: "+err.message);
 						currentAlbum:currentAlbum};
 			sendResponse(response);
 		break;
+		case "getPosition":
+			var trackPosition;
+			var trackLength;
+
+			var hostname = $('<a>').prop('href', document.location).prop('hostname');
+try{
+			if(hostname == "play.google.com"){
+				trackPosition = hmsToSecondsOnly($("#time_container_current").text(), ':');
+				trackLength = hmsToSecondsOnly($("#time_container_duration").text(), ':');
+			}else if(hostname == "play.spotify.com"){
+			}else if(hostname.indexOf('deezer.com') > -1 ){
+			}else if(hostname.indexOf('rdio.com') > -1 ){
+			}else if(hostname.indexOf('grooveshark.com') > -1 ){
+			}else if(hostname.indexOf('pandora.com') > -1 ){
+			}else if(hostname.indexOf('superplayer.fm') > -1 ){
+			}else if(hostname.indexOf('youtube.com') > -1 ){
+				trackPosition = hmsToSecondsOnly($(".ytp-time-current:eq(0)").text(), ':');
+				trackLength = hmsToSecondsOnly($(".ytp-time-duration:eq(0)").text(), ':');
+			}else if(hostname.indexOf('songza.com') > -1 ){
+			}else if(hostname.indexOf('tunein.com') > -1 ){
+			}
+} catch(err){
+		console.log("Check out this awesome error while retriving player position: "+err.message);
+}
+
+			var response = {position:trackPosition, length:trackLength};
+			sendResponse(response);
+		break;
 
 	}
 });
 
+function hmsToSecondsOnly(str, delimiter) {
+    var p = str.split(delimiter),
+        s = 0, m = 1;
 
+    while (p.length > 0) {
+        s += m * parseInt(p.pop(), 10);
+        m *= 60;
+    }
+    return s;
+}
 
 
 /*

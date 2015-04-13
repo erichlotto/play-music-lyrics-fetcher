@@ -17,6 +17,8 @@
 			overflow: hidden;
 /*			max-width: 600px;*/
 			color: #888;
+			padding:10px;
+padding-top:30px;
 		}
 		h2,h4{
 			white-space: nowrap;
@@ -27,14 +29,19 @@
 			display:none;
 			height:16px;
 			padding:2px;
+			position:fixed;
+width:100%;
 		}
 		.top_bar_item{
 			float:right;
-			cursor:pointer;
 			height:100%;
 			margin-left:5px;
 			color:white;
 		}
+		.top_bar_item.link{
+			cursor:pointer;
+		}
+
 		#input_fields_submit{
 			float:right;
 			margin:6px;
@@ -49,20 +56,27 @@
 		#input_fields_submit.active{
 			opacity:1;
 		}
-#fix_song_info_form{
-	min-width:300px;
-}
-
+		#fix_song_info_form{
+			min-width:300px;
+		}
+		.lyrics_line.current{color:#222;}
+		#songTimingDelay{display:none;float:left}
+		#songTimingDelayStatus{width:60px;text-align:center;}
     </style>
     <script src="./jquery.min.js"></script>
     <script src="./popup.js"></script>
   </head>
   <body>
 	<div id="top_bar">
-		<div id="new_window" class="top_bar_item"><img src="window.png" title="Open in new window" /></div>
-		<div id="wrong_lyric" class="top_bar_item" title="Wrong lyric?">o_O</div>
+		<div id="new_window" class="top_bar_item link" style="margin-right:10px"><img src="window.png" title="Open in new window" /></div>
+		<div id="wrong_lyric" class="top_bar_item link" title="Wrong lyric?">o_O</div>
+		<div id="songTimingDelay">
+			<div id="songTimingDelayUp" class="top_bar_item link" title="Add 500 ms delay">+</div>
+			<div id="songTimingDelayStatus" class="top_bar_item">0 s</div>
+			<div id="songTimingDelayDown" class="top_bar_item link" title="Remove 500 ms delay">-</div>
+		</div>
 	</div>
-    <div id="status" style="padding:10px;">...</div>
+    <div id="status">...</div>
   </body>
 </html>
 
