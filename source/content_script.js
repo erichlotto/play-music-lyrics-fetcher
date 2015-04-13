@@ -20,62 +20,62 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 			var isPlaying=false;
 
 			var hostname = $('<a>').prop('href', document.location).prop('hostname');
-try{
-			if(hostname == "play.google.com"){
-				currentSong = $('#playerSongTitle').text();
-				currentArtist = $('#player-artist').text();
-				currentAlbum = $('.player-album').text();
-				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-			}else if(hostname == "play.spotify.com"){
-				currentArtist = $('#app-player').contents().find("#player").find("#track-artist").text();
-				currentSong = $('#app-player').contents().find("#player").find("#track-name").text();
-				currentAlbum = 'Unknown';
-				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false; 
-			}else if(hostname.indexOf('deezer.com') > -1 ){
-				currentArtist = $(".player-track-artist:eq(0) .player-track-link:eq(0)").text();
-				currentSong = $(".player-track-title:eq(0)").text();
-				currentAlbum = 'Unknown';
-				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-			}else if(hostname.indexOf('rdio.com') > -1 ){
-				currentArtist = $(".drag_container:eq(0) .artist_title:eq(0)").text();
-				currentSong = $(".drag_container:eq(0) .song_title:eq(0)").text();
-				currentAlbum = 'Unknown';
-				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-			}else if(hostname.indexOf('grooveshark.com') > -1 ){
-				currentArtist = $(".now-playing-link.artist:eq(0)").text();
-				currentSong = $(".now-playing-link.song:eq(0)").text();
-				currentAlbum = 'Unknown';
-				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-			}else if(hostname.indexOf('pandora.com') > -1 ){
-				currentArtist = $(".playerBarArtist:eq(0)").text();
-				currentSong = $(".playerBarSong:eq(0)").text();
-				currentAlbum = $(".playerBarAlbum:eq(0)").text();
-				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-			}else if(hostname.indexOf('superplayer.fm') > -1 ){
-				currentArtist = $("span[data-function='current-artist']").first().text();
-				currentSong = $("span[data-function='current-track']").first().text();
-				currentAlbum = 'Unknown';
-				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-			}else if(hostname.indexOf('youtube.com') > -1 ){
-				var video_title = $("#eow-title").text();
-				currentArtist = parseInfo(video_title).artist;
-				currentSong = parseInfo(video_title).track;
-				currentAlbum = 'Unknown';
-				isPlaying = true;
-			}else if(hostname.indexOf('songza.com') > -1 ){
-				currentArtist = $(".miniplayer-info-artist-name:eq(0) a:eq(0)").text().split("by ")[1];
-				currentSong = $(".miniplayer-info-track-title:eq(0) a:eq(0)").text();
-				currentAlbum = 'Unknown';
-				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-			}else if(hostname.indexOf('tunein.com') > -1 ){
-				currentArtist = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[1];
-				currentSong = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[0];
-				currentAlbum = 'Unknown';
-				isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+			try{
+				if(hostname == "play.google.com"){
+					currentSong = $('#playerSongTitle').text();
+					currentArtist = $('#player-artist').text();
+					currentAlbum = $('.player-album').text();
+					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+				}else if(hostname == "play.spotify.com"){
+					currentArtist = $('#app-player').contents().find("#player").find("#track-artist").text();
+					currentSong = $('#app-player').contents().find("#player").find("#track-name").text();
+					currentAlbum = 'Unknown';
+					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false; 
+				}else if(hostname.indexOf('deezer.com') > -1 ){
+					currentArtist = $(".player-track-artist:eq(0) .player-track-link:eq(0)").text();
+					currentSong = $(".player-track-title:eq(0)").text();
+					currentAlbum = 'Unknown';
+					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+				}else if(hostname.indexOf('rdio.com') > -1 ){
+					currentArtist = $(".drag_container:eq(0) .artist_title:eq(0)").text();
+					currentSong = $(".drag_container:eq(0) .song_title:eq(0)").text();
+					currentAlbum = 'Unknown';
+					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+				}else if(hostname.indexOf('grooveshark.com') > -1 ){
+					currentArtist = $(".now-playing-link.artist:eq(0)").text();
+					currentSong = $(".now-playing-link.song:eq(0)").text();
+					currentAlbum = 'Unknown';
+					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+				}else if(hostname.indexOf('pandora.com') > -1 ){
+					currentArtist = $(".playerBarArtist:eq(0)").text();
+					currentSong = $(".playerBarSong:eq(0)").text();
+					currentAlbum = $(".playerBarAlbum:eq(0)").text();
+					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+				}else if(hostname.indexOf('superplayer.fm') > -1 ){
+					currentArtist = $("span[data-function='current-artist']").first().text();
+					currentSong = $("span[data-function='current-track']").first().text();
+					currentAlbum = 'Unknown';
+					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+				}else if(hostname.indexOf('youtube.com') > -1 ){
+					var video_title = $("#eow-title").text();
+					currentArtist = parseInfo(video_title).artist;
+					currentSong = parseInfo(video_title).track;
+					currentAlbum = 'Unknown';
+					isPlaying = true;
+				}else if(hostname.indexOf('songza.com') > -1 ){
+					currentArtist = $(".miniplayer-info-artist-name:eq(0) a:eq(0)").text().split("by ")[1];
+					currentSong = $(".miniplayer-info-track-title:eq(0) a:eq(0)").text();
+					currentAlbum = 'Unknown';
+					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+				}else if(hostname.indexOf('tunein.com') > -1 ){
+					currentArtist = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[1];
+					currentSong = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[0];
+					currentAlbum = 'Unknown';
+					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+				}
+			} catch(err){
+				console.log("Check out this awesome error: "+err.message);
 			}
-} catch(err){
-console.log("Check out this awesome error: "+err.message);
-}
 
             console.log('===============\n___Artist : '+currentArtist+"\n____Track : "+currentSong+"\n____Album : "+currentAlbum+"\nisPlaying : "+isPlaying+"\n================");
 			var response = {isPlaying:isPlaying,
@@ -89,25 +89,30 @@ console.log("Check out this awesome error: "+err.message);
 			var trackLength;
 
 			var hostname = $('<a>').prop('href', document.location).prop('hostname');
-try{
-			if(hostname == "play.google.com"){
-				trackPosition = hmsToSecondsOnly($("#time_container_current").text(), ':');
-				trackLength = hmsToSecondsOnly($("#time_container_duration").text(), ':');
-			}else if(hostname == "play.spotify.com"){
-			}else if(hostname.indexOf('deezer.com') > -1 ){
-			}else if(hostname.indexOf('rdio.com') > -1 ){
-			}else if(hostname.indexOf('grooveshark.com') > -1 ){
-			}else if(hostname.indexOf('pandora.com') > -1 ){
-			}else if(hostname.indexOf('superplayer.fm') > -1 ){
-			}else if(hostname.indexOf('youtube.com') > -1 ){
-				trackPosition = hmsToSecondsOnly($(".ytp-time-current:eq(0)").text(), ':');
-				trackLength = hmsToSecondsOnly($(".ytp-time-duration:eq(0)").text(), ':');
-			}else if(hostname.indexOf('songza.com') > -1 ){
-			}else if(hostname.indexOf('tunein.com') > -1 ){
+			try{
+				if(hostname == "play.google.com"){
+					trackPosition = hmsToSecondsOnly($("#time_container_current").text(), ':');
+					trackLength = hmsToSecondsOnly($("#time_container_duration").text(), ':');
+				}else if(hostname == "play.spotify.com"){
+					trackPosition = hmsToSecondsOnly($('#app-player').contents().find("#progress").find("#track-current").text(), ':');
+					trackLength = hmsToSecondsOnly($('#app-player').contents().find("#progress").find("#track-length").text(), ':');
+				}else if(hostname.indexOf('deezer.com') > -1 ){
+					trackPosition = hmsToSecondsOnly($(".progress-time:eq(0)").text(), ':');
+					trackLength = hmsToSecondsOnly($(".progress-length:eq(0)").text(), ':');
+				}else if(hostname.indexOf('rdio.com') > -1 ){
+				}else if(hostname.indexOf('grooveshark.com') > -1 ){
+				}else if(hostname.indexOf('pandora.com') > -1 ){
+				}else if(hostname.indexOf('superplayer.fm') > -1 ){
+				}else if(hostname.indexOf('youtube.com') > -1 ){
+					trackPosition = hmsToSecondsOnly($(".ytp-time-current:eq(0)").text(), ':');
+					trackLength = hmsToSecondsOnly($(".ytp-time-duration:eq(0)").text(), ':');
+				}else if(hostname.indexOf('songza.com') > -1 ){
+				}else if(hostname.indexOf('tunein.com') > -1 ){
+				}
+			} catch(err){
+				console.log("Check out this awesome error while retriving player position: "+err.message);
 			}
-} catch(err){
-		console.log("Check out this awesome error while retriving player position: "+err.message);
-}
+//			console.log(trackPosition+"/"+trackLength);
 
 			var response = {position:trackPosition, length:trackLength};
 			sendResponse(response);
