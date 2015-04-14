@@ -4,7 +4,7 @@ var songTimingDelay=0;
 var autoScroll=true;
 
 
-jQuery.getJSON("manifest.json",function(data) {
+jQuery.getJSON("../manifest.json",function(data) {
 	document.title = data.name;
 });
 
@@ -54,7 +54,7 @@ function showInputFields(popupTitle, artist, track){
 '<label style="font-size:.7em;margin:5px;color:#fb8521;font-weight: bolder;" for="artist">Track:</label>'+
 '<input style="width:-webkit-calc(100% - 25px); padding:5px; margin:5px;font-size:1em;" id="track" class="contato_text" type="text" name="track" placeholder="e.g. '+sortedExample[1]+'" value="'+track+'"><br/>'+
 
-'<input id="input_fields_submit" type="image" src="ic_search_40px.png" alt="Search" ></form>'
+'<input id="input_fields_submit" type="image" src="../images/ic_search_40px.png" alt="Search" ></form>'
 /*'<input style="width:-webkit-calc(50% - 10px); padding:5px; margin:5px;font-size:1em;float:right" type="submit" value="Search" ></form>'*/
 );
 	$('#fix_song_info_form').on('submit', function () {
@@ -80,7 +80,7 @@ function openPopup(artist, song, lyrics){
 
 	chrome.runtime.getBackgroundPage(function(bgWindow) {
 		bgWindow.storeBackgroundTempData(artist, song, lyrics);
-		chrome.windows.create({'url': 'popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+30, 'height': $(window).height()-20, 'focused':true });
+		chrome.windows.create({'url': '../pages/popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+30, 'height': $(window).height()-20, 'focused':true });
 		window.close();
 	});
 	

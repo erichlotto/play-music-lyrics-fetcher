@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
-  <head>
-<meta charset="UTF-8">
+<head>
+	<meta charset="UTF-8">
     <title>play Music Lyrics Fetcher</title>
 	<link href='http://fonts.googleapis.com/css?family=Roboto:700,400' rel='stylesheet' type='text/css'>
     <style>
@@ -15,7 +15,6 @@
 		#status {
 			white-space: pre;
 			overflow: hidden;
-/*			max-width: 600px;*/
 			color: #888;
 			padding:10px;
 		}
@@ -36,7 +35,7 @@
 			height:100%;
 			margin-left:5px;
 			color:white;
--webkit-filter: grayscale(100%) sepia(100%);
+			-webkit-filter: grayscale(100%) sepia(100%);
 		}
 		.top_bar_item.link{
 			cursor:pointer;
@@ -47,7 +46,7 @@
 			-webkit-transition : -webkit-filter 200ms linear;
 			opacity:0.5;
 			outline: 0;
-			-webkit-user-drag: none; /* Prevents dragging of images/divs etc */
+			-webkit-user-drag: none;
 		}
 		#input_fields_submit.active:hover{
 			-webkit-filter: brightness(80%);
@@ -72,12 +71,12 @@
 			display:none;
 		}
     </style>
-    <script src="./jquery.min.js"></script>
-    <script src="./popup.js"></script>
-  </head>
-  <body>
+    <script src="../scripts/jquery.min.js"></script>
+    <script src="../scripts/popup.js"></script>
+</head>
+<body>
 	<div id="top_bar">
-		<div id="new_window" class="top_bar_item link" style="margin-right:10px"><img src="window.png" title="Open in new window" /></div>
+		<div id="new_window" class="top_bar_item link" style="margin-right:10px"><img src="../images/window.png" title="Open in new window" /></div>
 		<div id="wrong_lyric" class="top_bar_item link" title="Wrong lyric?">o_O</div>
 		<div id="songTimingDelay">
 			<div id="automatic_scroll" class="top_bar_item link">autoscroll</div>
@@ -86,7 +85,7 @@
 			<div id="songTimingDelayDown" class="top_bar_item link" title="Remove 500 ms delay">-</div>
 		</div>
 	</div>
-    <div id="status">...</div>
-  </body>
+	<div id="status">...</div>
+</body>
 </html>
 

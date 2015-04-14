@@ -3,15 +3,15 @@
 	"description": "View your song's lyrics straight from the omnibox",
     "version": "0.1",
     "manifest_version": 2,
-	"options_page": "options.html",
-	"background": { "scripts": ["background.js"] },
+	"options_page": "./pages/options.html",
+	"background": { "scripts": ["./scripts/background.js"] },
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-	"icons": { "16": "icon16.png",
-	           "48": "icon48.png",
-	          "128": "icon128.png" },
+	"icons": { "16": "./images/icon16.png",
+	           "48": "./images/icon48.png",
+	          "128": "./images/icon128.png" },
     "page_action": {
-        "default_icon": "icon16.png",
-        "default_popup": "popup.html",
+        "default_icon": "./images/icon16.png",
+        "default_popup": "./pages/popup.html",
         "default_title": "Get this song's lyrics"
     },
     "content_scripts": [
@@ -26,7 +26,7 @@
 					"https://songza.com/*", "http://songza.com/*",
 					"https://tunein.com/*", "http://tunein.com/*",
 					"https://www.deezer.com/*", "http://www.deezer.com/*"],
-        "js": ["jquery.min.js", "content_script.js"]
+        "js": ["./scripts/jquery.min.js", "./scripts/content_script.js"]
       }
     ],
     "permissions": [

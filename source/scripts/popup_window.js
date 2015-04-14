@@ -1,4 +1,4 @@
-jQuery.getJSON("manifest.json",function(data) {
+jQuery.getJSON("../manifest.json",function(data) {
 	document.title = data.name;
 });
 chrome.runtime.getBackgroundPage(function(bgWindow) {
