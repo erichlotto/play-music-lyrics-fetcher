@@ -98,17 +98,33 @@ function showLyrics (trackData, timingData) {
 			$("#status").html($("#status").html() + "<p class=\"lyrics_line\">"+syncedLyricsWithTiming[i][0]+"</p>");
 		}
 		lyricsSyncInterval = setInterval(timeCheck, 300);
-		$("#top_bar_song_delay_increase").click(function(){songTimingDelay+=.5; $("#top_bar_song_delay_status").text(songTimingDelay+" s")});
-		$("#top_bar_song_delay_decrease").click(function(){songTimingDelay-=.5; $("#top_bar_song_delay_status").text(songTimingDelay+" s")});
+		$(window).bind('mousewheel DOMMouseScroll mousedown', function(event){
+			var container = $("#top_bar");
+			if (!container.is(event.target) // if the target of the click isn't the container...
+				&& container.has(event.target).length === 0) // ... nor a descendant of the container
+			{
+				$( 'html, body' ).stop( true );
+				autoScroll=false;
+				$("#top_bar_autoscroll").css("display","inherit");
+			}
+		});
+		$("#top_bar_song_delay_increase").click(function(){songTimingDelay+=.5; updateFormattedTimingDelay()});
+		$("#top_bar_song_delay_decrease").click(function(){songTimingDelay-=.5; updateFormattedTimingDelay()});
 		$("#top_bar_autoscroll").click(function(){autoScroll=true; $("#top_bar_autoscroll").css("display","none")});
 	} else {
 		// No timing found, simply print lyrics text
 		$("#status").html(top+trackData.mus[0].text);
 	}
-		$("#status").css("white-space", "pre");
-		$("#top_bar").css("display","inherit");
-		$("#top_bar_new_window").click(function(){openPopup(trackData.art.name, trackData.mus[0].name, trackData.mus[0].text);});
-		$("#top_bar_search").click(function(){showInputFields("Wrong lyric?<br/>Please fill the form above and try a new search.", trackData.art.name, trackData.mus[0].name);});
+	$("#status").css("white-space", "pre");
+	$("#top_bar").css("display","inherit");
+	$("#top_bar_new_window").click(function(){openPopup(trackData.art.name, trackData.mus[0].name, trackData.mus[0].text);});
+	$("#top_bar_search").click(function(){showInputFields("Wrong lyric?<br/>Please fill the form above and try a new search.", trackData.art.name, trackData.mus[0].name);});
+}
+function updateFormattedTimingDelay(){
+	if(songTimingDelay==0)$("#top_bar_delay img").attr("src","../images/bt_delay.png");
+	else if(songTimingDelay<0)$("#top_bar_delay img").attr("src","../images/bt_delay_fwd.png");
+	else if(songTimingDelay>0)$("#top_bar_delay img").attr("src","../images/bt_delay_bwd.png");
+	$("#top_bar_song_delay_status").text((songTimingDelay%1==0?songTimingDelay+'.0':songTimingDelay)+' s');
 }
 
 
@@ -162,35 +178,33 @@ function validateFormLength(){
 
 
 $(document).ready(function(){
-	$(window).bind('mousewheel DOMMouseScroll mousedown', function(event){
-		$( 'html, body' ).stop( true );
-        autoScroll=false;
-		$("#top_bar_autoscroll").css("display","inherit");
-	});
+	updateFormattedTimingDelay();
 })
 
 function timeCheck(){
 chrome.tabs.getSelected(null, function(tab) {
 	chrome.tabs.sendMessage(tab.id, {query:"getPosition" },
 		function(response) {
-
-				if(response.position){
-					$("#top_bar_song_delay").css("display", "inherit");
-					for(var i=0; i<syncedLyricsWithTiming.length; i++){
-						if(syncedLyricsWithTiming[i][2]>response.position-songTimingDelay){
-							$( ".lyrics_line" ).removeClass( "current" );
-							$( ".lyrics_line:eq("+i+")" ).addClass( "current" );
-							if(autoScroll)
-							$('html, body').animate({
-								scrollTop: $(".current").offset().top-120
-							}, 100);
-							break;
-						}
-					}
-				} 
+				if(response.position)refreshLyricsPositionOnScreen(response.position); 
 
 		}
 	);
 });
 
+}
+
+function refreshLyricsPositionOnScreen(position){
+	$("#top_bar_song_delay").css("display", "inherit");
+	for(var i=syncedLyricsWithTiming.length-1; i>=0; i--){
+		if((syncedLyricsWithTiming[i][1]<position-songTimingDelay)
+			||i==0){
+			$( ".lyrics_line" ).removeClass( "current" );
+			$( ".lyrics_line:eq("+i+")" ).addClass( "current" );
+			if(autoScroll)
+			$('html, body').animate({
+				scrollTop: $(".current").offset().top-120
+			}, 100);
+			break;
+		}
+	}
 }

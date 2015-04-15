@@ -11,6 +11,7 @@
 			background: #fff;
 			padding: 0;
 			margin:0;
+			min-width:350px;
 		}
 		#status{
 			white-space: pre;
@@ -24,12 +25,13 @@
 		}
 		#top_bar{
 			background:#fb8521; 
-	/*		display:none;*/
+			display:none;
 			height:30px; 
 			padding:0;
 			position:fixed;
 			width:100%;
 			border-bottom:2px solid #d6711c;
+			overflow:hidden;
 		}
 		.top_bar_item{
 			float:right;
@@ -38,7 +40,11 @@
 			color:white;
 		}
 		.top_bar_item.link{
+			-webkit-transition: background-color 100ms linear;
 			cursor:pointer;
+		}
+		.top_bar_item.link:hover{
+			background:#d6711c;
 		}
 		#fix_song_info_form_submit{
 			float:right;
@@ -56,9 +62,21 @@
 		}
 		.lyrics_line.current{color:#222;}
 		#top_bar_song_delay{
-/*			display:none;*/
-padding: 0;
-		    -webkit-user-select: none;
+			width:30px;
+			padding: 0;
+			-webkit-user-select: none;
+			-webkit-transition: width 100ms; /* Safari */
+		}
+		#top_bar_song_delay:hover{
+			width:151px;
+			background: #d6711c;
+		}
+		.darker:hover{
+			background: #bd5f13 !important;
+		}
+		#top_bar_song_delay_status{
+			width:53px;
+			text-align:center;
 		}
 		#top_bar_autoscroll{
 			display:none;
@@ -94,13 +112,13 @@ padding: 0;
 		<div id="top_bar_settings" class="top_bar_item link"><img src="../images/bt_settings.png" title="Settings" /></div>
 		<div id="top_bar_new_window" class="top_bar_item link"><img src="../images/bt_popup.png" title="Open in new window" /></div>
 		<div id="top_bar_search" class="top_bar_item link"><img src="../images/bt_search.png" title="Search lyric" /></div>
-		<div id="top_bar_delay" class="top_bar_item link"><img src="../images/bt_delay.png" title="Delay"/></div>
 		<div id="top_bar_song_delay" class="top_bar_item">
-			<div id="top_bar_song_delay_increase" class="top_bar_item" title="Add 500 ms delay"><img src="../images/bt_up.png" title="Open in new window" /></div>
-			<div id="top_bar_song_delay_status" class="top_bar_item">0 s</div>
-			<div id="top_bar_song_delay_decrease" class="top_bar_item" title="Remove 500 ms delay"><img src="../images/bt_down.png" title="Open in new window" /></div>
+			<div id="top_bar_delay" class="top_bar_item link"><img src="../images/bt_delay.png" title="Lyrics delay"/></div>
+			<div id="top_bar_song_delay_increase" class="top_bar_item link darker" title="Add 500 ms delay"><img src="../images/bt_up.png" /></div>
+			<div id="top_bar_song_delay_status" class="top_bar_item">200.0 s</div>
+			<div id="top_bar_song_delay_decrease" class="top_bar_item link darker" title="Remove 500 ms delay"><img src="../images/bt_down.png" /></div>
 		</div>
-		<div id="top_bar_autoscroll" class="top_bar_item link"><img src="../images/bt_scroll.png" title="Activate Auto Scroll" /></div>
+		<div id="top_bar_autoscroll" class="top_bar_item link"><img src="../images/bt_scroll.png" title="Activate auto scroll" /></div>
 		
 		
 	</div>
