@@ -98,17 +98,17 @@ function showLyrics (trackData, timingData) {
 			$("#status").html($("#status").html() + "<p class=\"lyrics_line\">"+syncedLyricsWithTiming[i][0]+"</p>");
 		}
 		lyricsSyncInterval = setInterval(timeCheck, 300);
-		$("#songTimingDelayUp").click(function(){songTimingDelay+=.5; $("#songTimingDelayStatus").text(songTimingDelay+" s")});
-		$("#songTimingDelayDown").click(function(){songTimingDelay-=.5; $("#songTimingDelayStatus").text(songTimingDelay+" s")});
-		$("#automatic_scroll").click(function(){autoScroll=true; $("#automatic_scroll").css("display","none")});
+		$("#top_bar_song_delay_increase").click(function(){songTimingDelay+=.5; $("#top_bar_song_delay_status").text(songTimingDelay+" s")});
+		$("#top_bar_song_delay_decrease").click(function(){songTimingDelay-=.5; $("#top_bar_song_delay_status").text(songTimingDelay+" s")});
+		$("#top_bar_autoscroll").click(function(){autoScroll=true; $("#top_bar_autoscroll").css("display","none")});
 	} else {
 		// No timing found, simply print lyrics text
 		$("#status").html(top+trackData.mus[0].text);
 	}
 		$("#status").css("white-space", "pre");
 		$("#top_bar").css("display","inherit");
-		$("#new_window").click(function(){openPopup(trackData.art.name, trackData.mus[0].name, trackData.mus[0].text);});
-		$("#wrong_lyric").click(function(){showInputFields("Wrong lyric?<br/>Please fill the form above and try a new search.", trackData.art.name, trackData.mus[0].name);});
+		$("#top_bar_new_window").click(function(){openPopup(trackData.art.name, trackData.mus[0].name, trackData.mus[0].text);});
+		$("#top_bar_search").click(function(){showInputFields("Wrong lyric?<br/>Please fill the form above and try a new search.", trackData.art.name, trackData.mus[0].name);});
 }
 
 
@@ -165,7 +165,7 @@ $(document).ready(function(){
 	$(window).bind('mousewheel DOMMouseScroll mousedown', function(event){
 		$( 'html, body' ).stop( true );
         autoScroll=false;
-		$("#automatic_scroll").css("display","inherit");
+		$("#top_bar_autoscroll").css("display","inherit");
 	});
 })
 
@@ -175,7 +175,7 @@ chrome.tabs.getSelected(null, function(tab) {
 		function(response) {
 
 				if(response.position){
-					$("#songTimingDelay").css("display", "inherit");
+					$("#top_bar_song_delay").css("display", "inherit");
 					for(var i=0; i<syncedLyricsWithTiming.length; i++){
 						if(syncedLyricsWithTiming[i][2]>response.position-songTimingDelay){
 							$( ".lyrics_line" ).removeClass( "current" );
