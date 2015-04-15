@@ -2,7 +2,22 @@ var lyricsSyncInterval;
 var syncedLyricsWithTiming;
 var songTimingDelay=0;
 var autoScroll=true;
-
+var examples = [["Led Zeppelin","Kashmir"],
+				["Queen","Bohemian Rhapsody"],
+				["Kiss","Strutter"],
+				["Pearl Jam","Even Flow"],
+				["Bob Dylan","Like a Rolling Stone"],
+				["John Lennon","Imagine"],
+				["The Beatles","Hey Jude"],
+				["Nirvana","Smells Like Teen Spirit"],
+				["U2","One"],
+				["Dire Straits","Sultans of Swing"],
+				["Bon Jovi","Livin' on a Prayer"],
+				["Led Zeppelin","Stairway to Heaven"],
+				["Black Sabbath","Paranoid"],
+				["Iron Maiden","The Number of the Beast"],
+				["Sex Pistols","Anarchy in the UK"],
+				["Aerosmith","Dream On"]];
 
 function fetchLyrics (art,mus) {
 	$("#top_bar").css("display","none");
@@ -87,7 +102,7 @@ function validateTiming(trackData, timingData){
 
 
 function showLyrics (trackData, timingData) {
-	$("#status").css("padding-top","30px");
+	$("#status").css("padding-top","50px");
 	var top = "<h2>"+trackData.mus[0].name + "</h2><br/><i>by <h4>" +trackData.art.name+"</h4></i><br/><br/>";
 
 	if(timingData){
@@ -95,7 +110,7 @@ function showLyrics (trackData, timingData) {
 		$("#status").html(top);
 		syncedLyricsWithTiming = timingData.subtitles[0].text_compressed;
 		for(var i=0; i<syncedLyricsWithTiming.length; i++){
-			$("#status").html($("#status").html() + "<p class=\"lyrics_line\">"+syncedLyricsWithTiming[i][0]+"</p>");
+			$("#status").html($("#status").html() + "<p class=\"lyrics_line\">"+syncedLyricsWithTiming[i][0].trim()+"</p>");
 		}
 		lyricsSyncInterval = setInterval(timeCheck, 300);
 		$(window).bind('mousewheel DOMMouseScroll mousedown', function(event){
@@ -108,6 +123,8 @@ function showLyrics (trackData, timingData) {
 				$("#top_bar_autoscroll").css("display","inherit");
 			}
 		});
+		$("#top_bar_song_delay").css("display", "inherit");
+		updateFormattedTimingDelay();
 		$("#top_bar_song_delay_increase").click(function(){songTimingDelay+=.5; updateFormattedTimingDelay()});
 		$("#top_bar_song_delay_decrease").click(function(){songTimingDelay-=.5; updateFormattedTimingDelay()});
 		$("#top_bar_autoscroll").click(function(){autoScroll=true; $("#top_bar_autoscroll").css("display","none")});
@@ -119,6 +136,7 @@ function showLyrics (trackData, timingData) {
 	$("#top_bar").css("display","inherit");
 	$("#top_bar_new_window").click(function(){openPopup(trackData.art.name, trackData.mus[0].name, trackData.mus[0].text);});
 	$("#top_bar_search").click(function(){showInputFields("Wrong lyric?<br/>Please fill the form above and try a new search.", trackData.art.name, trackData.mus[0].name);});
+	$("#top_bar_settings").click(function(){chrome.tabs.create({ 'url': './pages/options.html' });});
 }
 function updateFormattedTimingDelay(){
 	if(songTimingDelay==0)$("#top_bar_delay img").attr("src","../images/bt_delay.png");
@@ -126,24 +144,6 @@ function updateFormattedTimingDelay(){
 	else if(songTimingDelay>0)$("#top_bar_delay img").attr("src","../images/bt_delay_bwd.png");
 	$("#top_bar_song_delay_status").text((songTimingDelay%1==0?songTimingDelay+'.0':songTimingDelay)+' s');
 }
-
-
-var examples = [["Led Zeppelin","Kashmir"],
-				["Queen","Bohemian Rhapsody"],
-				["Kiss","Strutter"],
-				["Pearl Jam","Even Flow"],
-				["Bob Dylan","Like a Rolling Stone"],
-				["John Lennon","Imagine"],
-				["The Beatles","Hey Jude"],
-				["Nirvana","Smells Like Teen Spirit"],
-				["U2","One"],
-				["Dire Straits","Sultans of Swing"],
-				["Bon Jovi","Livin' on a Prayer"],
-				["Led Zeppelin","Stairway to Heaven"],
-				["Black Sabbath","Paranoid"],
-				["Iron Maiden","The Number of the Beast"],
-				["Sex Pistols","Anarchy in the UK"],
-				["Aerosmith","Dream On"]];
 
 function showInputFields(popupTitle, artist, track){
 	$("#top_bar").css("display","none");
@@ -177,10 +177,6 @@ function validateFormLength(){
 }
 
 
-$(document).ready(function(){
-	updateFormattedTimingDelay();
-})
-
 function timeCheck(){
 chrome.tabs.getSelected(null, function(tab) {
 	chrome.tabs.sendMessage(tab.id, {query:"getPosition" },
@@ -194,7 +190,6 @@ chrome.tabs.getSelected(null, function(tab) {
 }
 
 function refreshLyricsPositionOnScreen(position){
-	$("#top_bar_song_delay").css("display", "inherit");
 	for(var i=syncedLyricsWithTiming.length-1; i>=0; i--){
 		if((syncedLyricsWithTiming[i][1]<position-songTimingDelay)
 			||i==0){
@@ -202,7 +197,7 @@ function refreshLyricsPositionOnScreen(position){
 			$( ".lyrics_line:eq("+i+")" ).addClass( "current" );
 			if(autoScroll)
 			$('html, body').animate({
-				scrollTop: $(".current").offset().top-120
+				scrollTop: $(".current").offset().top-140
 			}, 100);
 			break;
 		}
