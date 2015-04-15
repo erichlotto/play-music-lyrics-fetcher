@@ -12,7 +12,7 @@
 			padding: 0;
 			margin:0;
 		}
-		#status {
+		#status{
 			white-space: pre;
 			overflow: hidden;
 			color: #888;
@@ -40,7 +40,7 @@
 		.top_bar_item.link{
 			cursor:pointer;
 		}
-		#input_fields_submit{
+		#fix_song_info_form_submit{
 			float:right;
 			margin:6px;
 			-webkit-transition : -webkit-filter 200ms linear;
@@ -48,14 +48,11 @@
 			outline: 0;
 			-webkit-user-drag: none;
 		}
-		#input_fields_submit.active:hover{
+		#fix_song_info_form_submit.active:hover{
 			-webkit-filter: brightness(80%);
 		}
-		#input_fields_submit.active{
+		#fix_song_info_form_submit.active{
 			opacity:1;
-		}
-		#fix_song_info_form{
-			min-width:300px;
 		}
 		.lyrics_line.current{color:#222;}
 		#songTimingDelay{
@@ -70,8 +67,30 @@
 		#automatic_scroll{
 			display:none;
 		}
+		#fix_song_info{
+			display:none;
+			overflow: hidden;
+			color: #888;
+			padding:10px;
+		}
+		#fix_song_info_form{
+			min-width:300px;
+		}
+		#fix_song_info_form>label{
+			font-size:.7em;
+			margin:5px;
+			color:#fb8521;
+			font-weight: bolder;
+		}
+		.fix_song_info_form_field{
+			width:-webkit-calc(100% - 25px);
+			padding:5px;
+			margin:5px;
+			font-size:1em;
+		}
     </style>
     <script src="../scripts/jquery.min.js"></script>
+    <script src="../scripts/lyrics_fetcher.js"></script>
     <script src="../scripts/popup.js"></script>
 </head>
 <body>
@@ -84,6 +103,16 @@
 			<div id="songTimingDelayStatus" class="top_bar_item">0 s</div>
 			<div id="songTimingDelayDown" class="top_bar_item link" title="Remove 500 ms delay">-</div>
 		</div>
+	</div>
+	<div id="fix_song_info">
+		<p id="fix_song_info_title"></p>
+		<form id="fix_song_info_form" method="post">
+			<label for="artist">Artist:</label>
+			<input class="fix_song_info_form_field" id="fix_song_info_form_artist" type="text" name="artist" placeholder="e.g. mimimi" value="'+artist mimimi+'" autofocus><br/>
+			<label for="artist">Track:</label>
+			<input class="fix_song_info_form_field" id="fix_song_info_form_track" type="text" name="track" placeholder="e.g. mimimi" value="'+track mimimi+'"><br/>
+			<input id="fix_song_info_form_submit" type="image" src="../images/ic_search_40px.png" alt="Search" >
+		</form>
 	</div>
 	<div id="status">...</div>
 </body>
