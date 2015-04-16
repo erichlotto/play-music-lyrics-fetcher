@@ -152,15 +152,15 @@ function showLyrics (trackData, timingData) {
 			clearInterval(intervalId);
 			clearTimeout(timeoutId);
 		});
-$('#top_bar_song_delay_status').bind('mousewheel', function(event) {
-	event.preventDefault();
-    if (event.originalEvent.wheelDelta >= 0) {
-songTimingDelay+=.5; updateFormattedTimingDelay();
-    }
-    else {
-songTimingDelay-=.5; updateFormattedTimingDelay();
-    }
-});
+		$('#top_bar_song_delay_status').bind('mousewheel', function(event) {
+			event.preventDefault();
+			if (event.originalEvent.wheelDelta >= 0) {
+		songTimingDelay+=.5; updateFormattedTimingDelay();
+			}
+			else {
+		songTimingDelay-=.5; updateFormattedTimingDelay();
+			}
+		});
 
 		$("#top_bar_autoscroll").click(function(){autoScroll=true; $("#top_bar_autoscroll").css("display","none")});
 	} else {
@@ -171,7 +171,10 @@ songTimingDelay-=.5; updateFormattedTimingDelay();
 	$("#top_bar").css("display","inherit");
 	$("#top_bar_new_window").click(function(){openPopup(trackData.art.name, trackData.mus[0].name, trackData.mus[0].text);});
 	$("#top_bar_search").click(function(){showInputFields("Wrong lyric?<br/>Please fill the form above and try a new search.", trackData.art.name, trackData.mus[0].name);});
-	$("#top_bar_settings").click(function(){chrome.tabs.create({ 'url': './pages/options.html' });});
+	$("#top_bar_settings").click(function(){
+		//chrome.tabs.create({ 'url': './pages/options.html' }); //Old behavior
+		chrome.tabs.create({ 'url': 'chrome://extensions/?options=' + chrome.runtime.id }); //New, cleaner behavior
+	});
 }
 function updateFormattedTimingDelay(){
 	if(songTimingDelay==0)$("#top_bar_delay img").attr("src","../images/bt_delay.png");
