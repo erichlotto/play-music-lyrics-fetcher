@@ -2,7 +2,7 @@ var lyricsSyncInterval;
 var syncedLyricsWithTiming;
 var songTimingDelay=0;
 var autoScroll=true;
-var showTimedLyrics=false;
+var showTimedLyrics=true;
 
 var examples = [["Led Zeppelin","Kashmir"],
 				["Queen","Bohemian Rhapsody"],

@@ -40,6 +40,16 @@ function checkForValidUrl(tabId, changeInfo, tab) {
 // Listen for any changes to the URL of any tab.
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
 
+
+// Define stored variables on first run
+chrome.storage.sync.get('timedLyrics', function(obj) {
+	if(obj.timedLyrics == undefined)chrome.storage.sync.set({'timedLyrics': true});
+});
+chrome.storage.sync.get('autoScroll', function(obj) {
+	if(obj.autoScroll == undefined)chrome.storage.sync.set({'autoScroll': true});
+});
+
+
 var backgroundTempArtist;
 var backgroundTempSong;
 var backgroundTempLyrics;
