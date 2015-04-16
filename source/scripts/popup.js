@@ -36,5 +36,3 @@ function openPopup(artist, song, lyrics){
 
 
 
-
-

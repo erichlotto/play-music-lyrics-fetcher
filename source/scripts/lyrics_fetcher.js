@@ -2,6 +2,8 @@ var lyricsSyncInterval;
 var syncedLyricsWithTiming;
 var songTimingDelay=0;
 var autoScroll=true;
+var showTimedLyrics=false;
+
 var examples = [["Led Zeppelin","Kashmir"],
 				["Queen","Bohemian Rhapsody"],
 				["Kiss","Strutter"],
@@ -18,6 +20,14 @@ var examples = [["Led Zeppelin","Kashmir"],
 				["Iron Maiden","The Number of the Beast"],
 				["Sex Pistols","Anarchy in the UK"],
 				["Aerosmith","Dream On"]];
+
+chrome.storage.sync.get('timedLyrics', function(obj) {
+	showTimedLyrics = obj.timedLyrics;
+});
+chrome.storage.sync.get('autoScroll', function(obj) {
+	autoScroll = obj.autoScroll;
+	$("#top_bar_autoscroll").css("display",autoScroll?"none":"inherit")
+});
 
 function fetchLyrics (art,mus) {
 	$("#top_bar").css("display","none");
@@ -51,7 +61,8 @@ function fetchLyrics (art,mus) {
 function validateLyrics(data,art,mus){
 
 	if (data.type == 'exact' || data.type == 'aprox') {
-		fetchTiming(data);
+		if(showTimedLyrics)fetchTiming(data);
+		else showLyrics(data);
 	} else if (data.type == 'song_notfound') {
 		// Song not found, but artist was found
 		// You can list all songs from Vagalume here
@@ -129,15 +140,17 @@ function showLyrics (trackData, timingData) {
 
 		$('#top_bar_song_delay_increase').mousedown(function() {
 			songTimingDelay+=.5; updateFormattedTimingDelay();
-			intervalId = setInterval(function(){songTimingDelay+=.5; updateFormattedTimingDelay()}, 100);
+			timeoutId = setTimeout(function(){intervalId = setInterval(function(){songTimingDelay+=.5; updateFormattedTimingDelay()}, 100);},500);
 		}).bind('mouseup mouseleave', function() {
 			clearInterval(intervalId);
+			clearTimeout(timeoutId);
 		});
 		$('#top_bar_song_delay_decrease').mousedown(function() {
 			songTimingDelay-=.5; updateFormattedTimingDelay();
-			intervalId = setInterval(function(){songTimingDelay-=.5; updateFormattedTimingDelay()}, 100);
+			timeoutId = setTimeout(function(){intervalId = setInterval(function(){songTimingDelay-=.5; updateFormattedTimingDelay()}, 100);},500);
 		}).bind('mouseup mouseleave', function() {
 			clearInterval(intervalId);
+			clearTimeout(timeoutId);
 		});
 $('#top_bar_song_delay_status').bind('mousewheel', function(event) {
 	event.preventDefault();
