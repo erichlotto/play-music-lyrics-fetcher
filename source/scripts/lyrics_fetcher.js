@@ -102,6 +102,7 @@ function validateTiming(trackData, timingData){
 
 
 function showLyrics (trackData, timingData) {
+	$("body").css("min-width","350px");
 	$("#status").css("padding-top","50px");
 	var top = "<h2>"+trackData.mus[0].name + "</h2><br/><i>by <h4>" +trackData.art.name+"</h4></i><br/><br/>";
 
@@ -125,8 +126,29 @@ function showLyrics (trackData, timingData) {
 		});
 		$("#top_bar_song_delay").css("display", "inherit");
 		updateFormattedTimingDelay();
-		$("#top_bar_song_delay_increase").click(function(){songTimingDelay+=.5; updateFormattedTimingDelay()});
-		$("#top_bar_song_delay_decrease").click(function(){songTimingDelay-=.5; updateFormattedTimingDelay()});
+
+		$('#top_bar_song_delay_increase').mousedown(function() {
+			songTimingDelay+=.5; updateFormattedTimingDelay();
+			intervalId = setInterval(function(){songTimingDelay+=.5; updateFormattedTimingDelay()}, 100);
+		}).bind('mouseup mouseleave', function() {
+			clearInterval(intervalId);
+		});
+		$('#top_bar_song_delay_decrease').mousedown(function() {
+			songTimingDelay-=.5; updateFormattedTimingDelay();
+			intervalId = setInterval(function(){songTimingDelay-=.5; updateFormattedTimingDelay()}, 100);
+		}).bind('mouseup mouseleave', function() {
+			clearInterval(intervalId);
+		});
+$('#top_bar_song_delay_status').bind('mousewheel', function(event) {
+	event.preventDefault();
+    if (event.originalEvent.wheelDelta >= 0) {
+songTimingDelay+=.5; updateFormattedTimingDelay();
+    }
+    else {
+songTimingDelay-=.5; updateFormattedTimingDelay();
+    }
+});
+
 		$("#top_bar_autoscroll").click(function(){autoScroll=true; $("#top_bar_autoscroll").css("display","none")});
 	} else {
 		// No timing found, simply print lyrics text
@@ -181,8 +203,7 @@ function timeCheck(){
 chrome.tabs.getSelected(null, function(tab) {
 	chrome.tabs.sendMessage(tab.id, {query:"getPosition" },
 		function(response) {
-				if(response.position)refreshLyricsPositionOnScreen(response.position); 
-
+			if(response.position)refreshLyricsPositionOnScreen(response.position); 
 		}
 	);
 });
