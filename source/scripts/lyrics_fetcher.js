@@ -152,8 +152,8 @@ function showLyrics (trackData, timingData) {
 			clearInterval(intervalId);
 			clearTimeout(timeoutId);
 		});
+		$('#top_bar').bind('mousewheel', function(event) {event.preventDefault();});
 		$('#top_bar_song_delay_status').bind('mousewheel', function(event) {
-			event.preventDefault();
 			if (event.originalEvent.wheelDelta >= 0) {
 		songTimingDelay+=.5; updateFormattedTimingDelay();
 			}
