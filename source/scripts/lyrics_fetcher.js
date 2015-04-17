@@ -3,6 +3,7 @@ var syncedLyricsWithTiming;
 var songTimingDelay=0;
 var autoScroll=true;
 var showTimedLyrics=true;
+var artistTrack;
 
 var examples = [["Led Zeppelin","Kashmir"],
 				["Queen","Bohemian Rhapsody"],
@@ -60,7 +61,8 @@ function fetchLyrics (art,mus) {
 
 function validateLyrics(data,art,mus){
 
-	if (data.type == 'exact' || data.type == 'aprox') {
+	if (data.type == 'exact' || data.type == 'aprox' ) {
+		if(!data.mus[0].text)data.mus[0].text="No lyrics found for this song. Is it instrumental?";
 		if(showTimedLyrics)fetchTiming(data);
 		else showLyrics(data);
 	} else if (data.type == 'song_notfound') {
@@ -82,24 +84,29 @@ function fetchTiming(trackData){
 		return true;
 	}
 
-	var url = "https://app2.vagalume.com.br/ajax/subtitle-get.php?action=getBestSubtitle"
-		+"&pointerID="+trackData.mus[0].id
-		+"&duration=999";
+	chrome.tabs.getSelected(null, function(tab) {
+		chrome.tabs.sendMessage(tab.id, {query:"getPosition" },
+			function(response) {
+				var url = "https://app2.vagalume.com.br/ajax/subtitle-get.php?action=getBestSubtitle"
+					+"&pointerID="+trackData.mus[0].id
+					+"&duration="+response.length;
 
-	// Check if browser supports CORS - http://www.w3.org/TR/cors/
-	if (!jQuery.support.cors) {
-		url += "&callback=?";
-	}
+				// Check if browser supports CORS - http://www.w3.org/TR/cors/
+				if (!jQuery.support.cors) {
+					url += "&callback=?";
+				}
 
-	jQuery.getJSON(url,function(timingData) {
-		// What we do with the data
-		jQuery.data(document, trackData.mus[0].id+"timing", timingData); // cache write
-		validateTiming(trackData, timingData);
-	}).fail(function(){
-		// Something went wrong with the request. Alert the user
-		$("#status").html("There was an error trying to reach the API.");
+				jQuery.getJSON(url,function(timingData) {
+					// What we do with the data
+					jQuery.data(document, trackData.mus[0].id+"timing", timingData); // cache write
+					validateTiming(trackData, timingData);
+				}).fail(function(){
+					// Something went wrong with the request. Alert the user
+					$("#status").html("There was an error trying to reach the API.");
+				});
+			}
+		);
 	});
-
 }
 
 function validateTiming(trackData, timingData){
@@ -115,6 +122,7 @@ function validateTiming(trackData, timingData){
 function showLyrics (trackData, timingData) {
 	$("body").css("min-width","350px");
 	$("#status").css("padding-top","50px");
+	artistTrack=trackData.art.name+trackData.mus[0].name;
 	var top = "<h2>"+trackData.mus[0].name + "</h2><br/><i>by <h4>" +trackData.art.name+"</h4></i><br/><br/>";
 
 	if(timingData){
@@ -135,6 +143,17 @@ function showLyrics (trackData, timingData) {
 				$("#top_bar_autoscroll").css("display","inherit");
 			}
 		});
+		chrome.tabs.getSelected(null, function(tab) {
+			chrome.tabs.sendMessage(tab.id, {query:"getDelay"},
+				function(response) {
+					if(response.artistTrack == artistTrack){
+						songTimingDelay=response.delay;
+						updateFormattedTimingDelay();
+					}
+				}
+			);
+		});
+
 		$("#top_bar_song_delay").css("display", "inherit");
 		updateFormattedTimingDelay();
 
@@ -142,23 +161,23 @@ function showLyrics (trackData, timingData) {
 			songTimingDelay+=.5; updateFormattedTimingDelay();
 			timeoutId = setTimeout(function(){intervalId = setInterval(function(){songTimingDelay+=.5; updateFormattedTimingDelay()}, 100);},500);
 		}).bind('mouseup mouseleave', function() {
-			clearInterval(intervalId);
-			clearTimeout(timeoutId);
+			if(intervalId)clearInterval(intervalId);
+			if(timeoutId)clearTimeout(timeoutId);
 		});
 		$('#top_bar_song_delay_decrease').mousedown(function() {
 			songTimingDelay-=.5; updateFormattedTimingDelay();
 			timeoutId = setTimeout(function(){intervalId = setInterval(function(){songTimingDelay-=.5; updateFormattedTimingDelay()}, 100);},500);
 		}).bind('mouseup mouseleave', function() {
-			clearInterval(intervalId);
-			clearTimeout(timeoutId);
+			if(intervalId)clearInterval(intervalId);
+			if(timeoutId)clearTimeout(timeoutId);
 		});
 		$('#top_bar').bind('mousewheel', function(event) {event.preventDefault();});
 		$('#top_bar_song_delay_status').bind('mousewheel', function(event) {
 			if (event.originalEvent.wheelDelta >= 0) {
-		songTimingDelay+=.5; updateFormattedTimingDelay();
+				songTimingDelay+=.5; updateFormattedTimingDelay();
 			}
 			else {
-		songTimingDelay-=.5; updateFormattedTimingDelay();
+				songTimingDelay-=.5; updateFormattedTimingDelay();
 			}
 		});
 
@@ -180,7 +199,10 @@ function updateFormattedTimingDelay(){
 	if(songTimingDelay==0)$("#top_bar_delay img").attr("src","../images/bt_delay.png");
 	else if(songTimingDelay<0)$("#top_bar_delay img").attr("src","../images/bt_delay_fwd.png");
 	else if(songTimingDelay>0)$("#top_bar_delay img").attr("src","../images/bt_delay_bwd.png");
-	$("#top_bar_song_delay_status").text((songTimingDelay%1==0?songTimingDelay+'.0':songTimingDelay)+' s');
+	$("#top_bar_song_delay_status").text((songTimingDelay%1==0?songTimingDelay+'.0':songTimingDelay)+'s');
+	chrome.tabs.getSelected(null, function(tab) {
+		chrome.tabs.sendMessage(tab.id, {query:"setDelay", delay:songTimingDelay, artistTrack:artistTrack});
+	});
 }
 
 function showInputFields(popupTitle, artist, track){

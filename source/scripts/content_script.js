@@ -10,6 +10,11 @@ alert("NOK");
  * Temos um listener que fica escutando as mensagens recebidas e tomando decisoes de acordo
 */
 
+
+// delay and artistData are variables to store current song's delay
+var delay;
+var artistTrack;
+
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 
 	switch(message.query){
@@ -117,9 +122,17 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 			var response = {position:trackPosition, length:trackLength};
 			sendResponse(response);
 		break;
-
+		case "setDelay":
+			delay=message.delay;
+			artistTrack=message.artistTrack;
+		break;
+		case "getDelay":
+			var response = {delay:delay, artistTrack:artistTrack};
+			sendResponse(response);
+		break;
 	}
 });
+
 
 function hmsToSecondsOnly(str, delimiter) {
     var p = str.split(delimiter),

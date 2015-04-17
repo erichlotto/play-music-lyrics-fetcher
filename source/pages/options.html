@@ -9,35 +9,50 @@
 			font-size: 100%;
 			background: #fff;
 			color: #888;
+margin:10px 10px 0 10px;
 		}
-		#footer{
+		footer{
 			text-align:center;
 			font-size:0.7em;
 		}
 		.settings_item{
 			margin:2px;
 		}
+		a>img{
+			-webkit-transition : -webkit-filter 200ms linear;
+		}
+		a>img:hover{
+			-webkit-filter: brightness(80%);
+		}
+		#links{
+			text-align:center;
+		}
+		#links>a{
+			margin:5px;
+		}
 
     </style>
 </head>
 <body>
 
-		<p class="settings_item">
-			<input type="checkbox" id="timed_lyrics" name="timed_lyrics" value="Use timed lyrics">
-			<label for="timed_lyrics">Use timed lyrics</label>
-		</p>
-		<p class="settings_item">
-			<input type="checkbox" id="auto_scroll" name="auto_scroll" value="Start auto scroll automatically">
-			<label for="auto_scroll">Start auto scroll automatically</label>
-		</p>
-
-<p id="footer">
-	<label id="warning">Play Music Lyrics Fetcher proudly relies on Vagalume API.</label><br/>
-
-	<a target=_blank href="http://www.vagalume.com.br/">
+	<p class="settings_item">
+		<input type="checkbox" id="timed_lyrics" name="timed_lyrics" value="Use timed lyrics">
+		<label for="timed_lyrics">Use timed lyrics</label>
+	</p>
+	<p class="settings_item">
+		<input type="checkbox" id="auto_scroll" name="auto_scroll" value="Start auto scroll automatically">
+		<label for="auto_scroll">Start auto scroll automatically</label>
+	</p>
+	<p id="links">
+		<a href="http://github.com/erichlotto/Play-Music-Lyrics-Fetcher" title="View source"><img border=0 src="../images/github.png" alt="github" /></a>
+	</p>
+			
+	<footer>
+		<label id="warning">Play Music Lyrics Fetcher proudly relies on Vagalume API.</label><br/>
+		<a target=_blank href="http://www.vagalume.com.br/">
 			<img border=0 src="http://api.vagalume.com.br/images/fundo-claro/103-fundo-claro-transparente.png" alt="Vagalume" />
-	</a>
-</p>
+		</a>
+	</footer>
     <script src="../scripts/jquery.min.js"></script>
     <script src="../scripts/options.js"></script>
 </body>
