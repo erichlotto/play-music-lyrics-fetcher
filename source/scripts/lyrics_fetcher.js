@@ -31,6 +31,8 @@ chrome.storage.sync.get('autoScroll', function(obj) {
 });
 
 function fetchLyrics (art,mus) {
+	$("body").css("min-width","10px");
+	$("#status").css("padding","10px");
 	$("#top_bar").css("display","none");
 	$("#status").html("<i>Fetching lyrics...</i>");
 	var data = jQuery.data(document,art + mus); // cache read
@@ -120,6 +122,7 @@ function validateTiming(trackData, timingData){
 
 
 function showLyrics (trackData, timingData) {
+	songTimingDelay=0;
 	$("body").css("min-width","350px");
 	$("#status").css("padding-top","50px");
 	artistTrack=trackData.art.name+trackData.mus[0].name;
@@ -146,7 +149,7 @@ function showLyrics (trackData, timingData) {
 		chrome.tabs.getSelected(null, function(tab) {
 			chrome.tabs.sendMessage(tab.id, {query:"getDelay"},
 				function(response) {
-					if(response.artistTrack == artistTrack){
+					if(response && response.artistTrack == artistTrack){
 						songTimingDelay=response.delay;
 						updateFormattedTimingDelay();
 					}
@@ -161,15 +164,15 @@ function showLyrics (trackData, timingData) {
 			songTimingDelay+=.5; updateFormattedTimingDelay();
 			timeoutId = setTimeout(function(){intervalId = setInterval(function(){songTimingDelay+=.5; updateFormattedTimingDelay()}, 100);},500);
 		}).bind('mouseup mouseleave', function() {
-			if(intervalId)clearInterval(intervalId);
-			if(timeoutId)clearTimeout(timeoutId);
+			if(typeof intervalId !== 'undefined')clearInterval(intervalId);
+			if(typeof timeoutId !== 'undefined')clearTimeout(timeoutId);
 		});
 		$('#top_bar_song_delay_decrease').mousedown(function() {
 			songTimingDelay-=.5; updateFormattedTimingDelay();
 			timeoutId = setTimeout(function(){intervalId = setInterval(function(){songTimingDelay-=.5; updateFormattedTimingDelay()}, 100);},500);
 		}).bind('mouseup mouseleave', function() {
-			if(intervalId)clearInterval(intervalId);
-			if(timeoutId)clearTimeout(timeoutId);
+			if(typeof intervalId !== 'undefined')clearInterval(intervalId);
+			if(typeof timeoutId !== 'undefined')clearTimeout(timeoutId);
 		});
 		$('#top_bar').bind('mousewheel', function(event) {event.preventDefault();});
 		$('#top_bar_song_delay_status').bind('mousewheel', function(event) {
@@ -201,7 +204,7 @@ function updateFormattedTimingDelay(){
 	else if(songTimingDelay>0)$("#top_bar_delay img").attr("src","../images/bt_delay_bwd.png");
 	$("#top_bar_song_delay_status").text((songTimingDelay%1==0?songTimingDelay+'.0':songTimingDelay)+'s');
 	chrome.tabs.getSelected(null, function(tab) {
-		chrome.tabs.sendMessage(tab.id, {query:"setDelay", delay:songTimingDelay, artistTrack:artistTrack});
+		chrome.tabs.sendMessage(tab.id, {query:"setDelay", delay:{delay:songTimingDelay, artistTrack:artistTrack}});
 	});
 }
 
@@ -241,6 +244,7 @@ function timeCheck(){
 chrome.tabs.getSelected(null, function(tab) {
 	chrome.tabs.sendMessage(tab.id, {query:"getPosition" },
 		function(response) {
+			if(response.newSong)restart();
 			if(response.position)refreshLyricsPositionOnScreen(response.position); 
 		}
 	);

@@ -13,80 +13,19 @@ alert("NOK");
 
 // delay and artistData are variables to store current song's delay
 var delay;
-var artistTrack;
+var localArtistTrack;
 
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 
 	switch(message.query){
 		case "getInfo":
-			var currentSong;
-			var currentArtist;
-			var currentAlbum;
-			var isPlaying=false;
+			var response = getSongInfo();
+            console.log('===============\n___Artist : '+response.currentArtist+
+						"\n____Track : "+response.currentSong+
+						"\n____Album : "+response.currentAlbum+
+						"\nisPlaying : "+response.isPlaying+
+						"\n================");
 
-			var hostname = $('<a>').prop('href', document.location).prop('hostname');
-			try{
-				if(hostname == "play.google.com"){
-					currentSong = $('#playerSongTitle').text();
-					currentArtist = $('#player-artist').text();
-					currentAlbum = $('.player-album').text();
-					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-				}else if(hostname == "play.spotify.com"){
-					currentArtist = $('#app-player').contents().find("#player").find("#track-artist").text();
-					currentSong = $('#app-player').contents().find("#player").find("#track-name").text();
-					currentAlbum = 'Unknown';
-					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false; 
-				}else if(hostname.indexOf('deezer.com') > -1 ){
-					currentArtist = $(".player-track-artist:eq(0) .player-track-link:eq(0)").text();
-					currentSong = $(".player-track-title:eq(0)").text();
-					currentAlbum = 'Unknown';
-					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-				}else if(hostname.indexOf('rdio.com') > -1 ){
-					currentArtist = $(".drag_container:eq(0) .artist_title:eq(0)").text();
-					currentSong = $(".drag_container:eq(0) .song_title:eq(0)").text();
-					currentAlbum = 'Unknown';
-					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-				}else if(hostname.indexOf('grooveshark.com') > -1 ){
-					currentArtist = $(".now-playing-link.artist:eq(0)").text();
-					currentSong = $(".now-playing-link.song:eq(0)").text();
-					currentAlbum = 'Unknown';
-					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-				}else if(hostname.indexOf('pandora.com') > -1 ){
-					currentArtist = $(".playerBarArtist:eq(0)").text();
-					currentSong = $(".playerBarSong:eq(0)").text();
-					currentAlbum = $(".playerBarAlbum:eq(0)").text();
-					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-				}else if(hostname.indexOf('superplayer.fm') > -1 ){
-					currentArtist = $("span[data-function='current-artist']").first().text();
-					currentSong = $("span[data-function='current-track']").first().text();
-					currentAlbum = 'Unknown';
-					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-				}else if(hostname.indexOf('youtube.com') > -1 ){
-					var video_title = $("#eow-title").text();
-					currentArtist = parseInfo(video_title).artist;
-					currentSong = parseInfo(video_title).track;
-					currentAlbum = 'Unknown';
-					isPlaying = true;
-				}else if(hostname.indexOf('songza.com') > -1 ){
-					currentArtist = $(".miniplayer-info-artist-name:eq(0) a:eq(0)").text().split("by ")[1];
-					currentSong = $(".miniplayer-info-track-title:eq(0) a:eq(0)").text();
-					currentAlbum = 'Unknown';
-					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-				}else if(hostname.indexOf('tunein.com') > -1 ){
-					currentArtist = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[1];
-					currentSong = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[0];
-					currentAlbum = 'Unknown';
-					isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
-				}
-			} catch(err){
-				console.log("Check out this awesome error: "+err.message);
-			}
-
-            console.log('===============\n___Artist : '+currentArtist+"\n____Track : "+currentSong+"\n____Album : "+currentAlbum+"\nisPlaying : "+isPlaying+"\n================");
-			var response = {isPlaying:isPlaying,
-						currentSong:currentSong,
-						currentArtist:currentArtist,
-						currentAlbum:currentAlbum};
 			sendResponse(response);
 		break;
 		case "getPosition":
@@ -118,20 +57,91 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 				console.log("Check out this awesome error while retriving player position: "+err.message);
 			}
 //			console.log(trackPosition+"/"+trackLength);
-
-			var response = {position:trackPosition, length:trackLength};
+			var si=getSongInfo();
+			var at=si.currentArtist+si.currentSong;
+			var response = {position:trackPosition, length:trackLength, newSong:!(at==localArtistTrack || !localArtistTrack)};
 			sendResponse(response);
+			localArtistTrack=at;
 		break;
 		case "setDelay":
 			delay=message.delay;
-			artistTrack=message.artistTrack;
 		break;
 		case "getDelay":
-			var response = {delay:delay, artistTrack:artistTrack};
-			sendResponse(response);
+			sendResponse(delay);
 		break;
 	}
 });
+
+
+function getSongInfo(){
+	var currentSong;
+	var currentArtist;
+	var currentAlbum;
+	var isPlaying=false;
+
+	var hostname = $('<a>').prop('href', document.location).prop('hostname');
+	try{
+		if(hostname == "play.google.com"){
+			currentSong = $('#playerSongTitle').text();
+			currentArtist = $('#player-artist').text();
+			currentAlbum = $('.player-album').text();
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname == "play.spotify.com"){
+			currentArtist = $('#app-player').contents().find("#player").find("#track-artist").text();
+			currentSong = $('#app-player').contents().find("#player").find("#track-name").text();
+			currentAlbum = 'Unknown';
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false; 
+		}else if(hostname.indexOf('deezer.com') > -1 ){
+			currentArtist = $(".player-track-artist:eq(0) .player-track-link:eq(0)").text();
+			currentSong = $(".player-track-title:eq(0)").text();
+			currentAlbum = 'Unknown';
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('rdio.com') > -1 ){
+			currentArtist = $(".drag_container:eq(0) .artist_title:eq(0)").text();
+			currentSong = $(".drag_container:eq(0) .song_title:eq(0)").text();
+			currentAlbum = 'Unknown';
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('grooveshark.com') > -1 ){
+			currentArtist = $(".now-playing-link.artist:eq(0)").text();
+			currentSong = $(".now-playing-link.song:eq(0)").text();
+			currentAlbum = 'Unknown';
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('pandora.com') > -1 ){
+			currentArtist = $(".playerBarArtist:eq(0)").text();
+			currentSong = $(".playerBarSong:eq(0)").text();
+			currentAlbum = $(".playerBarAlbum:eq(0)").text();
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('superplayer.fm') > -1 ){
+			currentArtist = $("span[data-function='current-artist']").first().text();
+			currentSong = $("span[data-function='current-track']").first().text();
+			currentAlbum = 'Unknown';
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('youtube.com') > -1 ){
+			var video_title = $("#eow-title").text();
+			currentArtist = parseInfo(video_title).artist;
+			currentSong = parseInfo(video_title).track;
+			currentAlbum = 'Unknown';
+			isPlaying = true;
+		}else if(hostname.indexOf('songza.com') > -1 ){
+			currentArtist = $(".miniplayer-info-artist-name:eq(0) a:eq(0)").text().split("by ")[1];
+			currentSong = $(".miniplayer-info-track-title:eq(0) a:eq(0)").text();
+			currentAlbum = 'Unknown';
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('tunein.com') > -1 ){
+			currentArtist = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[1];
+			currentSong = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[0];
+			currentAlbum = 'Unknown';
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}
+	} catch(err){
+		console.log("Check out this awesome error: "+err.message);
+	}
+	var response = {isPlaying:isPlaying,
+				currentSong:currentSong,
+				currentArtist:currentArtist,
+				currentAlbum:currentAlbum};
+	return response;
+}
 
 
 function hmsToSecondsOnly(str, delimiter) {
