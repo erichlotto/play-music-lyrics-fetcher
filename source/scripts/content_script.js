@@ -44,19 +44,30 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 					trackPosition = hmsToSecondsOnly($(".progress-time:eq(0)").text(), ':');
 					trackLength = hmsToSecondsOnly($(".progress-length:eq(0)").text(), ':');
 				}else if(hostname.indexOf('rdio.com') > -1 ){
+					trackPosition = hmsToSecondsOnly($(".time:eq(0)").text(), ':');
+					trackLength = hmsToSecondsOnly($(".duration:eq(0)").text(), ':');
 				}else if(hostname.indexOf('grooveshark.com') > -1 ){
+					trackPosition = hmsToSecondsOnly($("#time-elapsed").text(), ':');
+					trackLength = hmsToSecondsOnly($("#time-total").text(), ':');
 				}else if(hostname.indexOf('pandora.com') > -1 ){
+					trackPosition = hmsToSecondsOnly($(".elapsedTime:eq(0)").text(), ':');
+					var trackRemaining = hmsToSecondsOnly($(".remainingTime:eq(0)").text(), ':');
+					trackLength = trackPosition + trackRemaining;
 				}else if(hostname.indexOf('superplayer.fm') > -1 ){
+					trackPosition = hmsToSecondsOnly($("span[data-function='track-current-time']").first().text(), ':');
+					trackLength = hmsToSecondsOnly($("span[data-function='track-total-time']").first().text(), ':');
 				}else if(hostname.indexOf('youtube.com') > -1 ){
 					trackPosition = hmsToSecondsOnly($(".ytp-time-current:eq(0)").text(), ':');
 					trackLength = hmsToSecondsOnly($(".ytp-time-duration:eq(0)").text(), ':');
 				}else if(hostname.indexOf('songza.com') > -1 ){
+					// I could not find this info inside the html :(
 				}else if(hostname.indexOf('tunein.com') > -1 ){
+					// Its an actual radio station, I dont think theres any way we can find this info
 				}
 			} catch(err){
 				console.log("Check out this awesome error while retriving player position: "+err.message);
 			}
-//			console.log(trackPosition+"/"+trackLength);
+			console.log(trackPosition+"/"+trackLength);
 			var si=getSongInfo();
 			var at=si.currentArtist+si.currentSong;
 			var response = {position:trackPosition, length:trackLength, newSong:!(at==localArtistTrack || !localArtistTrack)};
@@ -149,7 +160,8 @@ function hmsToSecondsOnly(str, delimiter) {
         s = 0, m = 1;
 
     while (p.length > 0) {
-        s += m * parseInt(p.pop(), 10);
+    	a = p.pop();
+        s += m * parseInt(Math.abs(a), 10);
         m *= 60;
     }
     return s;

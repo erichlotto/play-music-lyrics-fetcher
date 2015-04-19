@@ -65,7 +65,17 @@ function validateLyrics(data,art,mus){
 
 	if (data.type == 'exact' || data.type == 'aprox' ) {
 		if(!data.mus[0].text)data.mus[0].text="No lyrics found for this song. Is it instrumental?";
-		if(showTimedLyrics)fetchTiming(data);
+		if(showTimedLyrics){
+			chrome.tabs.getSelected(null, function(tab) {
+				chrome.tabs.sendMessage(tab.id, {query:"getPosition" },
+					function(response) {
+						if(response.position)fetchTiming(data);
+						else showLyrics(data);
+					}
+				);
+			});
+			
+		}
 		else showLyrics(data);
 	} else if (data.type == 'song_notfound') {
 		// Song not found, but artist was found
