@@ -67,7 +67,7 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 			} catch(err){
 				console.log("Check out this awesome error while retriving player position: "+err.message);
 			}
-			console.log(trackPosition+"/"+trackLength);
+//			console.log(trackPosition+"/"+trackLength);
 			var si=getSongInfo();
 			var at=si.currentArtist+si.currentSong;
 			var response = {position:trackPosition, length:trackLength, newSong:!(at==localArtistTrack || !localArtistTrack)};
