@@ -50,6 +50,8 @@ function fetchLyrics (art,mus) {
 		url += "&callback=?";
 	}
 
+	console.log("Fetching lyrics for \""+art+"\" > \""+mus+"\" ...");
+
 	jQuery.getJSON(url,function(data) {
 		// What we do with the data
 		jQuery.data(document,art + mus,data); // cache write
@@ -69,6 +71,7 @@ function validateLyrics(data,art,mus){
 			chrome.tabs.getSelected(null, function(tab) {
 				chrome.tabs.sendMessage(tab.id, {query:"getPosition" },
 					function(response) {
+						console.log("Lyrics found.");
 						if(response.position)fetchTiming(data);
 						else showLyrics(data);
 					}
@@ -81,15 +84,18 @@ function validateLyrics(data,art,mus){
 		// Song not found, but artist was found
 		// You can list all songs from Vagalume here
 		showInputFields("We could not find song <b>"+mus+"</b> by "+data.art.name, data.art.name, mus);
+		console.log("We could not find song "+mus+" by "+data.art.name);
 	} else {
 		// Artist not found
 		showInputFields("We could not find artist <b>"+art+"</b>", art, mus);
+		console.log("We could not find artist "+art);
 	}
 }
 
 function fetchTiming(trackData){
 	$("#top_bar").css("display","none");
 	$("#status").html("<i>Fetching timing...</i>");
+	console.log("Fetching timing...");
 	var timing = jQuery.data(document,trackData.mus[0].id+"timing"); // cache read
 	if (timing) {
 		validateTiming(trackData, timing);
@@ -123,9 +129,11 @@ function fetchTiming(trackData){
 
 function validateTiming(trackData, timingData){
 	if (timingData.subtitles) {
+		console.log("Timing found");
 		showLyrics(trackData, timingData);
 	} else {
 		// Subtitle not found
+		console.log("Timing not found");
 		showLyrics (trackData);
 	}
 }
@@ -142,6 +150,7 @@ function showLyrics (trackData, timingData) {
 		// Timing found, show awesome lyrics
 		$("#status").html(top);
 		syncedLyricsWithTiming = timingData.subtitles[0].text_compressed;
+		console.log("YoutTube synced video ID: "+timingData.subtitles[0].yt_vinc);
 		for(var i=0; i<syncedLyricsWithTiming.length; i++){
 			$("#status").html($("#status").html() + "<p class=\"lyrics_line\">"+syncedLyricsWithTiming[i][0].trim()+"</p>");
 		}
