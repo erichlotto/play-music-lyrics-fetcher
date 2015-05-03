@@ -35,28 +35,39 @@ function fetchLyrics (art,mus) {
 	$("#status").css("padding","10px");
 	$("#top_bar").css("display","none");
 	$("#status").html("<i>Fetching lyrics...</i>");
-	var data = jQuery.data(document,art + mus); // cache read
-	if (data) {
-		validateLyrics(data, art, mus);
-		return true;
-	}
+	chrome.storage.sync.get(art + mus, function(obj) {
+	
+		if(obj[art + mus]){
+			console.log("CACHED Lyrics found");
+			validateLyrics(obj[art + mus], art, mus);
+			return true;
+		}
 
-	var url = "http://api.vagalume.com.br/search.php"
-		+"?art="+encodeURIComponent(art)
-		+"&mus="+encodeURIComponent(mus);
+		var url = "http://api.vagalume.com.br/search.php"
+			+"?art="+encodeURIComponent(art)
+			+"&mus="+encodeURIComponent(mus);
 
-	// Check if browser supports CORS - http://www.w3.org/TR/cors/
-	if (!jQuery.support.cors) {
-		url += "&callback=?";
-	}
+		// Check if browser supports CORS - http://www.w3.org/TR/cors/
+		if (!jQuery.support.cors) {
+			url += "&callback=?";
+		}
 
-	jQuery.getJSON(url,function(data) {
-		// What we do with the data
-		jQuery.data(document,art + mus,data); // cache write
-		validateLyrics(data, art, mus);
-	}).fail(function(){
-		// Something went wrong with the request. Alert the user
-		$("#status").html("There was an error trying to reach the API.");
+		console.log("Fetching lyrics for \""+art+"\" > \""+mus+"\" ...");
+
+		jQuery.getJSON(url,function(data) {
+			// cache write
+			var cachedObj = {}
+			cachedObj[art + mus] = data;
+			chrome.storage.sync.set(cachedObj);
+			console.log("LYRIC STORED ON CACHE");
+
+			//Continue
+			validateLyrics(data, art, mus);
+		}).fail(function(){
+			// Something went wrong with the request. Alert the user
+			$("#status").html("There was an error trying to reach the API.");
+		});
+
 	});
 }
 
@@ -81,20 +92,25 @@ function validateLyrics(data,art,mus){
 		// Song not found, but artist was found
 		// You can list all songs from Vagalume here
 		showInputFields("We could not find song <b>"+mus+"</b> by "+data.art.name, data.art.name, mus);
+		console.log("We could not find song "+mus+" by "+data.art.name);
 	} else {
 		// Artist not found
 		showInputFields("We could not find artist <b>"+art+"</b>", art, mus);
+		console.log("We could not find artist "+art);
 	}
 }
 
 function fetchTiming(trackData){
 	$("#top_bar").css("display","none");
 	$("#status").html("<i>Fetching timing...</i>");
-	var timing = jQuery.data(document,trackData.mus[0].id+"timing"); // cache read
-	if (timing) {
-		validateTiming(trackData, timing);
-		return true;
-	}
+
+	chrome.storage.sync.get(trackData.mus[0].id+"timing", function(obj) {
+	
+		if(obj[trackData.mus[0].id+"timing"]){
+			console.log("CACHED Timing found");
+			validateTiming(trackData, obj[trackData.mus[0].id+"timing"]);
+			return true;
+		}
 
 	chrome.tabs.getSelected(null, function(tab) {
 		chrome.tabs.sendMessage(tab.id, {query:"getPosition" },
@@ -108,9 +124,15 @@ function fetchTiming(trackData){
 					url += "&callback=?";
 				}
 
+				console.log("Fetching timing...");
 				jQuery.getJSON(url,function(timingData) {
-					// What we do with the data
-					jQuery.data(document, trackData.mus[0].id+"timing", timingData); // cache write
+					// cache write
+					var cachedObj = {}
+					cachedObj[trackData.mus[0].id+"timing"] = timingData;
+					chrome.storage.sync.set(cachedObj);
+					console.log("TIMING STORED ON CACHE");
+
+					//Continue
 					validateTiming(trackData, timingData);
 				}).fail(function(){
 					// Something went wrong with the request. Alert the user
@@ -119,6 +141,7 @@ function fetchTiming(trackData){
 			}
 		);
 	});
+});
 }
 
 function validateTiming(trackData, timingData){
@@ -126,6 +149,7 @@ function validateTiming(trackData, timingData){
 		showLyrics(trackData, timingData);
 	} else {
 		// Subtitle not found
+		console.log("Timing not found");
 		showLyrics (trackData);
 	}
 }
@@ -142,6 +166,7 @@ function showLyrics (trackData, timingData) {
 		// Timing found, show awesome lyrics
 		$("#status").html(top);
 		syncedLyricsWithTiming = timingData.subtitles[0].text_compressed;
+		console.log("YoutTube synced video ID: "+timingData.subtitles[0].yt_vinc);
 		for(var i=0; i<syncedLyricsWithTiming.length; i++){
 			$("#status").html($("#status").html() + "<p class=\"lyrics_line\">"+syncedLyricsWithTiming[i][0].trim()+"</p>");
 		}
@@ -192,6 +217,8 @@ function showLyrics (trackData, timingData) {
 			else {
 				songTimingDelay-=.5; updateFormattedTimingDelay();
 			}
+		}).bind('dblclick',function(){
+				songTimingDelay=0; updateFormattedTimingDelay();
 		});
 
 		$("#top_bar_autoscroll").click(function(){autoScroll=true; $("#top_bar_autoscroll").css("display","none")});
