@@ -27,7 +27,8 @@ chrome.storage.sync.get('timedLyrics', function(obj) {
 });
 chrome.storage.sync.get('autoScroll', function(obj) {
 	autoScroll = obj.autoScroll;
-	$("#top_bar_autoscroll").css("display",autoScroll?"none":"inherit")
+	if(!autoScroll && showTimedLyrics)$("#top_bar_autoscroll").css("display","inherit");
+	else $("#top_bar_autoscroll").css("display","none");
 });
 
 function fetchLyrics (art,mus) {
@@ -35,7 +36,7 @@ function fetchLyrics (art,mus) {
 	$("#status").css("padding","10px");
 	$("#top_bar").css("display","none");
 	$("#status").html("<i>Fetching lyrics...</i>");
-	chrome.storage.sync.get(art + mus, function(obj) {
+	chrome.storage.local.get(art + mus, function(obj) {
 	
 		if(obj[art + mus]){
 			console.log("CACHED Lyrics found");
@@ -58,7 +59,7 @@ function fetchLyrics (art,mus) {
 			// cache write
 			var cachedObj = {}
 			cachedObj[art + mus] = data;
-			chrome.storage.sync.set(cachedObj);
+			chrome.storage.local.set(cachedObj);
 			console.log("LYRIC STORED ON CACHE");
 
 			//Continue
@@ -104,7 +105,7 @@ function fetchTiming(trackData){
 	$("#top_bar").css("display","none");
 	$("#status").html("<i>Fetching timing...</i>");
 
-	chrome.storage.sync.get(trackData.mus[0].id+"timing", function(obj) {
+	chrome.storage.local.get(trackData.mus[0].id+"timing", function(obj) {
 	
 		if(obj[trackData.mus[0].id+"timing"]){
 			console.log("CACHED Timing found");
@@ -129,7 +130,7 @@ function fetchTiming(trackData){
 					// cache write
 					var cachedObj = {}
 					cachedObj[trackData.mus[0].id+"timing"] = timingData;
-					chrome.storage.sync.set(cachedObj);
+					chrome.storage.local.set(cachedObj);
 					console.log("TIMING STORED ON CACHE");
 
 					//Continue

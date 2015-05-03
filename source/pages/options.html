@@ -9,7 +9,7 @@
 			font-size: 100%;
 			background: #fff;
 			color: #888;
-margin:10px 10px 0 10px;
+			margin:10px 10px 0 10px;
 		}
 		footer{
 			text-align:center;
@@ -26,9 +26,15 @@ margin:10px 10px 0 10px;
 		}
 		#links{
 			text-align:center;
+			margin-top:100px;
 		}
 		#links>a{
 			margin:5px;
+		}
+		#clear_cache_feedback{
+			opacity:0;
+			-webkit-transition: opacity 300ms linear;
+			transition: opacity 300ms linear;
 		}
 
     </style>
@@ -42,6 +48,10 @@ margin:10px 10px 0 10px;
 	<p class="settings_item">
 		<input type="checkbox" id="auto_scroll" name="auto_scroll" value="Start auto scroll automatically">
 		<label for="auto_scroll">Start auto scroll automatically</label>
+	</p>
+	<p class="settings_item">
+		<input type="button" id="clear_cache" name="clear_cache" value="Clear cache">
+		<label id="clear_cache_feedback">--</label>
 	</p>
 	<p id="links">
 		<a href="http://github.com/erichlotto/Play-Music-Lyrics-Fetcher" title="View source"><img border=0 src="../images/github.png" alt="github" /></a>
