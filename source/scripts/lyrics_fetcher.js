@@ -4,6 +4,13 @@ var songTimingDelay=0;
 var autoScroll=true;
 var showTimedLyrics=true;
 var artistTrack;
+/*
+ Counter for the number of tries to fetch lyrics taken (usefull for youtube,
+ where sometimes the artist/track name are switched. The script will try to 
+ switch them twice, this way the popup for the user to insert artist/track
+ name has the placeholder fields displayed correctly)
+*/
+var lyricsFetchTries = 0; 
 
 var examples = [["Led Zeppelin","Kashmir"],
 				["Queen","Bohemian Rhapsody"],
@@ -32,6 +39,7 @@ chrome.storage.sync.get('autoScroll', function(obj) {
 });
 
 function fetchLyrics (art,mus) {
+	lyricsFetchTries++;
 	$("body").css("min-width","10px");
 	$("#status").css("padding","10px");
 	$("#top_bar").css("display","none");
@@ -89,7 +97,9 @@ function validateLyrics(data,art,mus){
 			
 		}
 		else showLyrics(data);
-	} else if (data.type == 'song_notfound') {
+	} else if(lyricsFetchTries<3){
+		fetchLyrics (mus,art);
+	}else if (data.type == 'song_notfound') {
 		// Song not found, but artist was found
 		// You can list all songs from Vagalume here
 		showInputFields("We could not find song <b>"+mus+"</b> by "+data.art.name, data.art.name, mus);
