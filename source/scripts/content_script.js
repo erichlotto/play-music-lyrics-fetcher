@@ -14,6 +14,7 @@ alert("NOK");
 // delay and artistData are variables to store current song's delay
 var delay;
 var localArtistTrack;
+var timeOnLastFullSecond;
 
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 
@@ -26,16 +27,20 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 						"\nisPlaying : "+response.isPlaying+
 						"\n================");
 
+			getTimeElapsedElement().unbind('DOMSubtreeModified');
+			getTimeElapsedElement().bind("DOMSubtreeModified",function(){
+				timeOnLastFullSecond = new Date().getTime();
+			});
 			sendResponse(response);
 		break;
 		case "getPosition":
-			var trackPosition;
-			var trackLength;
+			var trackPosition=0;
+			var trackLength=0;
 
 			var hostname = $('<a>').prop('href', document.location).prop('hostname');
 			try{
 				if(hostname == "play.google.com"){
-					trackPosition = hmsToSecondsOnly($("#time_container_current").text(), ':');
+					trackPosition = hmsToSecondsOnly(getTimeElapsedElement().text(), ':');
 					trackLength = hmsToSecondsOnly($("#time_container_duration").text(), ':');
 				}else if(hostname == "play.spotify.com"){
 					trackPosition = hmsToSecondsOnly($('#app-player').contents().find("#progress").find("#track-current").text(), ':');
@@ -61,16 +66,24 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 					trackLength = hmsToSecondsOnly($(".ytp-time-duration:eq(0)").text(), ':');
 				}else if(hostname.indexOf('songza.com') > -1 ){
 					// I could not find this info inside the html :(
+					trackPosition = -1;
+					trackLength = -1;
 				}else if(hostname.indexOf('tunein.com') > -1 ){
 					// Its an actual radio station, I dont think theres any way we can find this info
+					trackPosition = -1;
+					trackLength = -1;
 				}
 			} catch(err){
 				console.log("Check out this awesome error while retriving player position: "+err.message);
 			}
 //			console.log(trackPosition+"/"+trackLength);
+			var extraTime=(new Date().getTime()-timeOnLastFullSecond)/1000;
+			if(extraTime>1)extraTime=1;
+			if(trackPosition!=-1)trackPosition+=extraTime+0.2; //0.5 makes the lyrics enter slightly faster
 			var si=getSongInfo();
 			var at=si.currentArtist+si.currentSong;
 			var response = {position:trackPosition, length:trackLength, newSong:!(at==localArtistTrack || !localArtistTrack)};
+
 			sendResponse(response);
 			localArtistTrack=at;
 		break;
@@ -82,6 +95,36 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 		break;
 	}
 });
+
+
+
+
+function getTimeElapsedElement(){
+	var hostname = $('<a>').prop('href', document.location).prop('hostname');
+	try{
+		if(hostname == "play.google.com"){
+			return $("#time_container_current");
+		}else if(hostname == "play.spotify.com"){
+			return $('#app-player').contents().find("#progress").find("#track-current");
+		}else if(hostname.indexOf('deezer.com') > -1 ){
+			return $(".progress-time:eq(0)");
+		}else if(hostname.indexOf('rdio.com') > -1 ){
+			return $(".time:eq(0)");
+		}else if(hostname.indexOf('grooveshark.com') > -1 ){
+			return $("#time-elapsed");
+		}else if(hostname.indexOf('pandora.com') > -1 ){
+			return $(".elapsedTime:eq(0)");
+		}else if(hostname.indexOf('superplayer.fm') > -1 ){
+			return $("span[data-function='track-current-time']");
+		}else if(hostname.indexOf('youtube.com') > -1 ){
+			return $(".ytp-time-current:eq(0)");
+		}else{
+			return null;
+		}
+	} catch(err){
+		console.log("Check out this awesome error while retriving getTimeElapsedElement: "+err.message);
+	}
+}
 
 
 function getSongInfo(){

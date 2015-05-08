@@ -89,7 +89,7 @@ function validateLyrics(data,art,mus){
 			chrome.tabs.getSelected(null, function(tab) {
 				chrome.tabs.sendMessage(tab.id, {query:"getPosition" },
 					function(response) {
-						if(response.position)fetchTiming(data);
+						if(response.position!=-1)fetchTiming(data);//BUGANDO TUDO VÉI
 						else showLyrics(data);
 					}
 				);
@@ -173,6 +173,8 @@ function showLyrics (trackData, timingData) {
 	artistTrack=trackData.art.name+trackData.mus[0].name;
 	var top = "<h2>"+trackData.mus[0].name + "</h2><br/><i>by <h4>" +trackData.art.name+"</h4></i><br/><br/>";
 
+	lyricsSyncInterval = setInterval(timeCheck, 200);
+
 	if(timingData){
 		// Timing found, show awesome lyrics
 		$("#status").html(top);
@@ -181,7 +183,7 @@ function showLyrics (trackData, timingData) {
 		for(var i=0; i<syncedLyricsWithTiming.length; i++){
 			$("#status").html($("#status").html() + "<p class=\"lyrics_line\">"+syncedLyricsWithTiming[i][0].trim()+"</p>");
 		}
-		lyricsSyncInterval = setInterval(timeCheck, 300);
+
 		$(window).bind('mousewheel DOMMouseScroll mousedown', function(event){
 			var container = $("#top_bar");
 			if (!container.is(event.target) // if the target of the click isn't the container...
@@ -205,6 +207,15 @@ function showLyrics (trackData, timingData) {
 
 		$("#top_bar_song_delay").css("display", "inherit");
 		updateFormattedTimingDelay();
+
+		$("#top_bar_settings").off("click");
+		$("#top_bar_new_window").off("click");
+		$("#top_bar_search").off("click");
+		$("#top_bar_song_delay_increase").off("mousedown").unbind("mouseup mouseleave");
+		$("#top_bar_song_delay_decrease").off("mousedown").unbind("mouseup mouseleave");
+		$("#top_bar").unbind("mousewheel");
+		$("#top_bar_song_delay_status").unbind("mousewheel dblclick");
+		$("#top_bar_autoscroll").off("click");
 
 		$('#top_bar_song_delay_increase').mousedown(function() {
 			songTimingDelay+=.5; updateFormattedTimingDelay();
@@ -301,16 +312,20 @@ chrome.tabs.getSelected(null, function(tab) {
 }
 
 function refreshLyricsPositionOnScreen(position){
-	for(var i=syncedLyricsWithTiming.length-1; i>=0; i--){
-		if((syncedLyricsWithTiming[i][1]<position-songTimingDelay)
-			||i==0){
-			$( ".lyrics_line" ).removeClass( "current" );
-			$( ".lyrics_line:eq("+i+")" ).addClass( "current" );
-			if(autoScroll)
-			$('html, body').animate({
-				scrollTop: $(".current").offset().top-140
-			}, 100);
-			break;
+	try{
+		for(var i=syncedLyricsWithTiming.length-1; i>=0; i--){
+			if((syncedLyricsWithTiming[i][1]<position-songTimingDelay)
+				||i==0){
+				$( ".lyrics_line" ).removeClass( "current" );
+				$( ".lyrics_line:eq("+i+")" ).addClass( "current" );
+				if(autoScroll)
+				$('html, body').animate({
+					scrollTop: $(".current").offset().top-140
+				}, 100);
+				break;
+			}
 		}
+	}catch(err){
+		console.log(err.message);
 	}
 }

@@ -23,6 +23,9 @@ function restart(){
 		chrome.tabs.sendMessage(tab.id, {query:"getInfo" },
 			function(response) {
 				// We need to check if the user is actually playing a song
+				$("#top_bar_song_delay").css("display", "none");
+				$("#top_bar_autoscroll").css("display", "none");
+				clearInterval(lyricsSyncInterval);
 				if(!response.currentSong || !response.currentArtist){
 					if(!response.isPlaying){
 						$("#status").html("Play a song first ;)");
