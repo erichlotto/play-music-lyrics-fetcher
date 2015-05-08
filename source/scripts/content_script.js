@@ -79,7 +79,7 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 //			console.log(trackPosition+"/"+trackLength);
 			var extraTime=(new Date().getTime()-timeOnLastFullSecond)/1000;
 			if(extraTime>1)extraTime=1;
-			if(trackPosition!=-1)trackPosition+=extraTime+0.2; //0.5 makes the lyrics enter slightly faster
+			if(trackPosition!=-1)trackPosition+=extraTime;
 			var si=getSongInfo();
 			var at=si.currentArtist+si.currentSong;
 			var response = {position:trackPosition, length:trackLength, newSong:!(at==localArtistTrack || !localArtistTrack)};
