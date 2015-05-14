@@ -83,7 +83,7 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 			var si=getSongInfo();
 			var at=si.currentArtist+si.currentSong;
 			var response = {position:trackPosition, length:trackLength, newSong:!(at==localArtistTrack || !localArtistTrack)};
-
+			console.log(trackPosition);
 			sendResponse(response);
 			localArtistTrack=at;
 		break;
@@ -136,7 +136,8 @@ function getSongInfo(){
 	var hostname = $('<a>').prop('href', document.location).prop('hostname');
 	try{
 		if(hostname == "play.google.com"){
-			currentSong = $('#playerSongTitle').text();
+			currentSong = $('#player-song-title').text();
+			if(!currentSong)currentSong = $('#playerSongTitle').text(); //Old layout
 			currentArtist = $('#player-artist').text();
 			currentAlbum = $('.player-album').text();
 			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
