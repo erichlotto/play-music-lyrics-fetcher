@@ -27,10 +27,14 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 						"\nisPlaying : "+response.isPlaying+
 						"\n================");
 
-			getTimeElapsedElement().unbind('DOMSubtreeModified');
-			getTimeElapsedElement().bind("DOMSubtreeModified",function(){
-				timeOnLastFullSecond = new Date().getTime();
-			});
+			var timeElapsedElement = getTimeElapsedElement();
+
+			if(timeElapsedElement!=null){
+				timeElapsedElement.unbind('DOMSubtreeModified');
+				timeElapsedElement.bind("DOMSubtreeModified",function(){
+					timeOnLastFullSecond = new Date().getTime();
+				});
+			}
 			sendResponse(response);
 		break;
 		case "getPosition":
