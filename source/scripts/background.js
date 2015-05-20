@@ -46,7 +46,10 @@ chrome.storage.sync.get('timedLyrics', function(obj) {
 	if(obj.timedLyrics == undefined)chrome.storage.sync.set({'timedLyrics': true});
 });
 chrome.storage.sync.get('autoScroll', function(obj) {
-	if(obj.autoScroll == undefined)chrome.storage.sync.set({'autoScroll': true});
+    if(obj.autoScroll == undefined)chrome.storage.sync.set({'autoScroll': true});
+});
+chrome.storage.sync.get('overlay', function(obj) {
+    if(obj.overlay == undefined)chrome.storage.sync.set({'overlay': false});
 });
 
 

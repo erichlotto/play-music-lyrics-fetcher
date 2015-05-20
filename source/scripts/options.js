@@ -9,7 +9,6 @@ $( "#timed_lyrics" ).change(function() {
 	document.getElementById("auto_scroll").disabled = !$( "#timed_lyrics" ).is(":checked");
 
 });
-
 chrome.storage.sync.get('timedLyrics', function(obj) {
 	$('#timed_lyrics').attr('checked', obj.timedLyrics);
 	document.getElementById("auto_scroll").disabled = !$( "#timed_lyrics" ).is(":checked");
@@ -18,9 +17,16 @@ chrome.storage.sync.get('timedLyrics', function(obj) {
 $( "#auto_scroll" ).change(function() {
 	chrome.storage.sync.set({'autoScroll': $( "#auto_scroll" ).is(":checked")});
 });
-
 chrome.storage.sync.get('autoScroll', function(obj) {
 	$('#auto_scroll').attr('checked', obj.autoScroll);
+});
+
+$( "#overlay" ).change(function() {
+	chrome.storage.sync.set({'overlay': $( "#overlay" ).is(":checked")});
+});
+chrome.storage.sync.get('overlay', function(obj) {
+	$('#overlay').attr('checked', obj.overlay);
+	alert(obj.overlay);
 });
 
 

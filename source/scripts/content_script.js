@@ -97,6 +97,20 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 		case "getDelay":
 			sendResponse(delay);
 		break;
+		case "toggleOverlay":
+		console.log("inicio");
+		if ($( "#play_music_lyrics_fetcher_overlay" ).length)$( "#play_music_lyrics_fetcher_overlay" ).remove();
+		else{
+			$("body").append("<div id='play_music_lyrics_fetcher_overlay' style='position:fixed;z-index:19999999999;top:0'></div>");
+			$( "#play_music_lyrics_fetcher_overlay" ).draggable({
+				containment: "window",
+                cursor: "move",
+				scroll: false
+			});
+			$( "#play_music_lyrics_fetcher_overlay" ).load(chrome.extension.getURL('pages/overlay.html'));
+		}
+			sendResponse("ok");
+		break;
 	}
 });
 

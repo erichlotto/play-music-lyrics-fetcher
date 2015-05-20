@@ -1,7 +1,11 @@
-
-
 jQuery.getJSON("../manifest.json",function(data) {
 	document.title = data.name;
+});
+
+
+chrome.storage.sync.get('overlay', function(obj) {
+	if(obj.overlay)toggleOverlay();
+	else restart();
 });
 
 
@@ -17,7 +21,6 @@ function openPopup(artist, song, lyrics){
 	
 }
 
-restart();
 function restart(){
 	chrome.tabs.getSelected(null, function(tab) {
 		chrome.tabs.sendMessage(tab.id, {query:"getInfo" },
@@ -39,4 +42,12 @@ function restart(){
 			}
 		);
 	});
+}
+
+function toggleOverlay(){
+	chrome.tabs.getSelected(null, function(tab) {
+		chrome.tabs.sendMessage(tab.id, {query:"toggleOverlay" },
+		function(response){
+		window.close();
+	})});
 }

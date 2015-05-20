@@ -25,7 +25,8 @@
 					"https://songza.com/*", "http://songza.com/*",
 					"https://tunein.com/*", "http://tunein.com/*",
 					"https://www.deezer.com/*", "http://www.deezer.com/*"],
-        "js": ["./scripts/jquery.min.js", "./scripts/content_script.js"]
+        "css": ["./dependencies/jquery-ui.min.css"],
+        "js": ["./dependencies/jquery.min.js", "./dependencies/jquery-ui.min.js", "./scripts/content_script.js"]
       }
     ],
   "options_ui": {
@@ -39,6 +40,10 @@
 		"tabs",
         "unlimitedStorage"
     ],
+      "web_accessible_resources": [
+    "pages/*",
+    "dependencies/*"
+  ],
 	"commands": {
 		"_execute_page_action": {
 			"suggested_key": {
