@@ -101,13 +101,25 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 		console.log("inicio");
 		if ($( "#play_music_lyrics_fetcher_overlay" ).length)$( "#play_music_lyrics_fetcher_overlay" ).remove();
 		else{
-			$("body").append("<div id='play_music_lyrics_fetcher_overlay' style='position:fixed;z-index:19999999999;top:0'></div>");
+			$("body").append("<div id='play_music_lyrics_fetcher_overlay' style='position:fixed;z-index:19999999999;top:0;padding:30px 0 0 0;background:green;width:400px;height:500px;'>"+
+				"<iframe src='"+chrome.extension.getURL('pages/overlay.html')+"' style='border:0;margin:0;width:100%;height:100%;background:red;'>"+
+				"</iframe>"+
+			"</div>");
+//			$("body").append("<div id='play_music_lyrics_fetcher_overlay' style='position:fixed;z-index:19999999999;top:0;padding:30px 0 0 0;background:green;width:400px;height:400px;'><div id='play_music_lyrics_fetcher_content'></div></div>");
+			$( "#play_music_lyrics_fetcher_content" ).load(chrome.extension.getURL('pages/overlay.html'));
 			$( "#play_music_lyrics_fetcher_overlay" ).draggable({
 				containment: "window",
-                cursor: "move",
+            	cursor: "move",
+				iframeFix: true,
 				scroll: false
 			});
-			$( "#play_music_lyrics_fetcher_overlay" ).load(chrome.extension.getURL('pages/overlay.html'));
+			$( "#play_music_lyrics_fetcher_overlay" ).resizable({
+				minWidth: 200,
+				minHeight: 200,
+				iframeFix: true,
+				start: function( event, ui ) {$( "#play_music_lyrics_fetcher_overlay iframe:eq(0)" ).css('pointer-events', 'none')},
+				stop: function( event, ui ) {$( "#play_music_lyrics_fetcher_overlay iframe:eq(0)" ).css('pointer-events', 'auto')},
+			});
 		}
 			sendResponse("ok");
 		break;

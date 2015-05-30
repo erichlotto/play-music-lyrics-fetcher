@@ -29,7 +29,7 @@ function checkForValidUrl(tabId, changeInfo, tab) {
 		tab.url.indexOf('grooveshark.com') > -1 ||
 		tab.url.indexOf('pandora.com') > -1 ||
 		tab.url.indexOf('superplayer.fm') > -1 ||
-		tab.url.indexOf('youtube.com/watch?v=') > -1 ||
+		tab.url.indexOf('youtube.com/watch?') > -1 ||
 		tab.url.indexOf('songza.com') > -1 ||
 		tab.url.indexOf('tunein.com') > -1 ||
 		tab.url.indexOf('play.spotify.com') > -1) {
