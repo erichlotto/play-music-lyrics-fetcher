@@ -3,8 +3,7 @@
 alert("OK");
 } else {
 alert("NOK");
-}
-*/
+}*/
 
 /* Esse javascript roda em background, eh a unica forma de acessar o conteudo da pagina.
  * Temos um listener que fica escutando as mensagens recebidas e tomando decisoes de acordo
@@ -40,7 +39,6 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 		case "getPosition":
 			var trackPosition=0;
 			var trackLength=0;
-
 			var hostname = $('<a>').prop('href', document.location).prop('hostname');
 			try{
 				if(hostname == "play.google.com"){
@@ -66,8 +64,11 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 					trackPosition = hmsToSecondsOnly($("span[data-function='track-current-time']").first().text(), ':');
 					trackLength = hmsToSecondsOnly($("span[data-function='track-total-time']").first().text(), ':');
 				}else if(hostname.indexOf('youtube.com') > -1 ){
-					trackPosition = hmsToSecondsOnly($(".ytp-time-current:eq(0)").text(), ':');
-					trackLength = hmsToSecondsOnly($(".ytp-time-duration:eq(0)").text(), ':');
+
+					trackPosition = Math.round($("video.video-stream.html5-main-video:eq(0)")["0"]["currentTime"]);
+					trackLength = Math.round($("video.video-stream.html5-main-video:eq(0)")["0"]["duration"]);
+					if(!trackPosition)trackPosition = hmsToSecondsOnly($(".ytp-time-current:eq(0)").text(), ':');
+					if(!trackLength)trackLength = hmsToSecondsOnly($(".ytp-time-duration:eq(0)").text(), ':');
 				}else if(hostname.indexOf('songza.com') > -1 ){
 					// I could not find this info inside the html :(
 					trackPosition = -1;
@@ -80,10 +81,13 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 			} catch(err){
 				console.log("Check out this awesome error while retriving player position: "+err.message);
 			}
-//			console.log(trackPosition+"/"+trackLength);
-			var extraTime=(new Date().getTime()-timeOnLastFullSecond)/1000;
-			if(extraTime>1)extraTime=1;
-			if(trackPosition!=-1)trackPosition+=extraTime;
+
+			console.log(trackPosition+"/"+trackLength);
+			if(isInt(trackPosition)){
+				var extraTime=(new Date().getTime()-timeOnLastFullSecond)/1000;
+				if(extraTime>1)extraTime=1;
+				if(trackPosition!=-1)trackPosition+=extraTime;
+			}
 			var si=getSongInfo();
 			var at=si.currentArtist+si.currentSong;
 			var response = {position:trackPosition, length:trackLength, newSong:!(at==localArtistTrack || !localArtistTrack)};
@@ -127,6 +131,9 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 });
 
 
+function isInt(n) {
+   return n % 1 === 0;
+}
 
 
 function getTimeElapsedElement(){
