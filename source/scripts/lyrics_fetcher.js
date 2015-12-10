@@ -313,6 +313,7 @@ chrome.tabs.getSelected(null, function(tab) {
 
 function refreshLyricsPositionOnScreen(position){
 	try{
+		if(syncedLyricsWithTiming == undefined)return;
 		for(var i=syncedLyricsWithTiming.length-1; i>=0; i--){
 			if((syncedLyricsWithTiming[i][1]<position-songTimingDelay)
 				||i==0){

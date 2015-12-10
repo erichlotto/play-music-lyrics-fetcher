@@ -82,7 +82,7 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 				console.log("Check out this awesome error while retriving player position: "+err.message);
 			}
 
-			console.log(trackPosition+"/"+trackLength);
+//			console.log(trackPosition+"/"+trackLength);
 			if(isInt(trackPosition)){
 				var extraTime=(new Date().getTime()-timeOnLastFullSecond)/1000;
 				if(extraTime>1)extraTime=1;
@@ -173,8 +173,9 @@ function getSongInfo(){
 	var hostname = $('<a>').prop('href', document.location).prop('hostname');
 	try{
 		if(hostname == "play.google.com"){
-			currentSong = $('#player-song-title').text();
-			if(!currentSong)currentSong = $('#playerSongTitle').text(); //Old layout
+			currentSong = $('#currently-playing-title').text();
+			if(!currentSong)currentSong = $('#player-song-title').text(); //Old layout
+			if(!currentSong)currentSong = $('#playerSongTitle').text(); //Even older layout
 			currentArtist = $('#player-artist').text();
 			currentAlbum = $('.player-album').text();
 			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
