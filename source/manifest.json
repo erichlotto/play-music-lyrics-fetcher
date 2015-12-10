@@ -1,6 +1,6 @@
 {
     "name": "Play Music Lyrics Fetcher",
-	"description": "View your song's lyrics on Google Play Music, Spotify, TouTube, Rdio, Pandora, Deezer, Superplayer, etc.",
+	"description": "View your song's lyrics on Google Play Music, Spotify, YouTube, Rdio, Pandora, Deezer, Superplayer, etc.",
     "version": "0.1.9",
     "manifest_version": 2,
 	"background": { "scripts": ["./scripts/background.js"] },
