@@ -1,7 +1,7 @@
 {
     "name": "Play Music Lyrics Fetcher",
 	"description": "View your song's lyrics on Google Play Music, Spotify, YouTube, Rdio, Pandora, Deezer, Superplayer, etc.",
-    "version": "0.1.9",
+    "version": "0.1.11",
     "manifest_version": 2,
 	"background": { "scripts": ["./scripts/background.js"] },
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
@@ -19,11 +19,11 @@
 					"https://play.spotify.com/*", "http://play.spotify.com/*",
 					"https://www.rdio.com/*", "http://www.rdio.com/*",
 					"https://www.pandora.com/*", "http://www.pandora.com/*",
-					"https://grooveshark.com/*", "http://grooveshark.com/*",
 					"https://www.superplayer.fm/*", "http://www.superplayer.fm/*",
 					"https://www.youtube.com/*", "http://www.youtube.com/*",
 					"https://songza.com/*", "http://songza.com/*",
-					"https://tunein.com/*", "http://tunein.com/*",
+          "https://tunein.com/*", "http://tunein.com/*",
+          "https://www.claromusica.com/*", "http://www.claromusica.com/*",
 					"https://www.deezer.com/*", "http://www.deezer.com/*"],
         "css": ["./dependencies/jquery-ui.min.css"],
         "js": ["./dependencies/jquery.min.js", "./dependencies/jquery-ui.min.js", "./scripts/content_script.js"]
@@ -56,4 +56,3 @@
 
 
 }
-

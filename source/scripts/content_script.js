@@ -1,5 +1,5 @@
 //Teste para saber se o jquery esta rodando
-/*if (window.jQuery) {  
+/*if (window.jQuery) {
 alert("OK");
 } else {
 alert("NOK");
@@ -63,6 +63,10 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 				}else if(hostname.indexOf('superplayer.fm') > -1 ){
 					trackPosition = hmsToSecondsOnly($("span[data-function='track-current-time']").first().text(), ':');
 					trackLength = hmsToSecondsOnly($("span[data-function='track-total-time']").first().text(), ':');
+				}else if(hostname.indexOf('claromusica.com') > -1 ){
+					// I could not find this info inside the html :(
+					trackPosition = -1;
+					trackLength = -1;
 				}else if(hostname.indexOf('youtube.com') > -1 ){
 
 					trackPosition = Math.round($("video.video-stream.html5-main-video:eq(0)")["0"]["currentTime"]);
@@ -183,7 +187,7 @@ function getSongInfo(){
 			currentArtist = $('#app-player').contents().find("#player").find("#track-artist").text();
 			currentSong = $('#app-player').contents().find("#player").find("#track-name").text();
 			currentAlbum = 'Unknown';
-			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false; 
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
 		}else if(hostname.indexOf('deezer.com') > -1 ){
 			currentArtist = $(".player-track-artist:eq(0) .player-track-link:eq(0)").text();
 			currentSong = $(".player-track-title:eq(0)").text();
@@ -207,6 +211,11 @@ function getSongInfo(){
 		}else if(hostname.indexOf('superplayer.fm') > -1 ){
 			currentArtist = $("span[data-function='current-artist']").first().text();
 			currentSong = $("span[data-function='current-track']").first().text();
+			currentAlbum = 'Unknown';
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('claromusica.com') > -1 ){
+			currentArtist = $(".playing>.field-caption>.text-overflow:eq(1)").text();
+			currentSong = $(".playing>.field-caption>.text-overflow:eq(0)").text();
 			currentAlbum = 'Unknown';
 			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
 		}else if(hostname.indexOf('youtube.com') > -1 ){
@@ -326,5 +335,3 @@ function cleanArtistTrack(artist, track) {
 
    return {artist: artist, track: track};
 }
-
-

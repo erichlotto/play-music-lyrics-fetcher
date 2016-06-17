@@ -54,7 +54,8 @@ function fetchLyrics (art,mus) {
 
 		var url = "http://api.vagalume.com.br/search.php"
 			+"?art="+encodeURIComponent(art)
-			+"&mus="+encodeURIComponent(mus);
+			+"&mus="+encodeURIComponent(mus)
+			+"&apikey=660a4395f992ff67786584e238f501aa";
 
 		// Check if browser supports CORS - http://www.w3.org/TR/cors/
 		if (!jQuery.support.cors) {
