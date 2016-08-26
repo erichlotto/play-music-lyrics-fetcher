@@ -3,7 +3,7 @@ jQuery.getJSON("../manifest.json",function(data) {
 	$("#warning").text(data.name+" proudly relies on Vagalume API.");
 });
 
-
+/* timed lyrics */
 $( "#timed_lyrics" ).change(function() {
 	chrome.storage.sync.set({'timedLyrics': $( "#timed_lyrics" ).is(":checked")});
 	document.getElementById("auto_scroll").disabled = !$( "#timed_lyrics" ).is(":checked");
@@ -14,6 +14,7 @@ chrome.storage.sync.get('timedLyrics', function(obj) {
 	document.getElementById("auto_scroll").disabled = !$( "#timed_lyrics" ).is(":checked");
 });
 
+/* AUTO SCROLL */
 $( "#auto_scroll" ).change(function() {
 	chrome.storage.sync.set({'autoScroll': $( "#auto_scroll" ).is(":checked")});
 });
@@ -21,12 +22,54 @@ chrome.storage.sync.get('autoScroll', function(obj) {
 	$('#auto_scroll').attr('checked', obj.autoScroll);
 });
 
+/* HIGH CONTRAST */
+$( "#high_contrast" ).change(function() {
+	chrome.storage.sync.set({'high_contrast': $( "#high_contrast" ).is(":checked")});
+});
+chrome.storage.sync.get('high_contrast', function(obj) {
+	$('#high_contrast').attr('checked', obj.high_contrast);
+});
+
+
+/* OVERLAY */
 $( "#overlay" ).change(function() {
 	chrome.storage.sync.set({'overlay': $( "#overlay" ).is(":checked")});
 });
 chrome.storage.sync.get('overlay', function(obj) {
 	$('#overlay').attr('checked', obj.overlay);
 	alert(obj.overlay);
+});
+
+/* THEME */
+$( "#theme_light" ).change(function() {
+	chrome.storage.sync.set({'theme': "light"});
+});
+$( "#theme_dark" ).change(function() {
+	chrome.storage.sync.set({'theme': "dark"});
+});
+chrome.storage.sync.get('theme', function(obj) {
+	$('#theme_light').attr('checked', obj.theme == "light");
+	$('#theme_dark').attr('checked', obj.theme == "dark");
+});
+
+/* FONT SIZE */
+$( "#font_small" ).change(function() {
+	chrome.storage.sync.set({'font_size': "font_size_small"});
+});
+$( "#font_normal" ).change(function() {
+	chrome.storage.sync.set({'font_size': "font_size_normal"});
+});
+$( "#font_large" ).change(function() {
+	chrome.storage.sync.set({'font_size': "font_size_large"});
+});
+$( "#font_xlarge" ).change(function() {
+	chrome.storage.sync.set({'font_size': "font_size_xlarge"});
+});
+chrome.storage.sync.get('font_size', function(obj) {
+	$('#font_small').attr('checked', obj.font_size == "font_size_small");
+	$('#font_normal').attr('checked', obj.font_size == "font_size_normal");
+	$('#font_large').attr('checked', obj.font_size == "font_size_large");
+	$('#font_xlarge').attr('checked', obj.font_size == "font_size_xlarge");
 });
 
 

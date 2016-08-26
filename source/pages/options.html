@@ -36,6 +36,9 @@
 			-webkit-transition: opacity 300ms linear;
 			transition: opacity 300ms linear;
 		}
+form{
+margin-top:10px;
+}
 
     </style>
 </head>
@@ -53,6 +56,29 @@
 		<input type="checkbox" id="overlay" name="overlay" value="Use lyrics overlay instead of popup">
 		<label for="overlay">Use lyrics overlay instead of popup</label>
 	</p>-->
+	<p class="settings_item">
+		<input type="checkbox" id="high_contrast" name="high_contrast" value="High contrast">
+		<label for="high_contrast">High contrast</label>
+	</p>
+	<form action="">
+	  Theme:<br>
+	  <input id="theme_light" class="settings_item" type="radio" name="theme" value="light" checked="true">
+		<label for="theme_light">Light</label><br>
+	  <input id="theme_dark" class="settings_item" type="radio" name="theme" value="dark">
+		<label for="theme_dark">Dark</label>
+	</form>
+	<form action="">
+	  Font size:<br>
+	  <input id="font_small" class="settings_item" type="radio" name="font_size" value="font_size_small">
+		<label for="font_small">Small</label>
+	  <input id="font_normal" class="settings_item" type="radio" name="font_size" value="font_size_normal" checked="true">
+		<label for="font_normal">Normal</label><br>
+	  <input id="font_large" class="settings_item" type="radio" name="font_size" value="font_size_large">
+		<label for="font_large">Large</label>
+	  <input id="font_xlarge" class="settings_item" type="radio" name="font_size" value="font_size_xlarge">
+		<label for="font_xlarge">Extra Large</label>
+	</form>
+
 	<p style="font-size:.7em">HINT: You can use Alt+Shift+L (default) to open the lyrics</p>
 	<p class="settings_item">
 		<input type="button" id="clear_cache" name="clear_cache" value="Clear cache">

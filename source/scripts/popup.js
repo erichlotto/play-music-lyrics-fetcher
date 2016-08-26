@@ -8,7 +8,15 @@ chrome.storage.sync.get('overlay', function(obj) {
 	else restart();
 });
 
-
+chrome.storage.sync.get('theme', function(obj) {
+	$('body').addClass(obj.theme);
+});
+chrome.storage.sync.get('font_size', function(obj) {
+	$('body').addClass(obj.font_size);
+});
+chrome.storage.sync.get('high_contrast', function(obj) {
+	$('body').addClass(obj.high_contrast==true?"high_contrast":"");
+});
 
 
 function openPopup(artist, song, lyrics){
