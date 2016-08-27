@@ -27,7 +27,9 @@ $( "#high_contrast" ).change(function() {
 	chrome.storage.sync.set({'high_contrast': $( "#high_contrast" ).is(":checked")});
 });
 chrome.storage.sync.get('high_contrast', function(obj) {
-	$('#high_contrast').attr('checked', obj.high_contrast);
+	var highContrast = obj.high_contrast;
+	if(!highContrast) highContrast = false;
+	$('#high_contrast').attr('checked', highContrast);
 });
 
 
@@ -48,8 +50,10 @@ $( "#theme_dark" ).change(function() {
 	chrome.storage.sync.set({'theme': "dark"});
 });
 chrome.storage.sync.get('theme', function(obj) {
-	$('#theme_light').attr('checked', obj.theme == "light");
-	$('#theme_dark').attr('checked', obj.theme == "dark");
+	var theme = obj.theme;
+	if(!theme) theme = "light";
+	$('#theme_light').attr('checked', theme == "light");
+	$('#theme_dark').attr('checked', theme == "dark");
 });
 
 /* FONT SIZE */
@@ -66,10 +70,12 @@ $( "#font_xlarge" ).change(function() {
 	chrome.storage.sync.set({'font_size': "font_size_xlarge"});
 });
 chrome.storage.sync.get('font_size', function(obj) {
-	$('#font_small').attr('checked', obj.font_size == "font_size_small");
-	$('#font_normal').attr('checked', obj.font_size == "font_size_normal");
-	$('#font_large').attr('checked', obj.font_size == "font_size_large");
-	$('#font_xlarge').attr('checked', obj.font_size == "font_size_xlarge");
+	var fontSize = obj.font_size;
+	if(!fontSize) fontSize = "font_size_normal";
+	$('#font_small').attr('checked', fontSize == "font_size_small");
+	$('#font_normal').attr('checked', fontSize == "font_size_normal");
+	$('#font_large').attr('checked', fontSize == "font_size_large");
+	$('#font_xlarge').attr('checked', fontSize == "font_size_xlarge");
 });
 
 

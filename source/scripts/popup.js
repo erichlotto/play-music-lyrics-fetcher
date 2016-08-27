@@ -9,13 +9,22 @@ chrome.storage.sync.get('overlay', function(obj) {
 });
 
 chrome.storage.sync.get('theme', function(obj) {
-	$('body').addClass(obj.theme);
+var theme = obj.theme;
+if(!theme) theme = "light";
+console.log("THEME: "+theme);
+	$('body').addClass(theme);
 });
 chrome.storage.sync.get('font_size', function(obj) {
-	$('body').addClass(obj.font_size);
+var fontSize = obj.font_size;
+if(!fontSize) fontSize = "normal";
+console.log("FONT SIZE: "+fontSize);
+	$('body').addClass(fontSize);
 });
 chrome.storage.sync.get('high_contrast', function(obj) {
-	$('body').addClass(obj.high_contrast==true?"high_contrast":"");
+var highContrast = obj.high_contrast;
+if(!highContrast) highContrast = false;
+console.log("HIGH CONTRAST: "+highContrast);
+	$('body').addClass(highContrast?"high_contrast":"");
 });
 
 
