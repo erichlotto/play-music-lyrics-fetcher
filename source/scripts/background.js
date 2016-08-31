@@ -33,6 +33,7 @@ function checkForValidUrl(tabId, changeInfo, tab) {
 		tab.url.indexOf('songza.com') > -1 ||
     tab.url.indexOf('tunein.com') > -1 ||
     tab.url.indexOf('claromusica.com') > -1 ||
+    tab.url.indexOf('music.microsoft.com') > -1 ||
 		tab.url.indexOf('play.spotify.com') > -1) {
     // ... show the page action.
     chrome.pageAction.show(tabId);

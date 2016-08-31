@@ -24,6 +24,7 @@
 					"https://songza.com/*", "http://songza.com/*",
           "https://tunein.com/*", "http://tunein.com/*",
           "https://www.claromusica.com/*", "http://www.claromusica.com/*",
+          "https://music.microsoft.com/*", "http://music.microsoft.com/*",
 					"https://www.deezer.com/*", "http://www.deezer.com/*"],
         "css": ["./dependencies/jquery-ui.min.css"],
         "js": ["./dependencies/jquery.min.js", "./dependencies/jquery-ui.min.js", "./scripts/content_script.js"]

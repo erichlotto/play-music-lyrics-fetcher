@@ -6,11 +6,11 @@ var showTimedLyrics=true;
 var artistTrack;
 /*
  Counter for the number of tries to fetch lyrics taken (usefull for youtube,
- where sometimes the artist/track name are switched. The script will try to 
+ where sometimes the artist/track name are switched. The script will try to
  switch them twice, this way the popup for the user to insert artist/track
  name has the placeholder fields displayed correctly)
 */
-var lyricsFetchTries = 0; 
+var lyricsFetchTries = 0;
 
 var examples = [["Led Zeppelin","Kashmir"],
 				["Queen","Bohemian Rhapsody"],
@@ -45,7 +45,7 @@ function fetchLyrics (art,mus) {
 	$("#top_bar").css("display","none");
 	$("#status").html("<i>Fetching lyrics...</i>");
 	chrome.storage.local.get(art + mus, function(obj) {
-	
+
 		if(obj[art + mus]){
 			console.log("CACHED Lyrics found");
 			validateLyrics(obj[art + mus], art, mus);
@@ -95,7 +95,7 @@ function validateLyrics(data,art,mus){
 					}
 				);
 			});
-			
+
 		}
 		else showLyrics(data);
 	} else if(lyricsFetchTries<3){
@@ -117,7 +117,7 @@ function fetchTiming(trackData){
 	$("#status").html("<i>Fetching timing...</i>");
 
 	chrome.storage.local.get(trackData.mus[0].id+"timing", function(obj) {
-	
+
 		if(obj[trackData.mus[0].id+"timing"]){
 			console.log("CACHED Timing found");
 			validateTiming(trackData, obj[trackData.mus[0].id+"timing"]);
@@ -305,7 +305,7 @@ chrome.tabs.getSelected(null, function(tab) {
 	chrome.tabs.sendMessage(tab.id, {query:"getPosition" },
 		function(response) {
 			if(response.newSong)restart();
-			if(response.position)refreshLyricsPositionOnScreen(response.position); 
+			if(response.position)refreshLyricsPositionOnScreen(response.position);
 		}
 	);
 });

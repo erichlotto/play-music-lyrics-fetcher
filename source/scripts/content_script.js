@@ -67,8 +67,10 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 					// I could not find this info inside the html :(
 					trackPosition = -1;
 					trackLength = -1;
+				}else if(hostname.indexOf('music.microsoft.com') > -1 ){
+					trackPosition = hmsToSecondsOnly(getTimeElapsedElement().text(), ':');
+					trackLength = hmsToSecondsOnly($(".playerDurationTextRemaining").text(), ':');
 				}else if(hostname.indexOf('youtube.com') > -1 ){
-
 					trackPosition = Math.round($("video.video-stream.html5-main-video:eq(0)")["0"]["currentTime"]);
 					trackLength = Math.round($("video.video-stream.html5-main-video:eq(0)")["0"]["duration"]);
 					if(!trackPosition)trackPosition = hmsToSecondsOnly($(".ytp-time-current:eq(0)").text(), ':');
@@ -79,6 +81,10 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 					trackLength = -1;
 				}else if(hostname.indexOf('tunein.com') > -1 ){
 					// Its an actual radio station, I dont think theres any way we can find this info
+					trackPosition = -1;
+					trackLength = -1;
+				} else{
+					// Hopefully we'll never get here, but just to be sure...
 					trackPosition = -1;
 					trackLength = -1;
 				}
@@ -95,7 +101,6 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 			var si=getSongInfo();
 			var at=si.currentArtist+si.currentSong;
 			var response = {position:trackPosition, length:trackLength, newSong:!(at==localArtistTrack || !localArtistTrack)};
-//			console.log(trackPosition);
 			sendResponse(response);
 			localArtistTrack=at;
 		break;
@@ -157,6 +162,8 @@ function getTimeElapsedElement(){
 			return $(".elapsedTime:eq(0)");
 		}else if(hostname.indexOf('superplayer.fm') > -1 ){
 			return $("span[data-function='track-current-time']");
+		}else if(hostname.indexOf('music.microsoft.com') > -1 ){
+			return $(".playerDurationTextOnGoing");
 		}else if(hostname.indexOf('youtube.com') > -1 ){
 			return $(".ytp-time-current:eq(0)");
 		}else{
@@ -216,6 +223,11 @@ function getSongInfo(){
 		}else if(hostname.indexOf('claromusica.com') > -1 ){
 			currentArtist = $(".playing>.field-caption>.text-overflow:eq(1)").text();
 			currentSong = $(".playing>.field-caption>.text-overflow:eq(0)").text();
+			currentAlbum = 'Unknown';
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('music.microsoft.com') > -1 ){
+			currentArtist = $(".playerNowPlayingMetadata:eq(1)>.secondaryMetadata>a").text();
+			currentSong = $(".playerNowPlayingMetadata:eq(1)>.primaryMetadata>a").text();
 			currentAlbum = 'Unknown';
 			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
 		}else if(hostname.indexOf('youtube.com') > -1 ){
