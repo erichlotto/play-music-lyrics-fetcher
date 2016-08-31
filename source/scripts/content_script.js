@@ -72,10 +72,9 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 					trackLength = hmsToSecondsOnly($(".playerDurationTextRemaining").text(), ':');
 				}else if(hostname.indexOf('listen.tidal.com') > -1 ){
 					trackLength = hmsToSecondsOnly($("span.progress-duration").text(), ':');
-					var a = $(".ui-slider-range").width();
-					var b = $('.ui-slider-range').parent().width();
-					var trackRelativePosition = a / b ;
-					console.log(a + " - " + b + " - " + trackRelativePosition);
+					var pos = $(".ui-slider-range").width();
+					var total = $('.ui-slider-range').parent().width();
+					var trackRelativePosition = pos/total ;
 					trackPosition = trackLength * trackRelativePosition
 				}else if(hostname.indexOf('youtube.com') > -1 ){
 					trackPosition = Math.round($("video.video-stream.html5-main-video:eq(0)")["0"]["currentTime"]);
@@ -99,7 +98,7 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 				console.log("Check out this awesome error while retriving player position: "+err.message);
 			}
 
-			console.log(trackPosition+"/"+trackLength);
+//			console.log(trackPosition+"/"+trackLength);
 			if(isInt(trackPosition)){
 				var extraTime=(new Date().getTime()-timeOnLastFullSecond)/1000;
 				if(extraTime>1)extraTime=1;
