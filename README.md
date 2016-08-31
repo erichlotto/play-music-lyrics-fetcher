@@ -13,6 +13,8 @@ Now supporting also the following services:
   - Tunein
   - ClaroMusica
   - Microsoft's Groove
+  - Tidal
+  - Last.fm
 
 
 Installation instructions:
