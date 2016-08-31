@@ -11,6 +11,8 @@ Now supporting also the following services:
   - YouTube
   - Songza
   - Tunein
+  - ClaroMusica
+  - Microsoft's Groove
 
 
 Installation instructions:
