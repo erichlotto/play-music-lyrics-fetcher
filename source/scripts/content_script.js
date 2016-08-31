@@ -85,6 +85,9 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 					// I could not find this info inside the html :(
 					trackPosition = -1;
 					trackLength = -1;
+				}else if(hostname.indexOf('last.fm') > -1 ){
+					trackPosition = -1;
+					trackLength = -1;
 				}else if(hostname.indexOf('tunein.com') > -1 ){
 					// Its an actual radio station, I dont think theres any way we can find this info
 					trackPosition = -1;
@@ -242,6 +245,11 @@ function getSongInfo(){
 			currentArtist = $('.player__text div[data-bind="artist"]>a').text();
 			currentSong = $('.player__text a[data-bind="title"]').text();
 			currentAlbum = $('td[data-bind="album"]>a').text();
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('last.fm') > -1 ){
+			currentArtist = $('.player-bar-artist-name').text();
+			currentSong = $('.player-bar-track-name').text();
+			currentAlbum = 'Unknown'
 			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
 		}else if(hostname.indexOf('youtube.com') > -1 ){
 			var video_title = $("#eow-title").text();
