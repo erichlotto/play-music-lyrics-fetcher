@@ -28,6 +28,8 @@
           "https://listen.tidal.com/*", "http://listen.tidal.com/*",
           "https://www.last.fm/*", "http://www.last.fm/*",
           "https://www.musicfm.org/*", "http://www.musicfm.org/*",
+          "https://www.accuradio.com/*", "http://www.accuradio.com/*",
+          "https://www.iheart.com/*", "http://www.iheart.com/*",
 					"https://www.deezer.com/*", "http://www.deezer.com/*"],
         "css": ["./dependencies/jquery-ui.min.css"],
         "js": ["./dependencies/jquery.min.js", "./dependencies/jquery-ui.min.js", "./scripts/content_script.js"]

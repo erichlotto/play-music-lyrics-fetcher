@@ -95,6 +95,10 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 					// Its an actual radio station, I dont think theres any way we can find this info
 					trackPosition = -1;
 					trackLength = -1;
+				}else if(hostname.indexOf('accuradio.com') > -1 ){
+					trackPosition = hmsToSecondsOnly(getTimeElapsedElement().text(), ':');
+					var trackRemaining = hmsToSecondsOnly($("#durationLabel").text(), ':');
+					trackLength = trackPosition + trackRemaining;
 				} else{
 					// Hopefully we'll never get here, but just to be sure...
 					trackPosition = -1;
@@ -182,6 +186,8 @@ function getTimeElapsedElement(){
 			return $(".elapsed-time");
 		}else if(hostname.indexOf('youtube.com') > -1 ){
 			return $(".ytp-time-current:eq(0)");
+		}else if(hostname.indexOf('accuradio.com') > -1 ){
+			return $("#progressLabel");
 		}else{
 			return null;
 		}
@@ -275,6 +281,16 @@ function getSongInfo(){
 		}else if(hostname.indexOf('tunein.com') > -1 ){
 			currentArtist = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[1];
 			currentSong = $(".line1._navigateNowPlaying:eq(0)").text().split(" - ")[0];
+			currentAlbum = 'Unknown';
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('accuradio.com') > -1 ){
+			currentArtist = $("#songartist").text();
+			currentSong = $("#songtitle").text();
+			currentAlbum = $("#songalbum").text();
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('iheart.com') > -1 ){
+			currentArtist = $(".player-artist:eq(0)").text();
+			currentSong = $(".player-song:eq(0)").text();
 			currentAlbum = 'Unknown';
 			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
 		}

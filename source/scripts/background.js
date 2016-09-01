@@ -37,6 +37,8 @@ function checkForValidUrl(tabId, changeInfo, tab) {
     tab.url.indexOf('listen.tidal.com') > -1 ||
     tab.url.indexOf('last.fm') > -1 ||
     tab.url.indexOf('musicfm.org') > -1 ||
+    tab.url.indexOf('accuradio.com') > -1 ||
+    tab.url.indexOf('iheart.com') > -1 ||
 		tab.url.indexOf('play.spotify.com') > -1) {
     // ... show the page action.
     chrome.pageAction.show(tabId);
