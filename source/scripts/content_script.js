@@ -74,8 +74,11 @@ chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
 					trackLength = hmsToSecondsOnly($("span.progress-duration").text(), ':');
 					var pos = $(".ui-slider-range").width();
 					var total = $('.ui-slider-range').parent().width();
-					var trackRelativePosition = pos/total ;
-					trackPosition = trackLength * trackRelativePosition
+					var trackRelativePosition = pos/total;
+					trackPosition = trackLength * trackRelativePosition;
+				}else if(hostname.indexOf('musicfm.org') > -1 ){
+					trackPosition = hmsToSecondsOnly(getTimeElapsedElement().text(), ':');
+					trackLength = hmsToSecondsOnly($(".track-length").text(), ':');
 				}else if(hostname.indexOf('youtube.com') > -1 ){
 					trackPosition = Math.round($("video.video-stream.html5-main-video:eq(0)")["0"]["currentTime"]);
 					trackLength = Math.round($("video.video-stream.html5-main-video:eq(0)")["0"]["duration"]);
@@ -175,6 +178,8 @@ function getTimeElapsedElement(){
 			return $(".playerDurationTextOnGoing");
 		}else if(hostname.indexOf('listen.tidal.com') > -1 ){
 			return $("span.progress-progress");
+		}else if(hostname.indexOf('musicfm.org') > -1 ){
+			return $(".elapsed-time");
 		}else if(hostname.indexOf('youtube.com') > -1 ){
 			return $(".ytp-time-current:eq(0)");
 		}else{
@@ -250,6 +255,11 @@ function getSongInfo(){
 			currentArtist = $('.player-bar-artist-name').text();
 			currentSong = $('.player-bar-track-name').text();
 			currentAlbum = 'Unknown'
+			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
+		}else if(hostname.indexOf('musicfm.org') > -1 ){
+			currentArtist = $('.current-track .artist-name').text();
+			currentSong = $('.current-track .track-name').text();
+			currentAlbum = 'Unknown';
 			isPlaying = (currentSong.trim().length>0 && currentArtist.trim().length>0)?true:false;
 		}else if(hostname.indexOf('youtube.com') > -1 ){
 			var video_title = $("#eow-title").text();

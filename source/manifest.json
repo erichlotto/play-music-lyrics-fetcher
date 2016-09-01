@@ -27,6 +27,7 @@
           "https://music.microsoft.com/*", "http://music.microsoft.com/*",
           "https://listen.tidal.com/*", "http://listen.tidal.com/*",
           "https://www.last.fm/*", "http://www.last.fm/*",
+          "https://www.musicfm.org/*", "http://www.musicfm.org/*",
 					"https://www.deezer.com/*", "http://www.deezer.com/*"],
         "css": ["./dependencies/jquery-ui.min.css"],
         "js": ["./dependencies/jquery.min.js", "./dependencies/jquery-ui.min.js", "./scripts/content_script.js"]
