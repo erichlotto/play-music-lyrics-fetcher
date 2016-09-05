@@ -32,6 +32,16 @@ chrome.storage.sync.get('high_contrast', function(obj) {
 	$('#high_contrast').attr('checked', highContrast);
 });
 
+/* DETACH */
+$( "#display_new_window" ).change(function() {
+	chrome.storage.sync.set({'display_new_window': $( "#display_new_window" ).is(":checked")});
+});
+chrome.storage.sync.get('display_new_window', function(obj) {
+	var displayNewWindow = obj.high_contrast;
+	if(!displayNewWindow) displayNewWindow = false;
+	$('#display_new_window').attr('checked', displayNewWindow);
+});
+
 
 /* OVERLAY */
 $( "#overlay" ).change(function() {
