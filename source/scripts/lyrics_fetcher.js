@@ -250,6 +250,8 @@ function showLyrics (trackData, timingData) {
 		$("#status").html(top+trackData.mus[0].text);
 	}
 	$("#status").css("white-space", "pre");
+	if($('#status').width() > 700)
+		$("#status").css("white-space", "pre-line");
 	$("#top_bar").css("display","inherit");
 	$("#top_bar_new_window").click(function(){openPopup(trackData.art.name, trackData.mus[0].name, trackData.mus[0].text);});
 	$("#top_bar_search").click(function(){showInputFields("Wrong lyric?<br/>Please fill the form above and try a new search.", trackData.art.name, trackData.mus[0].name);});
