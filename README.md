@@ -5,7 +5,7 @@ Now supporting also the following services:
   - Spotify
   - Deezer
   - Rdio
-  - Grooveshark
+  - Grooveshark [RIP]
   - Pandora
   - Superplayer
   - YouTube
