@@ -15,6 +15,9 @@ Now supporting also the following services:
   - Microsoft's Groove
   - Tidal
   - Last.fm
+  - musicfm.org
+  - accuradio.com
+  - iheart.com
 
 
 Installation instructions:
