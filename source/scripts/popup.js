@@ -31,7 +31,8 @@ console.log("FONT SIZE: "+fontSize);
 
 chrome.storage.sync.get('high_contrast', function(obj) {
 var highContrast = obj.high_contrast;
-if(!highContrast) highContrast = true;
+console.log("HIGH CONTRAST: "+highContrast);
+if(highContrast==undefined) highContrast = true;
 console.log("HIGH CONTRAST: "+highContrast);
 	$('body').addClass(highContrast?"high_contrast":"");
 });

@@ -28,7 +28,7 @@ $( "#high_contrast" ).change(function() {
 });
 chrome.storage.sync.get('high_contrast', function(obj) {
 	var highContrast = obj.high_contrast;
-	if(!highContrast) highContrast = false;
+	if(!highContrast) highContrast = true;
 	$('#high_contrast').attr('checked', highContrast);
 });
 
