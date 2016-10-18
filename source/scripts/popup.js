@@ -23,23 +23,23 @@ console.log("THEME: "+theme);
 	$('body').addClass(theme);
 });
 chrome.storage.sync.get('font_size', function(obj) {
-var fontSize = obj.font_size;
-if(!fontSize) fontSize = "normal";
-console.log("FONT SIZE: "+fontSize);
+	var fontSize = obj.font_size;
+	if(!fontSize) fontSize = "normal";
+	console.log("FONT SIZE: "+fontSize);
 	$('body').addClass(fontSize);
 });
 
 chrome.storage.sync.get('high_contrast', function(obj) {
-var highContrast = obj.high_contrast;
-console.log("HIGH CONTRAST: "+highContrast);
-if(highContrast==undefined) highContrast = true;
-console.log("HIGH CONTRAST: "+highContrast);
-	$('body').addClass(highContrast?"high_contrast":"");
+	var highContrast = obj.high_contrast;
+	if(highContrast==undefined) highContrast = true;
+	console.log("HIGH CONTRAST: " + highContrast);
+	$('body').addClass(highContrast ? "high_contrast" : "");
 });
 
 chrome.storage.sync.get('display_new_window', function(obj) {
-var displayNewWindow = obj.display_new_window;
-	if(!displayNewWindow)	displayNewWindow = false;
+	var displayNewWindow = obj.display_new_window;
+	if(displayNewWindow==undefined) displayNewWindow = false;
+	console.log("DISPLAY NEW WINDOW: " + displayNewWindow);
 	$('#top_bar_new_window').css("display", displayNewWindow ? "inherit" : "none");
 });
 
