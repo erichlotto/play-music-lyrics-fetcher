@@ -89,10 +89,7 @@ function toggleOverlay(){
 
 function displayReleaseNotes(version){
 	var msg="<h3>Release notes for version " + version + "</h3><ul style='white-space:initial; width:300px;'>"+
-	"<li>Open in new window button disabled by default: you can enable it again in the options section (I won't be focusing development on this feature for now)</li>"+
-	"<li>High Contrast mode enabled by default</li>"+
-	"<li>Added support for music.microsoft.com, tidal.com, last.fm, musicfm.org, accuradio.com, iheart.com</li>"+
-	"<li>Few bugs fixes</li>"+
+	"<li>Fixed High Contrast and Open in New Window toggles</li>"+
 	"</ul><small>Simply close this window to dismiss and open it again to display lyrics</small>";
 	$("#status").html(msg);
 }
