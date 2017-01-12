@@ -47,13 +47,19 @@ chrome.storage.sync.get('display_new_window', function(obj) {
 
 
 function openPopup(artist, song, lyrics){
-
 	chrome.runtime.getBackgroundPage(function(bgWindow) {
 		bgWindow.storeBackgroundTempData(artist, song, lyrics);
-		chrome.windows.create({'url': '../pages/popup_window.html', 'type': 'detached_panel', 'width': $(window).width()+30, 'height': $(window).height()-20, 'focused':true });
+		
+		// if there is a window with the same id, it'll be refreshed
+		// instead of creating another window
+		var lyricsPopup = window.open(
+			'../pages/popup_window.html',
+			'play-music-lyrics-fetcher-window'
+		);
+		lyricsPopup.focus();
+		
 		window.close();
 	});
-
 }
 
 function restart(){
