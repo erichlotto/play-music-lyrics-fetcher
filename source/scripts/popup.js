@@ -54,7 +54,8 @@ function openPopup(artist, song, lyrics){
 		// instead of creating another window
 		var lyricsPopup = window.open(
 			'../pages/popup_window.html',
-			'play-music-lyrics-fetcher-window'
+			'play-music-lyrics-fetcher-window',
+			'width='+($(window).width()+30)+', height='+($(window).height()-20)
 		);
 		lyricsPopup.focus();
 		
