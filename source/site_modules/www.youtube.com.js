@@ -14,18 +14,18 @@ function isDOMTrackAvailable(){
   return $("#eow-title").length;
 }
 
-function getDOMPosition(){
+function getDOMTrackPosition(){
     var trackPosition = -1;
     try{
       trackPosition = Math.round($("video.video-stream.html5-main-video:eq(0)")["0"]["currentTime"]);
       if(!trackPosition){
-         trackPosition = hmsToSecondsOnly($(".ytp-time-current:eq(0)").text(), ':');
+         trackPosition = hmsToSecondsOnly(getDOMTimeElapsedElement().text(), ':');
       }
     } catch (err){}
     return trackPosition
 }
 
-function getDOMDuration(){
+function getDOMTrackDuration(){
     var trackLength = -1;
     try{
       trackLength = Math.round($("video.video-stream.html5-main-video:eq(0)")["0"]["duration"]);

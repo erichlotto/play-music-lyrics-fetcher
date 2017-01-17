@@ -17,11 +17,11 @@ function isDOMTrackAvailable(){
   return (getDOMArtist().length>0 && getDOMTrack().length>0)?true:false;
 }
 
-function getDOMPosition(){
+function getDOMTrackPosition(){
     return hmsToSecondsOnly(getDOMTimeElapsedElement().text(), ':');
 }
 
-function getDOMDuration(){
+function getDOMTrackDuration(){
     return hmsToSecondsOnly($("#time_container_duration").text(), ':');
 }
 

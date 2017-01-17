@@ -25,7 +25,7 @@ function getCurrentDOMTrackPosition() {
         "duration": -1
     }
   }
-    var duration = getDOMDuration();
+    var duration = getDOMTrackDuration();
     if (isSiteModuleConsistent()) {
         return {
             "position": getPositionWithDecimal(),
@@ -39,7 +39,7 @@ function getCurrentDOMTrackPosition() {
  * We need to create a pseudo-current position to get decimal value
  */
 function getPositionWithDecimal() {
-    var trackPosition = getDOMPosition();
+    var trackPosition = getDOMTrackPosition();
     // if the page does not provide position, we return -1;
     if(trackPosition.length <1){
         return -1;
@@ -56,7 +56,7 @@ function getPositionWithDecimal() {
             trackPosition += extraTime;
         }
     }
-    return trackPosition ? trackPosition : getDOMPosition();
+    return trackPosition ? trackPosition : getDOMTrackPosition();
 }
 
 
@@ -83,8 +83,8 @@ function isSiteModuleConsistent() {
         getDOMArtist();
         getDOMTrack();
         getDOMAlbum();
-        getDOMPosition();
-        getDOMDuration();
+        getDOMTrackPosition();
+        getDOMTrackDuration();
         isDOMTrackAvailable();
         getDOMTimeElapsedElement();
         return true;
