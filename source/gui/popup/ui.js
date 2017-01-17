@@ -4,7 +4,7 @@ jQuery.getJSON("/manifest.json",function(data) {
 
 var currentLyrics;
 var songTimingDelay = 0;
-var autoScroll = false;
+var autoScroll = true;
 
 function onLyricsLoadStart(){
   $("#status").text("Lyrics Load Started");

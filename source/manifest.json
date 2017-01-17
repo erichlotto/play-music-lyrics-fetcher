@@ -23,7 +23,8 @@
   "content_scripts": [
     {
       "matches": [
-        "<all_urls>"
+        "http://*/*",
+        "https://*/*"
       ],
       "js": [
         "./services/dependencies/jquery.min.js",
@@ -32,7 +33,7 @@
         "./lyrics_providers/vagalume.js",
         "./services/main.js"
       ],
-      "run_at": "document_start"
+      "run_at": "document_end"
     }
   ],
   "permissions": [
