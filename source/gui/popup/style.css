@@ -1,0 +1,73 @@
+/* GENERIC */
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 100%;
+  background: #fff;
+  padding: 0;
+  margin:0;
+  min-width: 350px;
+}
+img{
+  -webkit-user-drag: none;
+}
+
+body>div:not(#top_bar){
+  margin-top: 50px;
+}
+
+/* TOP BAR */
+#top_bar{
+  background:#fb8521;
+  display:none;
+  height:30px;
+  padding:0;
+  position:fixed;
+  width:100%;
+  border-bottom:2px solid #d6711c;
+  overflow:hidden;
+  -webkit-user-select: none;
+  top:0;
+}
+.top_bar_item{
+  float:right;
+  margin:0;
+  padding: 6px;
+  color:white;
+
+}
+.top_bar_item.link{
+  -webkit-transition: background-color 100ms linear;
+  cursor:pointer;
+}
+.top_bar_item.link:hover{
+  background:#d6711c;
+}
+#top_bar_song_delay{
+  width:30px;
+  padding: 0;
+  -webkit-user-select: none;
+  -webkit-transition: all 200ms ease-in-out; /* Safari */
+  display: none;
+}
+#top_bar_song_delay:hover{
+  width:157px;
+  background: #d6711c;
+}
+.darker:hover{
+  background: #bd5f13 !important;
+}
+#top_bar_song_delay_status{
+  width:53px;
+  text-align:center;
+  cursor:default;
+}
+#top_bar_autoscroll{
+  display:none;
+}
+
+.lyrics_line.current{
+  font-weight:bold;
+  padding: 10px;
+  margin: -10px;
+  color:#222;
+}

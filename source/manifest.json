@@ -1,64 +1,61 @@
 {
-    "name": "Play Music Lyrics Fetcher",
-	"description": "View your song's lyrics on Google Play Music, Spotify, YouTube, Rdio, Pandora, Deezer, Superplayer, etc.",
-    "version": "0.2.3",
-    "manifest_version": 2,
-	"background": { "scripts": ["./scripts/background.js"] },
-	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-	"icons": { "16": "./images/icon16.png",
-	           "48": "./images/icon48.png",
-	          "128": "./images/icon128.png" },
-    "page_action": {
-        "default_icon": "./images/icon16.png",
-        "default_popup": "./pages/popup.html",
-        "default_title": "Get this song's lyrics"
-    },
-    "content_scripts": [
-      {
-        "matches": ["https://play.google.com/music/*", "http://play.google.com/music/*",
-					"https://play.spotify.com/*", "http://play.spotify.com/*",
-					"https://www.rdio.com/*", "http://www.rdio.com/*",
-					"https://www.pandora.com/*", "http://www.pandora.com/*",
-					"https://www.superplayer.fm/*", "http://www.superplayer.fm/*",
-					"https://www.youtube.com/*", "http://www.youtube.com/*",
-					"https://songza.com/*", "http://songza.com/*",
-          "https://tunein.com/*", "http://tunein.com/*",
-          "https://www.claromusica.com/*", "http://www.claromusica.com/*",
-          "https://music.microsoft.com/*", "http://music.microsoft.com/*",
-          "https://listen.tidal.com/*", "http://listen.tidal.com/*",
-          "https://www.last.fm/*", "http://www.last.fm/*",
-          "https://www.musicfm.org/*", "http://www.musicfm.org/*",
-          "https://www.accuradio.com/*", "http://www.accuradio.com/*",
-          "https://www.iheart.com/*", "http://www.iheart.com/*",
-					"https://www.deezer.com/*", "http://www.deezer.com/*"],
-        "css": ["./dependencies/jquery-ui.min.css"],
-        "js": ["./dependencies/jquery.min.js", "./dependencies/jquery-ui.min.js", "./scripts/content_script.js"]
-      }
-    ],
+  "name": "Play Music Lyrics Fetcher",
+  "description": "View your song's lyrics on Google Play Music, Spotify, YouTube, Rdio, Pandora, Deezer, Superplayer, etc.",
+  "version": "1.0.0",
+  "manifest_version": 2,
+  "background": {
+    "scripts": [
+      "./services/dependencies/jquery.min.js",
+      "./services/background.js"
+    ]
+  },
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "icons": {
+    "16": "./images/icon16.png",
+    "48": "./images/icon48.png",
+    "128": "./images/icon128.png"
+  },
+  "page_action": {
+    "default_icon": "./images/icon16.png",
+    "default_popup": "./gui/popup/popup.html",
+    "default_title": "Get this song's lyrics"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "./services/dependencies/jquery.min.js",
+        "./services/utils.js",
+        "./services/dom_listener.js",
+        "./lyrics_providers/vagalume.js",
+        "./services/main.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "storage",
+    "unlimitedStorage",
+    "http://*/",
+    "https://*/"
+  ],
   "options_ui": {
-    "page": "./pages/options.html",
+    "page": "./gui/options.html",
     "chrome_style": true
   },
-
-    "permissions": [
-        "activeTab",
-		"storage",
-		"tabs",
-        "unlimitedStorage"
-    ],
-      "web_accessible_resources": [
-    "pages/*",
-    "dependencies/*"
+  "web_accessible_resources": [
+    "site_modules/*"
   ],
-	"commands": {
-		"_execute_page_action": {
-			"suggested_key": {
-              "default": "Alt+Shift+L",
-              "windows": "Alt+Shift+L",
-              "mac": "Alt+Shift+L"
-			}
-		}
-	}
-
-
+  "commands": {
+    "_execute_page_action": {
+      "suggested_key": {
+        "default": "Alt+Shift+L",
+        "windows": "Alt+Shift+L",
+        "mac": "Alt+Shift+L"
+      }
+    }
+  }
 }

@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>play Music Lyrics Fetcher</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:700,400' rel='stylesheet' type='text/css'>
+  <link href='./style.css' rel='stylesheet' type='text/css'>
+  <script src="../../services/dependencies/jquery.min.js"></script>
+  <script src="./ui.js"></script>
+  <script src="./logic.js"></script>
+</head>
+<body>
+
+  <div id="top_bar">
+		<div id="top_bar_settings" class="top_bar_item link" title="Settings"><img src="images/bt_settings.png" /></div>
+		<div id="top_bar_new_window" class="top_bar_item link" title="Open in new window" ><img src="images/bt_popup.png" /></div>
+		<div id="top_bar_search" class="top_bar_item link" title="Search lyric" ><img src="images/bt_search.png" /></div>
+		<div id="top_bar_song_delay" class="top_bar_item">
+			<div id="top_bar_delay" class="top_bar_item link" title="Lyrics delay"><img src="images/bt_delay.png"/></div>
+			<div id="top_bar_song_delay_increase" class="top_bar_item link darker" title="Add 500 ms delay"><img src="images/bt_up.png" /></div>
+			<div id="top_bar_song_delay_status" class="top_bar_item"></div>
+			<div id="top_bar_song_delay_decrease" class="top_bar_item link darker" title="Remove 500 ms delay"><img src="images/bt_down.png" /></div>
+		</div>
+		<div id="top_bar_autoscroll" class="top_bar_item link" title="Activate auto scroll"><img src="images/bt_scroll.png" /></div>
+	</div>
+
+  <div id="fix_song_info">
+		<p id="fix_song_info_title"></p>
+		<form id="fix_song_info_form" method="post">
+			<label for="artist">Artist:</label>
+			<input class="fix_song_info_form_field" id="fix_song_info_form_artist" type="text" name="artist" placeholder="e.g. mimimi" value="'+artist mimimi+'" autofocus><br/>
+			<label for="artist">Track:</label>
+			<input class="fix_song_info_form_field" id="fix_song_info_form_track" type="text" name="track" placeholder="e.g. mimimi" value="'+track mimimi+'"><br/>
+			<input id="fix_song_info_form_submit" type="image" src="images/ic_search_40px.png" alt="Search" >
+		</form>
+	</div>
+
+  <div>
+	  <p id="status"></p>
+    <div id="info">
+      <p id="track"></p>
+      <label>by</label>
+      <p id="artist"></p>
+      <div id="lyrics"></div>
+    </div>
+  </div>
+</body>
+</html>
