@@ -4,18 +4,6 @@ var checkForNewTrackInterval;
 var checkTrackPositionInterval;
 
 
-
-// var siteModulePath = 'site_modules/' + document.location.hostname + '.js';
-// $.get(chrome.extension.getURL(siteModulePath), null, null, "text")
-//     .done(function () {
-//         // URL IS SUPPORTED! (site module found)
-//         chrome.runtime.sendMessage({query: 'SHOW_PAGE_ACTION', path: siteModulePath});
-//     })
-//     .error(function(e){
-//         console.log(e);
-//     });
-
-
 /**
  * Check DOM for when a track changes
  */
