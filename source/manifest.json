@@ -27,11 +27,7 @@
         "https://*/*"
       ],
       "js": [
-        "./services/dependencies/jquery.min.js",
-        "./services/utils.js",
-        "./services/dom_listener.js",
-        "./lyrics_providers/vagalume.js",
-        "./services/main.js"
+        "./services/launcher.js"
       ],
       "run_at": "document_end"
     }

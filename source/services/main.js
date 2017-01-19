@@ -4,14 +4,16 @@ var checkForNewTrackInterval;
 var checkTrackPositionInterval;
 
 
-/**
- * STARTUP: check if current URL is supported:
- */
-$.get(chrome.extension.getURL('site_modules/' + document.location.hostname + '.js'), null, null, "text")
-    .done(function (remoteCode) {
-        // URL IS SUPPORTED! (site module found)
-        chrome.runtime.sendMessage({query: 'SHOW_PAGE_ACTION', code: remoteCode});
-    });
+
+// var siteModulePath = 'site_modules/' + document.location.hostname + '.js';
+// $.get(chrome.extension.getURL(siteModulePath), null, null, "text")
+//     .done(function () {
+//         // URL IS SUPPORTED! (site module found)
+//         chrome.runtime.sendMessage({query: 'SHOW_PAGE_ACTION', path: siteModulePath});
+//     })
+//     .error(function(e){
+//         console.log(e);
+//     });
 
 
 /**
@@ -25,10 +27,10 @@ function checkForNewTrack() {
     }
     var newTrackInfo = getCurrentDOMTrackInfo();
     if (JSON.stringify(newTrackInfo) != JSON.stringify(currentTrackInfo)) {
-        if (!newTrackInfo.artist) {
-            onLyricsLoadError("Unknown artist");
-        } else if (!newTrackInfo.track) {
+        if (!newTrackInfo.track) {
             onLyricsLoadError("Unknown track");
+        } else if (!newTrackInfo.artist) {
+            onLyricsLoadError("Unknown artist");
         } else {
             log("NEW TRACK: " + newTrackInfo.artist + " - " + newTrackInfo.track);
             getLyricsFromCache(newTrackInfo.artist, newTrackInfo.track);
