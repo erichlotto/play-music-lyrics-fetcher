@@ -29,6 +29,8 @@ function onLyricsLoadFinished(lyrics){
 		$("#lyrics").text(lyrics.static);
 		$("#lyrics").css("white-space", "pre");
 	}
+
+	document.title = lyrics.artist + " - " + lyrics.track;
 }
 
 
@@ -53,10 +55,10 @@ function onPositionChanged(position){
 }
 
 
-$(document).scroll(function(){console.log('scroll')})
-
 function smoothScrool(){
     $('html, body').animate({
         scrollTop: $(".current").offset().top-140
     }, 100);
 }
+
+
