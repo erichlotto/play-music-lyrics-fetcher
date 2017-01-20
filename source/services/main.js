@@ -34,7 +34,7 @@ function checkForNewTrack() {
 function checkTrackPosition() {
     log('CHECK POSITION');
     var trackPosition = getCurrentDOMTrackPosition();
-    chrome.runtime.sendMessage({query: "POSITION_CHANGED", position: trackPosition});
+    dispatchEventToConnectedClients({query: "POSITION_CHANGED", position: trackPosition});
 }
 
 
@@ -43,18 +43,18 @@ function checkTrackPosition() {
  */
 function onLyricsLoadStart() {
     lastLyricsEvent = {query: "LYRICS_EVENT", status: "LOAD_START"};
-    chrome.runtime.sendMessage(lastLyricsEvent);
+    dispatchEventToConnectedClients(lastLyricsEvent);
 }
 
 function onLyricsLoadFinished(lyricsData, artist, track) {
     storeLyricsInCache(lyricsData, artist, track);
     lastLyricsEvent = {query: "LYRICS_EVENT", status: "LOAD_FINISH", lyrics: lyricsData};
-    chrome.runtime.sendMessage(lastLyricsEvent);
+    dispatchEventToConnectedClients(lastLyricsEvent);
 }
 
 function onLyricsLoadError(message) {
     lastLyricsEvent = {query: "LYRICS_EVENT", status: "LOAD_ERROR", error: message};
-    chrome.runtime.sendMessage(lastLyricsEvent);
+    dispatchEventToConnectedClients(lastLyricsEvent);
 }
 
 function getLyricsFromCache(domArtist, domTrack) {
@@ -78,33 +78,57 @@ function storeLyricsInCache(lyricsData, domArtist, domTrack) {
     log("LYRIC STORED ON CACHE");
 }
 
-var windowId = -1;
-/* MESSAGE LISTENERS */
-chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-    switch (message.query) {
-        case 'INFO_REQUEST':
-            if (lastLyricsEvent) {
-                chrome.runtime.sendMessage(lastLyricsEvent);
-            } else {
-                onLyricsLoadStart();
+
+
+
+/**
+ * MESSAGE LISTENERS
+ */
+
+
+var windowId = -1; // Keep track of the currently open popup window, so we can just switch focus instead of creating a new one
+var clients = []; // Keep track of every client listening to this tab
+
+function dispatchEventToConnectedClients(event){
+    for(i in clients){
+        clients[i].postMessage(event);
+    }
+}
+chrome.runtime.onConnect.addListener(function(client) {
+    if(client.name.includes("visualizer")) {
+        clients.push(client);
+        if(clients.length == 1) {
+            checkForNewTrackInterval = setInterval(checkForNewTrack, 500);
+            checkTrackPositionInterval = setInterval(checkTrackPosition, 200);
+        }
+        client.onMessage.addListener(function (message) {
+            switch (message.query) {
+                case 'INFO_REQUEST':
+                    if (lastLyricsEvent) {
+                        dispatchEventToConnectedClients(lastLyricsEvent);
+                    } else {
+                        onLyricsLoadStart();
+                    }
+                    checkForNewTrack();
+                    break;
+                case 'WINDOW_OPEN':
+                    windowId = message.windowId;
+                    break;
+                case 'OPEN_POPUP_WINDOW':
+                    client.postMessage({query:"OPEN_POPUP_WINDOW", windowId:windowId})
+                    break;
             }
-            checkForNewTrack();
-            break;
-        case 'ACTIVE_LISTENER_FLAG':
-            if (message.someoneListening) {
-                checkForNewTrackInterval = setInterval(checkForNewTrack, 500);
-                checkTrackPositionInterval = setInterval(checkTrackPosition, 200);
-            } else {
+        });
+        client.onDisconnect.addListener(function(port){
+            for(i in clients){
+                if(clients[i].name == port.name){
+                    clients.splice(i, 1);
+                }
+            }
+            if(clients.length == 0){
                 clearInterval(checkForNewTrackInterval);
                 clearInterval(checkTrackPositionInterval);
             }
-            break;
-        case 'WINDOW_OPEN':
-            windowId = message.windowId;
-            break;
-        case 'GET_WINDOW_ID':
-            sendResponse(windowId);
-            break;
-
+        });
     }
 });
