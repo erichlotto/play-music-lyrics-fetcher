@@ -8,7 +8,7 @@ if(currentTabId){
     currentTabId = tabs[0].id;
     chrome.runtime.connect().postMessage({tabId: currentTabId});
     chrome.tabs.sendMessage(currentTabId, {query: "INFO_REQUEST"});
-      setTimeout(openPopup, 1000);
+      setTimeout(openWindow, 3000);
   })
 }
 
@@ -51,18 +51,20 @@ function getUrlParameter(sParam) {
     }
 };
 
-function openPopup(){
+function openWindow(){
     var w = $(window).width()+30;
     var h = $(window).height()-20;
-    var lyricsPopup = window.open(
-        './popup.html?tab='+currentTabId,
-        'play-music-lyrics-fetcher-window-'+currentTabId,
-        'width='+($(window).width()+30)+', height='+($(window).height()-20)
-    );
-    lyricsPopup.focus();
-
-    // chrome.windows.create({'url': './gui/popup/popup.html?tab='+currentTabId, 'type': 'popup', width:w<300?300:w, height:h<600?600:h , 'state': 'docked'  }, function(window) {
-    //     window.focus();
-    // });
-  window.close();
+    if(w<300)w=300;
+    if(h<600)h=600;
+    chrome.tabs.sendMessage(currentTabId, {query:'GET_WINDOW_ID'}, function(response){
+        chrome.windows.get(response, function(){
+            if (chrome.runtime.lastError) {
+                chrome.windows.create({'url': './gui/popup/popup.html?tab='+currentTabId, 'type': 'popup', width:w, height:h }, function(window) {
+                    chrome.tabs.sendMessage(currentTabId, {query: "WINDOW_OPEN", windowId:window.id});
+                });
+            } else {
+                chrome.windows.update(response, {focused:true});
+            }
+        });
+    });
 }

@@ -78,7 +78,7 @@ function storeLyricsInCache(lyricsData, domArtist, domTrack) {
     log("LYRIC STORED ON CACHE");
 }
 
-
+var windowId = -1;
 /* MESSAGE LISTENERS */
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
     switch (message.query) {
@@ -99,5 +99,12 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
                 clearInterval(checkTrackPositionInterval);
             }
             break;
+        case 'WINDOW_OPEN':
+            windowId = message.windowId;
+            break;
+        case 'GET_WINDOW_ID':
+            sendResponse(windowId);
+            break;
+
     }
 });
