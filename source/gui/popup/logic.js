@@ -43,7 +43,7 @@ if(currentTabId){
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
       currentTabId = tabs[0].id;
       start();
-      setTimeout(openWindow, 3000);
+//      setTimeout(openWindow, 3000);
   })
 }
 

@@ -22,7 +22,6 @@ img{
 }
 
 #track{
-    white-space: nowrap;
     font-size: 1.5em;
     font-weight: bold;
 }
@@ -32,8 +31,17 @@ img{
     font-weight: bold;
 }
 
+#title{
+  position: fixed;
+  padding:10px 10px 0 10px;
+  top:0;
+  background: #333;
+  width: 100%;
+  margin: 0 -10px;
+  box-shadow: 0 0 30px 30px #333;
+}
+
 #lyrics{
-    margin-top: 30px;
     min-width: 350px;
 }
 
@@ -49,3 +57,19 @@ img{
     border-bottom: 2px solid #fb8521;
 }
 
+
+#tools{
+  position: fixed;
+  right: 0;
+  bottom: 0;
+}
+.fab{
+  border-radius: 50%;
+  padding: 5px;
+  background: #fb8521;
+  margin: 5px;
+  text-align: center;
+}
+.fab:hover{
+  cursor: pointer;
+}
