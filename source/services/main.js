@@ -2,7 +2,7 @@ var currentTrackInfo;
 var lastLyricsEvent;
 var checkForNewTrackInterval;
 var checkTrackPositionInterval;
-
+var currentTrackDelay = 0;
 
 /**
  * Check DOM for when a track changes
@@ -15,6 +15,7 @@ function checkForNewTrack() {
     }
     var newTrackInfo = getCurrentDOMTrackInfo();
     if (JSON.stringify(newTrackInfo) != JSON.stringify(currentTrackInfo)) {
+        currentTrackDelay = 0;
         if (!newTrackInfo.track) {
             onLyricsLoadError("Unknown track");
         } else if (!newTrackInfo.artist) {
@@ -34,6 +35,7 @@ function checkForNewTrack() {
 function checkTrackPosition() {
     log('CHECK POSITION');
     var trackPosition = getCurrentDOMTrackPosition();
+    trackPosition.delay = currentTrackDelay;
     dispatchEventToConnectedClients({query: "POSITION_CHANGED", position: trackPosition});
 }
 
@@ -116,6 +118,9 @@ chrome.runtime.onConnect.addListener(function(client) {
                     break;
                 case 'OPEN_POPUP_WINDOW':
                     client.postMessage({query:"OPEN_POPUP_WINDOW", windowId:windowId})
+                    break;
+                case 'SET_DELAY':
+                    currentTrackDelay = message.delay;
                     break;
             }
         });

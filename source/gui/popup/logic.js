@@ -33,17 +33,27 @@ function displayWindow(windowId) {
     });
 }
 
-
+var delay = 0;
+function setDelay(delay){
+  playerTab.postMessage( { query:'SET_DELAY', delay:delay } );
+}
+function delayUp(){
+  setDelay(delay + 0.5);
+}
+function delayDown(){
+  setDelay(delay - 0.5);
+}
 
 /* STARTUP */
 var currentTabId = Number(getUrlParameter("tab"));
+var docked = true;
 if(currentTabId){
+  docked = false;
     start();
 } else {
   chrome.tabs.query({active: true, currentWindow: true}, function (tabs) {
       currentTabId = tabs[0].id;
       start();
-//      setTimeout(openWindow, 3000);
   })
 }
 
@@ -69,6 +79,7 @@ function start(){
                 }
                 break;
             case 'POSITION_CHANGED':
+                delay = message.position.delay;
                 onPositionChanged(message.position);
                 break;
         }

@@ -7,6 +7,21 @@ body {
     margin:0;
     color: #aaaaaa;
 }
+::-webkit-scrollbar{
+  background: transparent;
+  width: 10px;
+}
+::-webkit-scrollbar-corner,
+::-webkit-resizer{
+  background: #333;
+}
+::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+  background-color: #aaaaaa;
+  border:2px solid #333;
+  transition: border 1s ease-in-out;
+
+ }
 
 img{
     -webkit-user-drag: none;
@@ -15,6 +30,7 @@ img{
 #status{
     white-space: pre;
     margin: 0;
+    text-align: center;
 }
 
 #info{
@@ -62,6 +78,13 @@ img{
   position: fixed;
   right: 0;
   bottom: 0;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0.5s, opacity 0.5s linear;
+}
+#tools.hide{
+  visibility: hidden;
+  opacity: 0;
 }
 .fab{
   border-radius: 50%;
