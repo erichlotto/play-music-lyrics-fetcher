@@ -30,7 +30,7 @@ function onLyricsLoadFinished(lyrics) {
         $("#bt_autoscroll").hide();
         $("#lyrics").text(lyrics.static);
     }
-    $("#lyrics").css("margin-top", $("#title").outerHeight() + 10);
+    $("#lyrics").css("margin-top", $("#title").outerHeight() );
 
     document.title = lyrics.artist + " - " + lyrics.track;
     $('html, body').animate({
@@ -41,9 +41,8 @@ function onLyricsLoadFinished(lyrics) {
 
 function scaleWindowToFit(){
     chrome.windows.getCurrent(function (window) {
-        console.log(window);
         var w = $("#lyrics").innerWidth() + 30;
-        console.log('width:'+w);
+        console.log(w)
         chrome.windows.update(window.id, {width: w});
     });
 }
@@ -109,7 +108,6 @@ $(window).mousemove(function (event) {
             visibilityTimeout = setTimeout(function () {
                 $("#tools").addClass("hide");
             }, 1000);
-            console.log("mousemove");
         }
         lastScrollMilis = currentTimeMilis;
     }

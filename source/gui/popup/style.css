@@ -72,12 +72,17 @@ img {
 /* LYRICS */
 
 #lyrics {
+    margin-top: 10px;
     min-width: 350px;
     white-space: pre;
+    display: inline-block;
 }
 
 .lyrics_line {
     white-space: pre;
+}
+.lyrics_line:first-child {
+    margin-top: 0 !important;
 }
 
 .lyrics_line.current {
