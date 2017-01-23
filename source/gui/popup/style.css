@@ -39,22 +39,20 @@ img{
 
 #track{
     font-size: 1.5em;
-    font-weight: bold;
 }
 
 #artist{
-    white-space: nowrap;
-    font-weight: bold;
 }
 
 #title{
   position: fixed;
-  padding:10px 10px 0 10px;
+  padding: 10px;
   top:0;
   background: #333;
   width: 100%;
   margin: 0 -10px;
-  box-shadow: 0 0 30px 30px #333;
+  box-shadow: 0 0 10px 10px #333;
+  border-bottom: 1px solid #fb8521;
 }
 
 #lyrics{
@@ -77,21 +75,49 @@ img{
 #tools{
   position: fixed;
   right: 0;
-  bottom: 0;
-  visibility: visible;
-  opacity: 1;
+  bottom: 10px;
   transition: visibility 0.5s, opacity 0.5s linear;
+  text-align: right;
 }
 #tools.hide{
   visibility: hidden;
   opacity: 0;
 }
+#delay_panel {
+  width: 34px;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: width 0.3s linear;
+  margin: 5px;
+}
+#delay_panel:hover{
+  width: 164px;
+}
+#delay_panel .fab{
+  margin: 0;
+}
+#delay_controllers{
+  display: inline-block;
+  border-radius: 50px;
+  background: #aaaaaa;
+}
+#delay_label{
+  display: inline-block;
+  width: 45px;
+  vertical-align: top;
+  margin-top: 8px;
+  text-align:center;
+  color: #333;
+}
 .fab{
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   padding: 5px;
   background: #fb8521;
   margin: 5px;
   text-align: center;
+  display: inline-block;
 }
 .fab:hover{
   cursor: pointer;
