@@ -83,6 +83,7 @@ img {
 }
 .lyrics_line:first-child {
     margin-top: 0 !important;
+    padding-top: 10px !important;
 }
 
 .lyrics_line.current {
