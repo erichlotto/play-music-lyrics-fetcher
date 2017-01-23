@@ -87,7 +87,6 @@ function storeLyricsInCache(lyricsData, domArtist, domTrack) {
  * MESSAGE LISTENERS
  */
 
-
 var windowId = -1; // Keep track of the currently open popup window, so we can just switch focus instead of creating a new one
 var clients = []; // Keep track of every client listening to this tab
 

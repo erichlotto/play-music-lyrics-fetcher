@@ -30,15 +30,24 @@ img {
     -webkit-user-drag: none;
 }
 
+
+/* STATUS (FEEDBACK WHEN NO LYRICS) */
+
 #status {
     white-space: pre;
     margin: 0;
     text-align: center;
 }
 
+
+/* MAIN VIEW */
+
 #info {
     display: none;
 }
+
+
+/* TITLE */
 
 #track {
     font-size: 1.5em;
@@ -58,8 +67,13 @@ img {
     border-bottom: 1px solid #fb8521;
 }
 
+
+
+/* LYRICS */
+
 #lyrics {
     min-width: 350px;
+    white-space: pre;
 }
 
 .lyrics_line {
@@ -73,6 +87,10 @@ img {
     padding: 10px;
     border-bottom: 2px solid #fb8521;
 }
+
+
+
+/* TOOLS (FABS) */
 
 #tools {
     position: fixed;
@@ -98,7 +116,7 @@ img {
 }
 
 #delay_panel:hover {
-    width: 164px;
+    width: 184px;
 }
 
 #delay_panel .fab {
@@ -113,7 +131,7 @@ img {
 
 #delay_label {
     display: inline-block;
-    width: 45px;
+    width: 65px;
     height: 26px;
     vertical-align: top;
     margin: 0 -5px;

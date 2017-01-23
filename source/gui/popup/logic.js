@@ -1,22 +1,14 @@
-function getUrlParameter(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
-
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : sParameterName[1];
-        }
-    }
-};
-
+/**
+ * Send message to open window (the content script must keep track of the currently open window)
+ * so it's ID can be passed later
+ */
 function openWindow(){
     playerTab.postMessage({query:'OPEN_POPUP_WINDOW'});
 }
 
+/**
+ * Actually open the popup on response from content script
+ */
 function displayWindow(windowId) {
     var w = $(window).width()+30;
     var h = $(window).height()-20;
@@ -33,6 +25,10 @@ function displayWindow(windowId) {
     });
 }
 
+
+/**
+ * Delay Management
+ */
 var delay = 0;
 function setDelay(delay){
   playerTab.postMessage( { query:'SET_DELAY', delay:delay } );
@@ -44,7 +40,10 @@ function delayDown(){
   setDelay(delay - 0.5);
 }
 
-/* STARTUP */
+
+/**
+ * STARTUP
+ */
 var currentTabId = Number(getUrlParameter("tab"));
 var docked = true;
 if(currentTabId){
@@ -57,6 +56,10 @@ if(currentTabId){
   })
 }
 
+
+/**
+ * Communication with the player tab
+ */
 var playerTab;
 function start(){
     playerTab = chrome.tabs.connect(currentTabId, {name: "visualizer" + new Date().getTime() });

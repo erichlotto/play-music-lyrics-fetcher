@@ -1,164 +1,194 @@
-jQuery.getJSON("/manifest.json",function(data) {
-	document.title = data.name;
+jQuery.getJSON("/manifest.json", function (data) {
+    document.title = data.name;
 });
 
 var currentLyrics;
-var songTimingDelay = 0;
 var autoScroll = true;
 
-function onLyricsLoadStart(){
-  $("#status").text("Lyrics Load Started");
-  $("#status").show();
-  $("#info").hide();
-	document.title = "Play Music Lyrics Fetcher";
+function onLyricsLoadStart() {
+    $("#status").text("Lyrics Load Started");
+    $("#status").show();
+    $("#info").hide();
+    document.title = "Play Music Lyrics Fetcher";
 }
 
-function onLyricsLoadFinished(lyrics){
-	currentLyrics = lyrics;
+function onLyricsLoadFinished(lyrics) {
+    currentLyrics = lyrics;
 
-	$("#status").hide();
-	$("#info").show();
-	$("#artist").text(lyrics.artist);
-	$("#track").text(lyrics.track);
-	if(lyrics.timmed.length>0){
-		$("#delay_panel").show();
+    $("#status").hide();
+    $("#info").show();
+    $("#artist").text(lyrics.artist);
+    $("#track").text(lyrics.track);
+    if (lyrics.timmed.length > 0) {
+        $("#delay_panel").show();
         $("#lyrics").empty();
-		for(i in lyrics.timmed){
-			$("#lyrics").append("<p class=\"lyrics_line\">"+lyrics.timmed[i].text.trim()+"</p>");
-			$("#lyrics").css("display", "block");
-		}
-	} else {
-		$("#delay_panel").hide();
-		$("#bt_autoscroll").hide();
-		$("#lyrics").text(lyrics.static);
-		$("#lyrics").css("white-space", "pre");
-	}
-	$("#lyrics").css("margin-top", $("#title").height() + 36);
+        for (i in lyrics.timmed) {
+            $("#lyrics").append("<p class=\"lyrics_line\">" + lyrics.timmed[i].text.trim() + "</p>");
+        }
+    } else {
+        $("#delay_panel").hide();
+        $("#bt_autoscroll").hide();
+        $("#lyrics").text(lyrics.static);
+    }
+    $("#lyrics").css("margin-top", $("#title").outerHeight() + 10);
 
-	document.title = lyrics.artist + " - " + lyrics.track;
-	$('html, body').animate({
-			scrollTop: 0
-	}, 100);
+    document.title = lyrics.artist + " - " + lyrics.track;
+    $('html, body').animate({
+        scrollTop: 0
+    }, 100);
+    scaleWindowToFit();
+}
+
+function scaleWindowToFit(){
+    chrome.windows.getCurrent(function (window) {
+        console.log(window);
+        var w = $("#lyrics").innerWidth() + 30;
+        console.log('width:'+w);
+        chrome.windows.update(window.id, {width: w});
+    });
 }
 
 
-function onLyricsLoadError(error){
-  $("#status").text(error);
-  $("#status").show();
-  $("#info").hide();
-	document.title = "Play Music Lyrics Fetcher";
+function onLyricsLoadError(error) {
+    $("#status").text(error);
+    $("#status").show();
+    $("#info").hide();
+    document.title = "Play Music Lyrics Fetcher";
 }
 
-function onPositionChanged(position){
-	if(!currentLyrics || currentLyrics.timmed.length < 1){
-		return;
-	}
-	$("#delay_label").text(parseFloat(position.delay).toFixed(1) + "s");
-	for(var i=currentLyrics.timmed.length-1; i>=0; i--){
-		if((currentLyrics.timmed[i].enter < position.position-position.delay) || i == 0){
-			$( ".lyrics_line" ).removeClass( "current" );
-			$( ".lyrics_line:eq("+i+")" ).addClass( "current" );
+function onPositionChanged(position) {
+    if (!currentLyrics || currentLyrics.timmed.length < 1) {
+        return;
+    }
+    $("#delay_label").text(parseFloat(position.delay).toFixed(1) + "s");
+    for (var i = currentLyrics.timmed.length - 1; i >= 0; i--) {
+        if ((currentLyrics.timmed[i].enter < position.position - position.delay) || i == 0) {
+            $(".lyrics_line").removeClass("current");
+            $(".lyrics_line:eq(" + i + ")").addClass("current");
             smoothScrool();
-			break;
-		}
-	}
+            break;
+        }
+    }
 }
 
 
-function smoothScrool(){
-    if(autoScroll) {
-        $( 'html, body' ).stop( true );
+function smoothScrool() {
+    if (autoScroll) {
+        $('html, body').stop(true);
         $('html, body').animate({
             scrollTop: $(".current").offset().top - ($(window).height() / 3)
         }, 100);
     }
 }
 
-$(document).ready(function(){
-	if(docked){
-		$("#bt_newwindow").click(openWindow);
-	} else {
-		$("#bt_newwindow").hide();
-	}
-	turnOnAutoScroll();
-	$("#bt_autoscroll").click(turnOnAutoScroll);
-	$("#tools").mouseenter(function(){
-		clearTimeout(visibilityTimeout);
-	}).mouseleave(function(){
-		$(window).mousemove();
-	});
-    $('#tools').bind('mousewheel', function(event) {event.preventDefault();});
-    $('#delay_label').bind('mousewheel', function(event) {
+
+
+function turnOnAutoScroll() {
+    $("#bt_autoscroll").hide();
+    autoScroll = true;
+    if ($(".current").length > 0)
+        smoothScrool();
+}
+
+
+
+/**
+ * Event binding
+ */
+var visibilityTimeout;
+var lastScrollMilis; // The autoscroll triggers the mousemove event, so we need a workaround
+$(window).mousemove(function (event) {
+    var container = $("#tools");
+    if (!container.is(event.target) // if the target of the click isn't the container...
+        && container.has(event.target).length === 0) // ... nor a descendant of the container
+    {
+        var currentTimeMilis = new Date().getTime();
+        if (currentTimeMilis < lastScrollMilis + 50) {
+            $("#tools").removeClass("hide");
+            clearTimeout(visibilityTimeout);
+            visibilityTimeout = setTimeout(function () {
+                $("#tools").addClass("hide");
+            }, 1000);
+            console.log("mousemove");
+        }
+        lastScrollMilis = currentTimeMilis;
+    }
+});
+
+$(document).keypress(function (e) {
+    if (e.which == 43) {
+        delayUp();
+    } else if (e.which == 45) {
+        delayDown();
+    }
+});
+
+$(window).bind('mousewheel DOMMouseScroll mousedown', function (event) {
+    var container = $("#tools");
+    if (!container.is(event.target) // if the target of the click isn't the container...
+        && container.has(event.target).length === 0) // ... nor a descendant of the container
+    {
+        if(currentLyrics.timmed.length > 1) {
+            $('html, body').stop(true);
+            autoScroll = false;
+            $("#bt_autoscroll").show();
+        }
+    }
+});
+
+
+
+/**
+ * Run when page finished loading
+ */
+$(document).ready(function () {
+    if (docked) {
+        $("#bt_newwindow").click(openWindow);
+    } else {
+        $("#bt_newwindow").hide();
+    }
+    turnOnAutoScroll();
+    $("#bt_autoscroll").click(turnOnAutoScroll);
+    $("#tools").mouseenter(function () {
+        clearTimeout(visibilityTimeout);
+    }).mouseleave(function () {
+        $(window).mousemove();
+    });
+    $('#tools').bind('mousewheel', function (event) {
+        event.preventDefault();
+    });
+    $('#delay_label').bind('mousewheel', function (event) {
         if (event.originalEvent.wheelDelta >= 0) {
             delayUp();
         }
         else {
             delayDown();
         }
-    }).bind('dblclick',function(){
+    }).bind('dblclick', function () {
         setDelay(0);
         smoothScrool();
     });
-    $('#bt_delay_fwd').mousedown(function() {
+    $('#bt_delay_fwd').mousedown(function () {
         delayUp();
-        timeoutId = setTimeout(function(){intervalId = setInterval(function(){delayUp()}, 100);},500);
-    }).bind('mouseup mouseleave', function() {
-        if(typeof intervalId !== 'undefined')clearInterval(intervalId);
-        if(typeof timeoutId !== 'undefined')clearTimeout(timeoutId);
+        timeoutId = setTimeout(function () {
+            intervalId = setInterval(function () {
+                delayUp()
+            }, 100);
+        }, 500);
+    }).bind('mouseup mouseleave', function () {
+        if (typeof intervalId !== 'undefined')clearInterval(intervalId);
+        if (typeof timeoutId !== 'undefined')clearTimeout(timeoutId);
     });
-    $('#bt_delay_bwd').mousedown(function() {
+    $('#bt_delay_bwd').mousedown(function () {
         delayDown();
-        timeoutId = setTimeout(function(){intervalId = setInterval(function(){delayDown()}, 100);},500);
-    }).bind('mouseup mouseleave', function() {
-        if(typeof intervalId !== 'undefined')clearInterval(intervalId);
-        if(typeof timeoutId !== 'undefined')clearTimeout(timeoutId);
+        timeoutId = setTimeout(function () {
+            intervalId = setInterval(function () {
+                delayDown()
+            }, 100);
+        }, 500);
+    }).bind('mouseup mouseleave', function () {
+        if (typeof intervalId !== 'undefined')clearInterval(intervalId);
+        if (typeof timeoutId !== 'undefined')clearTimeout(timeoutId);
     });
 
-});
-
-
-function turnOnAutoScroll(){
-	$("#bt_autoscroll").hide();
-	autoScroll = true;
-	if($(".current").length > 0)
-	smoothScrool();
-}
-
-var visibilityTimeout;
-var lastScrollMilis; // The autoscroll triggers the mousemove event, so we need a workaround
-$(window).mousemove(function(event){
-	var container = $("#tools");
-	if (!container.is(event.target) // if the target of the click isn't the container...
-		&& container.has(event.target).length === 0) // ... nor a descendant of the container
-	{
-		var currentTimeMilis = new Date().getTime();
-		if(currentTimeMilis < lastScrollMilis + 50){
-			$("#tools").removeClass("hide");
-			clearTimeout(visibilityTimeout);
-			visibilityTimeout = setTimeout(function(){
-				$("#tools").addClass("hide");
-			}, 1000);
-			console.log("mousemove");
-		}
-		lastScrollMilis = currentTimeMilis;
-	}
-});
-
-$(document).keypress(function(e) {
-  if(e.which == 43) {
-		delayUp();
-  } else if(e.which == 45){
-		delayDown();
-	}
-});
-
-$(window).bind('mousewheel DOMMouseScroll mousedown', function(event){
-	var container = $("#tools");
-	if (!container.is(event.target) // if the target of the click isn't the container...
-		&& container.has(event.target).length === 0) // ... nor a descendant of the container
-	{
-		$( 'html, body' ).stop( true );
-		autoScroll=false;
-		$("#bt_autoscroll").show();
-	}
 });

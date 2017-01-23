@@ -6,6 +6,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:700,400' rel='stylesheet' type='text/css'>
     <link href='./style.css' rel='stylesheet' type='text/css'>
     <script src="../../services/dependencies/jquery.min.js"></script>
+    <script src="../../services/utils.js"></script>
     <script src="./ui.js"></script>
     <script src="./logic.js"></script>
 </head>
@@ -22,16 +23,16 @@
     </div>
     <div id="lyrics"></div>
     <div id="tools">
-      <div id="bt_autoscroll" class="fab"><img src="./images/bt_scroll.png"></div><br>
+      <div id="bt_autoscroll" class="fab" title="Activate auto scroll"><img src="./images/bt_scroll.png"></div><br>
       <div id="delay_panel">
         <div id="bt_delay" class="fab inline"><img src="./images/bt_delay.png"></div>
         <div id="delay_controllers">
-          <div id="bt_delay_bwd" class="fab inline"><img src="./images/bt_delay_bwd.png"></div>
+          <div id="bt_delay_bwd" class="fab inline" title="Remove 500 ms delay"><img src="./images/bt_delay_bwd.png"></div>
           <label id="delay_label" ></label>
-          <div id="bt_delay_fwd" class="fab inline"><img src="./images/bt_delay_fwd.png"></div>
+          <div id="bt_delay_fwd" class="fab inline" title="Add 500 ms delay"><img src="./images/bt_delay_fwd.png"></div>
         </div>
       </div>
-      <div id="bt_newwindow" class="fab"><img src="./images/window.png"></div>
+      <div id="bt_newwindow" class="fab" title="Open in new window"><img src="./images/window.png"></div>
     </div>
 </div>
 
