@@ -121,6 +121,7 @@ chrome.runtime.onConnect.addListener(function(client) {
                     break;
                 case 'SET_DELAY':
                     currentTrackDelay = message.delay;
+                    checkTrackPosition();
                     break;
             }
         });

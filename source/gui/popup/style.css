@@ -4,66 +4,69 @@ body {
     font-size: 100%;
     background: #333;
     padding: 10px;
-    margin:0;
+    margin: 0;
     color: #aaaaaa;
 }
-::-webkit-scrollbar{
-  background: transparent;
-  width: 10px;
+
+::-webkit-scrollbar {
+    background: transparent;
+    width: 10px;
 }
+
 ::-webkit-scrollbar-corner,
-::-webkit-resizer{
-  background: #333;
+::-webkit-resizer {
+    background: #333;
 }
-::-webkit-scrollbar-thumb{
-  border-radius: 10px;
-  background-color: #aaaaaa;
-  border:2px solid #333;
-  transition: border 1s ease-in-out;
 
- }
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: #aaaaaa;
+    border: 2px solid #333;
+    transition: border 1s ease-in-out;
 
-img{
+}
+
+img {
     -webkit-user-drag: none;
 }
 
-#status{
+#status {
     white-space: pre;
     margin: 0;
     text-align: center;
 }
 
-#info{
+#info {
     display: none;
 }
 
-#track{
+#track {
     font-size: 1.5em;
 }
 
-#artist{
+#artist {
 }
 
-#title{
-  position: fixed;
-  padding: 10px;
-  top:0;
-  background: #333;
-  width: 100%;
-  margin: 0 -10px;
-  box-shadow: 0 0 10px 10px #333;
-  border-bottom: 1px solid #fb8521;
+#title {
+    position: fixed;
+    padding: 10px;
+    top: 0;
+    background: #333;
+    width: 100%;
+    margin: 0 -10px;
+    box-shadow: 0 0 10px 10px #333;
+    border-bottom: 1px solid #fb8521;
 }
 
-#lyrics{
+#lyrics {
     min-width: 350px;
 }
 
-.lyrics_line{
+.lyrics_line {
     white-space: pre;
 }
 
-.lyrics_line.current{
+.lyrics_line.current {
     color: #222222;
     background: #ffffff;
     margin: -10px;
@@ -71,54 +74,65 @@ img{
     border-bottom: 2px solid #fb8521;
 }
 
+#tools {
+    position: fixed;
+    right: 0;
+    bottom: 10px;
+    transition: visibility 0.5s, opacity 0.5s linear;
+    text-align: right;
+    -webkit-user-select: none;
+    user-select: none;
+}
 
-#tools{
-  position: fixed;
-  right: 0;
-  bottom: 10px;
-  transition: visibility 0.5s, opacity 0.5s linear;
-  text-align: right;
+#tools.hide {
+    visibility: hidden;
+    opacity: 0;
 }
-#tools.hide{
-  visibility: hidden;
-  opacity: 0;
-}
+
 #delay_panel {
-  width: 34px;
-  white-space: nowrap;
-  overflow: hidden;
-  transition: width 0.3s linear;
-  margin: 5px;
+    width: 34px;
+    white-space: nowrap;
+    overflow: hidden;
+    transition: width 0.3s linear;
+    margin: 5px;
 }
-#delay_panel:hover{
-  width: 164px;
+
+#delay_panel:hover {
+    width: 164px;
 }
-#delay_panel .fab{
-  margin: 0;
+
+#delay_panel .fab {
+    margin: 0;
 }
-#delay_controllers{
-  display: inline-block;
-  border-radius: 50px;
-  background: #aaaaaa;
+
+#delay_controllers {
+    display: inline-block;
+    border-radius: 50px;
+    background: #aaaaaa;
 }
-#delay_label{
-  display: inline-block;
-  width: 45px;
-  vertical-align: top;
-  margin-top: 8px;
-  text-align:center;
-  color: #333;
+
+#delay_label {
+    display: inline-block;
+    width: 45px;
+    height: 26px;
+    vertical-align: top;
+    margin: 0 -5px;
+    padding-top: 8px;
+    text-align: center;
+    color: #333;
 }
-.fab{
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  padding: 5px;
-  background: #fb8521;
-  margin: 5px;
-  text-align: center;
-  display: inline-block;
+
+.fab {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    padding: 5px;
+    background: #fb8521;
+    margin: 5px;
+    text-align: center;
+    display: inline-block;
 }
-.fab:hover{
-  cursor: pointer;
+
+.fab:not(#bt_delay):hover {
+    cursor: pointer;
 }

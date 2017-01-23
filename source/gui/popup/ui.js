@@ -53,13 +53,12 @@ function onPositionChanged(position){
 	if(!currentLyrics || currentLyrics.timmed.length < 1){
 		return;
 	}
-	$("#delay_label").text(position.delay + "s");
+	$("#delay_label").text(parseFloat(position.delay).toFixed(1) + "s");
 	for(var i=currentLyrics.timmed.length-1; i>=0; i--){
 		if((currentLyrics.timmed[i].enter < position.position-position.delay) || i == 0){
 			$( ".lyrics_line" ).removeClass( "current" );
 			$( ".lyrics_line:eq("+i+")" ).addClass( "current" );
-            if(autoScroll)
-                smoothScrool();
+            smoothScrool();
 			break;
 		}
 	}
@@ -67,9 +66,12 @@ function onPositionChanged(position){
 
 
 function smoothScrool(){
-    $('html, body').animate({
-        scrollTop: $(".current").offset().top - ($(window).height()/3)
-    }, 100);
+    if(autoScroll) {
+        $( 'html, body' ).stop( true );
+        $('html, body').animate({
+            scrollTop: $(".current").offset().top - ($(window).height() / 3)
+        }, 100);
+    }
 }
 
 $(document).ready(function(){
@@ -80,14 +82,40 @@ $(document).ready(function(){
 	}
 	turnOnAutoScroll();
 	$("#bt_autoscroll").click(turnOnAutoScroll);
-	$("#bt_delay_bwd").click(delayDown);
-	$("#bt_delay_fwd").click(delayUp);
 	$("#tools").mouseenter(function(){
 		clearTimeout(visibilityTimeout);
 	}).mouseleave(function(){
 		$(window).mousemove();
 	});
+    $('#tools').bind('mousewheel', function(event) {event.preventDefault();});
+    $('#delay_label').bind('mousewheel', function(event) {
+        if (event.originalEvent.wheelDelta >= 0) {
+            delayUp();
+        }
+        else {
+            delayDown();
+        }
+    }).bind('dblclick',function(){
+        setDelay(0);
+        smoothScrool();
+    });
+    $('#bt_delay_fwd').mousedown(function() {
+        delayUp();
+        timeoutId = setTimeout(function(){intervalId = setInterval(function(){delayUp()}, 100);},500);
+    }).bind('mouseup mouseleave', function() {
+        if(typeof intervalId !== 'undefined')clearInterval(intervalId);
+        if(typeof timeoutId !== 'undefined')clearTimeout(timeoutId);
+    });
+    $('#bt_delay_bwd').mousedown(function() {
+        delayDown();
+        timeoutId = setTimeout(function(){intervalId = setInterval(function(){delayDown()}, 100);},500);
+    }).bind('mouseup mouseleave', function() {
+        if(typeof intervalId !== 'undefined')clearInterval(intervalId);
+        if(typeof timeoutId !== 'undefined')clearTimeout(timeoutId);
+    });
+
 });
+
 
 function turnOnAutoScroll(){
 	$("#bt_autoscroll").hide();
