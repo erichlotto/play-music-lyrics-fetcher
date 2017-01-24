@@ -2,7 +2,7 @@ var currentTrackInfo;
 var lastLyricsEvent;
 var checkForNewTrackInterval;
 var checkTrackPositionInterval;
-var currentTrackDelay = 0;
+var delays = {};
 
 /**
  * Check DOM for when a track changes
@@ -15,7 +15,6 @@ function checkForNewTrack() {
     }
     var newTrackInfo = getCurrentDOMTrackInfo();
     if (JSON.stringify(newTrackInfo) != JSON.stringify(currentTrackInfo)) {
-        currentTrackDelay = 0;
         if (!newTrackInfo.track) {
             onLyricsLoadError("Unknown track");
         } else if (!newTrackInfo.artist) {
@@ -35,7 +34,7 @@ function checkForNewTrack() {
 function checkTrackPosition() {
     log('CHECK POSITION');
     var trackPosition = getCurrentDOMTrackPosition();
-    trackPosition.delay = currentTrackDelay;
+    trackPosition.delay = delays[buildDelayId()] ? delays[buildDelayId()] : 0;
     dispatchEventToConnectedClients({query: "POSITION_CHANGED", position: trackPosition});
 }
 
@@ -81,6 +80,13 @@ function storeLyricsInCache(lyricsData, domArtist, domTrack) {
 }
 
 
+/**
+ * Return a string representing an id for the current track. Try to be as unique as possible.
+ */
+function buildDelayId(){
+    return document.location + JSON.stringify(currentTrackInfo);
+}
+
 
 
 /**
@@ -119,7 +125,7 @@ chrome.runtime.onConnect.addListener(function(client) {
                     client.postMessage({query:"OPEN_POPUP_WINDOW", windowId:windowId})
                     break;
                 case 'SET_DELAY':
-                    currentTrackDelay = message.delay;
+                    delays[buildDelayId()] = message.delay;
                     checkTrackPosition();
                     break;
             }

@@ -40,11 +40,12 @@ function onLyricsLoadFinished(lyrics) {
 }
 
 function scaleWindowToFit(){
-    chrome.windows.getCurrent(function (window) {
-        var w = $("#lyrics").innerWidth() + 30;
-        console.log(w)
-        chrome.windows.update(window.id, {width: w});
-    });
+    if(!docked) {
+        chrome.windows.getCurrent(function (window) {
+            var w = $("#lyrics").innerWidth() + 30;
+            chrome.windows.update(window.id, {width: w});
+        });
+    }
 }
 
 
