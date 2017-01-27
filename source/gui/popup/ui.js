@@ -92,6 +92,20 @@ function turnOnAutoScroll() {
 
 
 
+function displaySearchFields(display){
+    $searchElm = $("#search_panel");
+    if(display){
+        $searchElm.addClass("visible");
+        $("#input_artist").focus();
+    } else {
+        $searchElm.removeClass("visible");
+        $("#input_artist").blur();
+        $("#input_track").blur();
+    }
+}
+
+
+
 /**
  * Event binding
  */
@@ -115,10 +129,18 @@ $(window).mousemove(function (event) {
 });
 
 $(document).keypress(function (e) {
-    if (e.which == 43) {
-        delayUp();
-    } else if (e.which == 45) {
-        delayDown();
+    console.log(e.keyCode)
+    switch (e.keyCode){
+        case 13: // ENTER
+            search($("#input_artist").text(), $("#input_track").text());
+            displaySearchFields(false);
+            break;
+        case 43: // +
+            delayUp();
+            break;
+        case 45: // -
+            delayDown();
+            break;
     }
 });
 
@@ -189,5 +211,13 @@ $(document).ready(function () {
         if (typeof intervalId !== 'undefined')clearInterval(intervalId);
         if (typeof timeoutId !== 'undefined')clearTimeout(timeoutId);
     });
+
+    $("#bt_search").click(function(){
+        if($("#search_panel").hasClass("visible")){
+            displaySearchFields(false);
+        } else {
+            displaySearchFields(true);
+        }
+    })
 
 });

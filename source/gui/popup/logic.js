@@ -60,7 +60,7 @@ if(currentTabId){
 /**
  * Search
  */
-setTimeout(function(){search('led zepelin', 'kashmir')},2000);
+//setTimeout(function(){search('led zepelin', 'kashmir')},2000);
 function search(artist, track){
     playerTab.postMessage( { query: "SEARCH", artist: artist, track: track } );
 }

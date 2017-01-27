@@ -96,7 +96,29 @@ img {
 
 
 
-/* TOOLS (FABS) */
+
+
+
+
+/* TOOLS AREA (FABS) */
+
+.fab {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    padding: 5px;
+    background: #fb8521;
+    margin: 5px;
+    text-align: center;
+    display: inline-block;
+}
+
+.fab:not(#bt_delay):hover {
+    cursor: pointer;
+}
+
+
+/* BOX */
 
 #tools {
     position: fixed;
@@ -108,24 +130,30 @@ img {
     user-select: none;
 }
 
-#tools.hide {
-    visibility: hidden;
-    opacity: 0;
+#tools>div{
+    display: inline-block;
 }
 
-#delay_panel {
+#tools.hide {
+    /*visibility: hidden;*/
+    /*opacity: 0;*/
+}
+
+
+
+
+#delay_panel, #search_panel {
     width: 34px;
     white-space: nowrap;
     overflow: hidden;
     transition: width 0.3s linear;
-    margin: 5px;
 }
 
 #delay_panel:hover {
-    width: 184px;
+    width: 170px;
 }
 
-#delay_panel .fab {
+#delay_panel .fab, #search_panel .fab {
     margin: 0;
 }
 
@@ -146,17 +174,22 @@ img {
     color: #333;
 }
 
-.fab {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    padding: 5px;
-    background: #fb8521;
-    margin: 5px;
-    text-align: center;
+
+#search_fields{
     display: inline-block;
+    vertical-align: middle;
 }
 
-.fab:not(#bt_delay):hover {
-    cursor: pointer;
+#search_panel.visible {
+    width: 282px;
+}
+
+#search_fields>input{
+    padding: 5px 10px;
+    border-radius: 50px;
+    width:100px;
+    border: 0;
+    vertical-align: top;
+    background: #eee;
+
 }
