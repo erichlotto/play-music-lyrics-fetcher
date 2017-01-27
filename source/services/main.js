@@ -15,6 +15,7 @@ function checkForNewTrack() {
     }
     var newTrackInfo = getCurrentDOMTrackInfo();
     if (JSON.stringify(newTrackInfo) != JSON.stringify(currentTrackInfo)) {
+        currentTrackInfo = newTrackInfo;
         if (!newTrackInfo.track) {
             onLyricsLoadError("Unknown track");
         } else if (!newTrackInfo.artist) {
@@ -22,7 +23,6 @@ function checkForNewTrack() {
         } else {
             log("NEW TRACK: " + newTrackInfo.artist + " - " + newTrackInfo.track);
             getLyricsFromCache(newTrackInfo.artist, newTrackInfo.track);
-            currentTrackInfo = newTrackInfo;
         }
     }
 }
@@ -127,6 +127,9 @@ chrome.runtime.onConnect.addListener(function(client) {
                 case 'SET_DELAY':
                     delays[buildDelayId()] = message.delay;
                     checkTrackPosition();
+                    break;
+                case 'SEARCH':
+                    getLyricsFromCache(message.artist, message.track);
                     break;
             }
         });
