@@ -10,6 +10,8 @@ function onLyricsLoadStart() {
     $("#status").show();
     $("#info").hide();
     document.title = "Play Music Lyrics Fetcher";
+    $("#delay_panel").hide();
+    $("#bt_autoscroll").hide();
 }
 
 function onLyricsLoadFinished(lyrics) {
@@ -60,6 +62,8 @@ function onLyricsLoadError(error) {
     $("#status").text(error);
     $("#status").show();
     $("#info").hide();
+    $("#delay_panel").hide();
+    $("#bt_autoscroll").hide();
     document.title = "Play Music Lyrics Fetcher";
 }
 
@@ -140,7 +144,7 @@ $(document).keypress(function (e) {
     console.log(e.keyCode)
     switch (e.keyCode){
         case 13: // ENTER
-            search($("#input_artist").text(), $("#input_track").text());
+            search($("#input_artist").val(), $("#input_track").val());
             displaySearchFields(false);
             break;
         case 43: // +

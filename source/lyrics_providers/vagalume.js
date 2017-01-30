@@ -1,3 +1,24 @@
+/**
+ * lyric_providers should have following methods:
+ *
+ * fetchLyrics(ARTIST (string), TRACK (string));
+ *
+ * onLyricsLoadFinished({
+ *       "artist": "Metallica",
+ *       "track": "One",
+ *       "static": "Lyrics in static format, as a string",
+ *       "timmed": [{
+ *                   "text": "Line 1",
+ *                   "enter": 12.3,
+ *                   "exit": 13.1
+ *               },
+ *               {
+ *                   "text": "Line 2",
+ *                   "enter": 17.3,
+ *                   "exit": 18.7
+ *               }]
+ *   }, "Artist name as seen in DOM", "Artist track as seen in DOM");
+ */
 var lyricsFetchTries = [];
 
 function fetchLyrics(domArtist, domTrack) {

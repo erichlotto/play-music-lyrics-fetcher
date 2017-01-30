@@ -6,6 +6,8 @@ body {
     padding: 10px;
     margin: 0;
     color: #aaaaaa;
+    min-height: 120px;
+    min-width: 300px;
 }
 
 ::-webkit-scrollbar {

@@ -11,6 +11,7 @@ function checkForNewTrack() {
     log('CHECK FOR NEW TRACK');
     if (!isDOMTrackAvailable()) {
         onLyricsLoadError("No song playing");
+        console.log("No new track");
         return;
     }
     var newTrackInfo = getCurrentDOMTrackInfo();
