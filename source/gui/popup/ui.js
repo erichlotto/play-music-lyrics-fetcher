@@ -46,6 +46,8 @@ function scaleWindowToFit(){
             chrome.windows.update(window.id, {width: w});
         });
     }
+
+    // Fix for too long lines
     if($("#lyrics").innerWidth()>700){
         $("#lyrics").addClass('break-line');
     } else {
@@ -118,11 +120,12 @@ var visibilityTimeout;
 var lastScrollMilis; // The autoscroll triggers the mousemove event, so we need a workaround
 $(window).mousemove(function (event) {
     var container = $("#tools");
-    if (!container.is(event.target) // if the target of the click isn't the container...
+    if (!container.is(event.target) // if the target of the move isn't the container...
         && container.has(event.target).length === 0) // ... nor a descendant of the container
     {
         var currentTimeMilis = new Date().getTime();
-        if (currentTimeMilis < lastScrollMilis + 50) {
+        if (currentTimeMilis < lastScrollMilis + 50 &&
+        !($("#search_panel").hasClass("visible"))) {
             $("#tools").removeClass("hide");
             clearTimeout(visibilityTimeout);
             visibilityTimeout = setTimeout(function () {
@@ -216,13 +219,21 @@ $(document).ready(function () {
         if (typeof intervalId !== 'undefined')clearInterval(intervalId);
         if (typeof timeoutId !== 'undefined')clearTimeout(timeoutId);
     });
+    $(window).click(function(evt) {
+        if(evt.target.id != "bt_search" &&
+        evt.target.id != "input_artist" &&
+        evt.target.id != "input_track"){
+            displaySearchFields(false);
+        }
+    });
 
-    $("#bt_search").click(function(){
+    $("#bt_search").click(function(evt){
         if($("#search_panel").hasClass("visible")){
             displaySearchFields(false);
         } else {
             displaySearchFields(true);
         }
+        evt.stopPropagation();
     })
 
 });
