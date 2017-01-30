@@ -94,7 +94,10 @@ img {
     border-bottom: 2px solid #fb8521;
 }
 
-
+#lyrics.break-line{
+    white-space: pre-line;
+    width: 500px;
+}
 
 
 

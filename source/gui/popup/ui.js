@@ -46,6 +46,11 @@ function scaleWindowToFit(){
             chrome.windows.update(window.id, {width: w});
         });
     }
+    if($("#lyrics").innerWidth()>700){
+        $("#lyrics").addClass('break-line');
+    } else {
+        $("#lyrics").removeClass('break-line');
+    }
 }
 
 
