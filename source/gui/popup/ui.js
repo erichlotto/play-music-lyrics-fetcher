@@ -1,5 +1,7 @@
+var appName;
 jQuery.getJSON("/manifest.json", function (data) {
-    document.title = data.name;
+    appName = data.name;
+    document.title = appName;
 });
 
 var currentLyrics;
@@ -9,7 +11,7 @@ function onLyricsLoadStart() {
     $("#status").text("Lyrics Load Started");
     $("#status").show();
     $("#info").hide();
-    document.title = "Play Music Lyrics Fetcher";
+    document.title = appName;
     $("#tools").hide();
 }
 
@@ -34,7 +36,7 @@ function onLyricsLoadFinished(lyrics) {
     }
     $("#lyrics").css("margin-top", $("#title").outerHeight() );
 
-    document.title = lyrics.artist + " - " + lyrics.track;
+    document.title = lyrics.track + " - " + lyrics.artist + " (Lyrics)";
     $('html, body').animate({
         scrollTop: 0
     }, 100);
@@ -65,7 +67,7 @@ function onLyricsLoadError(error) {
     $("#info").hide();
     $("#delay_panel").hide();
     $("#bt_autoscroll").hide();
-    document.title = "Play Music Lyrics Fetcher";
+    document.title = appName;
 }
 
 function onPositionChanged(position) {
