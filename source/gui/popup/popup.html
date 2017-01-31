@@ -13,6 +13,7 @@
 <body>
 
 <p id="status">...</p>
+
 <div id="info">
     <div id="title">
         <label id="track"></label><br>
@@ -23,34 +24,42 @@
     </div>
     <div id="lyrics"></div>
 </div>
-    <div id="tools">
 
-        <div id="bt_autoscroll" class="fab" title="Activate auto scroll"><img src="./images/bt_scroll.png"></div><br>
+<div id="tools">
 
-        <div id="delay_panel">
-            <div id="bt_delay" class="fab"><img src="./images/bt_delay.png"></div>
-            <div id="delay_controllers">
-                <div id="bt_delay_bwd" class="fab" title="Remove 500 ms delay">
-                    <img src="./images/bt_delay_bwd.png">
-                </div>
-                <label id="delay_label"></label>
-                <div id="bt_delay_fwd" class="fab" title="Add 500 ms delay">
-                    <img src="./images/bt_delay_fwd.png">
-                </div>
+    <div>
+        <div id="bt_autoscroll" class="fab" title="Activate auto scroll"><img src="./images/bt_scroll.png"></div>
+    </div>
+
+
+    <div id="delay_panel">
+        <div id="bt_delay" class="fab"><img src="./images/bt_delay.png"></div
+        ><div id="delay_controllers">
+            <div id="bt_delay_bwd" class="fab" title="Remove 500 ms delay">
+                <img src="./images/bt_delay_bwd.png">
+            </div>
+            <label id="delay_label"></label>
+            <div id="bt_delay_fwd" class="fab" title="Add 500 ms delay">
+                <img src="./images/bt_delay_fwd.png">
             </div>
         </div>
-<br>
-        <div id="search_panel">
-            <div id="bt_search" class="fab"><img src="./images/bt_search.png"></div>
-            <form id="search_fields" >
-                <input type="text" id="input_artist" name="Artist" placeholder="Artist">
-                <input type="text" id="input_track" name="Track" placeholder="Track">
-            </form>
-        </div>
-<br>
-        <div id="bt_newwindow" class="fab" title="Open in new window"><img src="./images/window.png"></div>
-
     </div>
+
+
+    <div id="search_panel">
+        <div id="bt_search" class="fab" title="Wrong track? Fix it here."><img src="./images/bt_search.png"></div
+        ><div id="search_fields" >
+            <input type="text" id="input_artist" name="Artist" placeholder="Artist">
+            <input type="text" id="input_track" name="Track" placeholder="Track">
+        </div>
+    </div>
+
+
+    <div>
+        <div id="bt_newwindow" class="fab" title="Open in new window"><img src="./images/window.png"></div>
+    </div>
+
+</div>
 
 </body>
 </html>

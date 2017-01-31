@@ -10,13 +10,13 @@ function onLyricsLoadStart() {
     $("#status").show();
     $("#info").hide();
     document.title = "Play Music Lyrics Fetcher";
-    $("#delay_panel").hide();
-    $("#bt_autoscroll").hide();
+    $("#tools").hide();
 }
 
 function onLyricsLoadFinished(lyrics) {
     currentLyrics = lyrics;
 
+    $("#tools").show();
     $("#status").hide();
     $("#info").show();
     $("#artist").text(lyrics.artist);
@@ -60,6 +60,7 @@ function scaleWindowToFit(){
 
 function onLyricsLoadError(error) {
     $("#status").text(error);
+    $("#tools").show();
     $("#status").show();
     $("#info").hide();
     $("#delay_panel").hide();
@@ -104,7 +105,7 @@ function turnOnAutoScroll() {
 
 
 function displaySearchFields(display){
-    $searchElm = $("#search_panel");
+    $searchElm = $("#search_fields");
     if(display){
         $searchElm.addClass("visible");
         $("#input_artist").focus();
@@ -232,12 +233,18 @@ $(document).ready(function () {
     });
 
     $("#bt_search").click(function(evt){
-        if($("#search_panel").hasClass("visible")){
+        if($("#search_fields").hasClass("visible")){
             displaySearchFields(false);
         } else {
             displaySearchFields(true);
         }
         evt.stopPropagation();
     })
+    $("#bt_delay").mouseenter(function(){
+        $("#delay_controllers").addClass("visible")
+    });
+    $("#delay_panel").mouseleave(function(){
+        $("#delay_controllers").removeClass("visible")
+    });
 
 });

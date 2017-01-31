@@ -113,7 +113,7 @@ img {
     border-radius: 50%;
     padding: 5px;
     background: #fb8521;
-    margin: 5px;
+    /*margin: 5px;*/
     text-align: center;
     display: inline-block;
 }
@@ -127,8 +127,8 @@ img {
 
 #tools {
     position: fixed;
-    right: 0;
-    bottom: 10px;
+    right: 5px;
+    bottom: 24px;
     transition: visibility 0.5s, opacity 0.5s linear;
     text-align: right;
     -webkit-user-select: none;
@@ -136,7 +136,7 @@ img {
 }
 
 #tools>div{
-    display: inline-block;
+    margin-top: 5px;
 }
 
 #tools.hide {
@@ -145,26 +145,20 @@ img {
 }
 
 
-
 #delay_panel, #search_panel {
-    width: 34px;
     white-space: nowrap;
-    overflow: hidden;
-    transition: width 0.3s linear;
-}
-
-#delay_panel:hover {
-    width: 170px;
-}
-
-#delay_panel .fab, #search_panel .fab {
-    margin: 0;
+    overflow-x: hidden;
 }
 
 #delay_controllers {
+    width: 0;
+    transition: width 0.3s linear;
     display: inline-block;
     border-radius: 50px;
     background: #aaaaaa;
+}
+#delay_controllers.visible {
+    width: 131px;
 }
 
 #delay_label {
@@ -180,13 +174,18 @@ img {
 
 
 #search_fields{
+    width: 0;
+    transition: width 0.3s linear;
     display: inline-block;
     vertical-align: middle;
+    margin: 0;
 }
 
-#search_panel.visible {
-    width: 282px;
+
+#search_fields.visible {
+    width: 249px;
 }
+
 
 #search_fields>input{
     padding: 5px 10px;
@@ -197,3 +196,7 @@ img {
     background: #eee;
 
 }
+#search_fields>input:first-child{
+    margin-left: 5px;
+}
+
