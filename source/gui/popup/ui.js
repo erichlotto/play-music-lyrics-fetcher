@@ -130,7 +130,7 @@ $(window).mousemove(function (event) {
     {
         var currentTimeMilis = new Date().getTime();
         if (currentTimeMilis < lastScrollMilis + 50 &&
-        !($("#search_panel").hasClass("visible"))) {
+        !($("#search_fields").hasClass("visible"))) {
             $("#tools").removeClass("hide");
             clearTimeout(visibilityTimeout);
             visibilityTimeout = setTimeout(function () {
