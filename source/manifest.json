@@ -44,7 +44,8 @@
     "chrome_style": true
   },
   "web_accessible_resources": [
-    "site_modules/*"
+    "site_modules/*",
+    "lyrics_providers/*"
   ],
   "commands": {
     "_execute_page_action": {

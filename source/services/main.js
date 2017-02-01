@@ -8,9 +8,9 @@ var delays = {};
  * Check DOM for when a track changes
  */
 function checkForNewTrack() {
-    log('CHECK FOR NEW TRACK');
+//    log('CHECK FOR NEW TRACK');
     if (!isDOMTrackAvailable()) {
-        onLyricsLoadError("No song playing");
+        onLyricsLoadError(null, null, "No song playing");
         console.log("No new track");
         return;
     }
@@ -18,9 +18,9 @@ function checkForNewTrack() {
     if (JSON.stringify(newTrackInfo) != JSON.stringify(currentTrackInfo)) {
         currentTrackInfo = newTrackInfo;
         if (!newTrackInfo.track) {
-            onLyricsLoadError("Unknown track");
+            onLyricsLoadError(null, null, "Unknown track");
         } else if (!newTrackInfo.artist) {
-            onLyricsLoadError("Unknown artist");
+            onLyricsLoadError(null, null, "Unknown artist");
         } else {
             log("NEW TRACK: " + newTrackInfo.artist + " - " + newTrackInfo.track);
             getLyricsFromCache(newTrackInfo.artist, newTrackInfo.track);
@@ -33,7 +33,7 @@ function checkForNewTrack() {
  * Dispatch an event informing the track's new position
  */
 function checkTrackPosition() {
-    log('CHECK POSITION');
+//    log('CHECK POSITION');
     var trackPosition = getCurrentDOMTrackPosition();
     trackPosition.delay = delays[buildDelayId()] ? delays[buildDelayId()] : 0;
     dispatchEventToConnectedClients({query: "POSITION_CHANGED", position: trackPosition});
@@ -48,36 +48,55 @@ function onLyricsLoadStart() {
     dispatchEventToConnectedClients(lastLyricsEvent);
 }
 
-function onLyricsLoadFinished(lyricsData, artist, track) {
-    storeLyricsInCache(lyricsData, artist, track);
+function onLyricsLoadFinished(lyricsData, DOMArtist, DOMTrack) {
+    storeLyricsInCache(lyricsData, DOMArtist, DOMTrack);
     lastLyricsEvent = {query: "LYRICS_EVENT", status: "LOAD_FINISH", lyrics: lyricsData};
     dispatchEventToConnectedClients(lastLyricsEvent);
 }
 
-function onLyricsLoadError(message) {
-    lastLyricsEvent = {query: "LYRICS_EVENT", status: "LOAD_ERROR", error: message};
-    dispatchEventToConnectedClients(lastLyricsEvent);
+function onLyricsLoadError(DOMArtist, DOMTrack, message) {
+    if(currentLyricsProviderIndex < lyricsProviders.length){
+        // Try another lyric source
+        callFetchLyrics(DOMArtist, DOMTrack);
+    } else {
+        lastLyricsEvent = {query: "LYRICS_EVENT", status: "LOAD_ERROR", error: message};
+        dispatchEventToConnectedClients(lastLyricsEvent);
+    }
 }
 
-function getLyricsFromCache(domArtist, domTrack) {
-    chrome.storage.local.get(domArtist + domTrack, function (obj) {
-        if (obj[domArtist + domTrack]) {
+var currentLyricsProviderIndex = 0;
+function getLyricsFromCache(DOMArtist, DOMTrack) {
+    currentLyricsProviderIndex = 0;
+    chrome.storage.local.get(DOMArtist + DOMTrack, function (obj) {
+        if (obj[DOMArtist + DOMTrack]) {
             log("CACHED LYRICS FOUND");
             console.log(obj);
-            onLyricsLoadFinished(obj[domArtist + domTrack]);
+            onLyricsLoadFinished(obj[DOMArtist + DOMTrack]);
         } else {
             log("CACHED LYRICS NOT FOUND");
-            fetchLyrics(domArtist, domTrack);
+            callFetchLyrics(DOMArtist, DOMTrack);
         }
     });
 }
 
-function storeLyricsInCache(lyricsData, domArtist, domTrack) {
+function storeLyricsInCache(lyricsData, DOMArtist, DOMTrack) {
     // cache write
     var cachedObj = {}
-    cachedObj[domArtist + domTrack] = lyricsData;
+    cachedObj[DOMArtist + DOMTrack] = lyricsData;
     chrome.storage.local.set(cachedObj);
     log("LYRIC STORED ON CACHE");
+}
+
+
+/**
+ * call the fetcLyrics method from specific lyrics provider
+ */
+function callFetchLyrics(DOMArtist, DOMTrack){
+    chrome.runtime.sendMessage({query: 'LOAD_LYRIC_PROVIDER', file: lyricsProviders[currentLyricsProviderIndex] }, function(response){
+        log("Fetching using "+response);
+        fetchLyrics(DOMArtist, DOMTrack);
+    });
+    currentLyricsProviderIndex ++;
 }
 
 
@@ -88,6 +107,14 @@ function buildDelayId(){
     return document.location + JSON.stringify(currentTrackInfo);
 }
 
+
+/**
+ * Keep a list of all available lyrics providers
+ */
+var lyricsProviders = [];
+jQuery.getJSON(chrome.extension.getURL("/lyrics_providers/_priority.json"), function (data) {
+    lyricsProviders = data;
+});
 
 
 /**

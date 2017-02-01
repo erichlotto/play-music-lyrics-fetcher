@@ -21,15 +21,15 @@
  */
 var lyricsFetchTries = [];
 
-function fetchLyrics(domArtist, domTrack) {
+function fetchLyrics(DOMArtist, DOMTrack) {
     onLyricsLoadStart();
-    if (!lyricsFetchTries[domArtist + domTrack])
-        lyricsFetchTries[domArtist + domTrack] = 0;
-    lyricsFetchTries[domArtist + domTrack]++;
+    if (!lyricsFetchTries[DOMArtist + DOMTrack])
+        lyricsFetchTries[DOMArtist + DOMTrack] = 0;
+    lyricsFetchTries[DOMArtist + DOMTrack]++;
 
     var url = "https://api.vagalume.com.br/search.php"
-        + "?art=" + encodeURIComponent(domArtist)
-        + "&mus=" + encodeURIComponent(domTrack)
+        + "?art=" + encodeURIComponent(DOMArtist)
+        + "&mus=" + encodeURIComponent(DOMTrack)
         + "&apikey=660a4395f992ff67786584e238f501aa";
 
     // Check if browser supports CORS - http://www.w3.org/TR/cors/
@@ -37,20 +37,20 @@ function fetchLyrics(domArtist, domTrack) {
         url += "&callback=?";
     }
 
-    log("Fetching lyrics for \"" + domArtist + "\" > \"" + domTrack + "\" ...");
+    log("Fetching lyrics for \"" + DOMArtist + "\" > \"" + DOMTrack + "\" ...");
 
     jQuery.getJSON(url, function (data) {
         //Continue
-        validateLyrics(data, domArtist, domTrack);
+        validateLyrics(data, DOMArtist, DOMTrack);
     }).fail(function (err) {
         // Something went wrong with the request. Alert the user
-        onLyricsLoadError("There was an error trying to reach the API");
+        onLyricsLoadError(DOMArtist, DOMTrack, "There was an error trying to reach the API");
         console.log(err);
     });
 
 }
 
-function validateLyrics(data, domArtist, domTrack) {
+function validateLyrics(data, DOMArtist, DOMTrack) {
 
     if (data.type == 'exact' || data.type == 'aprox') {
         if (!data.mus[0].text) {
@@ -59,22 +59,22 @@ function validateLyrics(data, domArtist, domTrack) {
         }
 
         if (getCurrentDOMTrackPosition().position != -1)
-            fetchTiming(domArtist, domTrack, data);
+            fetchTiming(DOMArtist, DOMTrack, data);
         else
-            showLyrics(domArtist, domTrack, data);
+            showLyrics(DOMArtist, DOMTrack, data);
 
-    } else if (lyricsFetchTries[domArtist + domTrack] < 3) {
-        fetchLyrics(domTrack, domArtist);
+    } else if (lyricsFetchTries[DOMArtist + DOMTrack] < 3) {
+        fetchLyrics(DOMTrack, DOMArtist);
     } else if (data.type == 'song_notfound') {
         // Song not found, but artist was found
-        onLyricsLoadError("We could not find song " + domTrack + " by " + data.art.name);
+        onLyricsLoadError(DOMArtist, DOMTrack, "We could not find song " + DOMTrack + " by " + data.art.name);
     } else {
         // Artist not found
-        onLyricsLoadError("We could not find artist " + domArtist);
+        onLyricsLoadError(DOMArtist, DOMTrack, "We could not find artist " + DOMArtist);
     }
 }
 
-function fetchTiming(domArtist, domTrack, trackData) {
+function fetchTiming(DOMArtist, DOMTrack, trackData) {
 
     var url = "https://app2.vagalume.com.br/ajax/subtitle-get.php?action=getBestSubtitle"
         + "&pointerID=" + trackData.mus[0].id
@@ -88,25 +88,25 @@ function fetchTiming(domArtist, domTrack, trackData) {
     log("Fetching timing...");
     jQuery.getJSON(url, function (timingData) {
         //Continue
-        validateTiming(domArtist, domTrack, trackData, timingData);
+        validateTiming(DOMArtist, DOMTrack, trackData, timingData);
     }).fail(function (err) {
         // Something went wrong with the request. Alert the user
-        onLyricsLoadError("There was an error trying to reach the API");
+        onLyricsLoadError(DOMArtist, DOMTrack, "There was an error trying to reach the API");
         console.log(err);
     });
 }
 
-function validateTiming(domArtist, domTrack, trackData, timingData) {
+function validateTiming(DOMArtist, DOMTrack, trackData, timingData) {
     if (timingData.subtitles) {
-        showLyrics(domArtist, domTrack, trackData, timingData);
+        showLyrics(DOMArtist, DOMTrack, trackData, timingData);
     } else {
         // Subtitle not found
         log("Timing not found");
-        showLyrics(domArtist, domTrack, trackData);
+        showLyrics(DOMArtist, DOMTrack, trackData);
     }
 }
 
-function showLyrics(domArtist, domTrack, trackData, timingData) {
+function showLyrics(DOMArtist, DOMTrack, trackData, timingData) {
     var static;
     var timmed = [];
     try {
@@ -132,5 +132,5 @@ function showLyrics(domArtist, domTrack, trackData, timingData) {
         "track": trackData.mus[0].name,
         "static": static,
         "timmed": timmed
-    }, domArtist, domTrack);
+    }, DOMArtist, DOMTrack);
 }
