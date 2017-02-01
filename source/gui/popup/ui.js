@@ -13,6 +13,7 @@ function onLyricsLoadStart() {
     $("#info").hide();
     document.title = appName;
     $("#tools").hide();
+    displaySearchFields(false);
 }
 
 function onLyricsLoadFinished(lyrics) {
@@ -184,6 +185,7 @@ $(document).ready(function () {
         $("#bt_newwindow").hide();
     }
     turnOnAutoScroll();
+    displaySearchFields(false);
     $("#bt_autoscroll").click(turnOnAutoScroll);
     $("#tools").mouseenter(function () {
         clearTimeout(visibilityTimeout);
