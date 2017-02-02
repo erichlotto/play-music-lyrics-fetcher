@@ -55,18 +55,16 @@ function onLyricsLoadFinished(lyricsData, DOMArtist, DOMTrack) {
 }
 
 function onLyricsLoadError(DOMArtist, DOMTrack, message) {
-    if(currentLyricsProviderIndex < lyricsProviders.length){
+    if(nextLyricsProviderExists()){
         // Try another lyric source
-        callFetchLyrics(DOMArtist, DOMTrack);
+        fetchFromNextLyricsProvider(DOMArtist, DOMTrack);
     } else {
         lastLyricsEvent = {query: "LYRICS_EVENT", status: "LOAD_ERROR", error: message};
         dispatchEventToConnectedClients(lastLyricsEvent);
     }
 }
 
-var currentLyricsProviderIndex = 0;
 function getLyricsFromCache(DOMArtist, DOMTrack) {
-    currentLyricsProviderIndex = 0;
     chrome.storage.local.get(DOMArtist + DOMTrack, function (obj) {
         if (obj[DOMArtist + DOMTrack]) {
             log("CACHED LYRICS FOUND");
@@ -74,7 +72,7 @@ function getLyricsFromCache(DOMArtist, DOMTrack) {
             onLyricsLoadFinished(obj[DOMArtist + DOMTrack]);
         } else {
             log("CACHED LYRICS NOT FOUND");
-            callFetchLyrics(DOMArtist, DOMTrack);
+            fetchFromFirstLyricsProvider(DOMArtist, DOMTrack);
         }
     });
 }
@@ -89,32 +87,12 @@ function storeLyricsInCache(lyricsData, DOMArtist, DOMTrack) {
 
 
 /**
- * call the fetcLyrics method from specific lyrics provider
- */
-function callFetchLyrics(DOMArtist, DOMTrack){
-    chrome.runtime.sendMessage({query: 'LOAD_LYRIC_PROVIDER', file: lyricsProviders[currentLyricsProviderIndex] }, function(response){
-        log("Fetching using "+response);
-        fetchLyrics(DOMArtist, DOMTrack);
-    });
-    currentLyricsProviderIndex ++;
-}
-
-
-/**
  * Return a string representing an id for the current track. Try to be as unique as possible.
  */
 function buildDelayId(){
     return document.location + JSON.stringify(currentTrackInfo);
 }
 
-
-/**
- * Keep a list of all available lyrics providers
- */
-var lyricsProviders = [];
-jQuery.getJSON(chrome.extension.getURL("/lyrics_providers/_priority.json"), function (data) {
-    lyricsProviders = data;
-});
 
 
 /**
