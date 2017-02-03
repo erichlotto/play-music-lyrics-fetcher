@@ -110,7 +110,7 @@ img {
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    padding: 5px;
+    padding: 7px;
     background: #fb8521;
     /*margin: 5px;*/
     text-align: center;
@@ -161,7 +161,7 @@ img {
     background: #aaaaaa;
 }
 #delay_controllers.visible {
-    width: 131px;
+    width: 139px;
 }
 
 #delay_label {

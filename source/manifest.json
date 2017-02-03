@@ -6,10 +6,11 @@
   "background": {
     "scripts": [
       "./services/dependencies/jquery.min.js",
-      "./services/background.js"
+      "./services/background.js",
+      "./services/analytics.js"
     ]
   },
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; https://ssl.google-analytics.com; object-src 'self'",
   "icons": {
     "16": "./images/icon16.png",
     "48": "./images/icon48.png",
