@@ -24,7 +24,7 @@ function onLyricsLoadFinished(lyrics) {
     $("#info").show();
     $("#artist").text(lyrics.artist);
     $("#track").text(lyrics.track);
-    if (lyrics.timmed.length > 0) {
+    if (lyrics.timmed && lyrics.timmed.length > 0) {
         $("#delay_panel").show();
         $("#lyrics").empty();
         for (i in lyrics.timmed) {

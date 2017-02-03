@@ -30,7 +30,7 @@ function fetchLyrics(DOMArtist, DOMTrack) {
     var url = "https://api.vagalume.com.br/search.php"
         + "?art=" + encodeURIComponent(DOMArtist)
         + "&mus=" + encodeURIComponent(DOMTrack)
-        + "&apikey=660a4395f992ff67786584e238f501aa";
+        + "&apikey=" + VAGALUME_API_KEY;
 
     // Check if browser supports CORS - http://www.w3.org/TR/cors/
     if (!jQuery.support.cors) {

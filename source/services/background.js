@@ -9,6 +9,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             chrome.tabs.executeScript(sender.tab.id, {file: "./services/utils.js"});
             chrome.tabs.executeScript(sender.tab.id, {file: "./services/dom_listener.js"});
             chrome.tabs.executeScript(sender.tab.id, {file: "./services/lyrics_provider_chooser.js"});
+            chrome.tabs.executeScript(sender.tab.id, {file: "./services/api_keys.js"});
             chrome.tabs.executeScript(sender.tab.id, {file: "./services/main.js"});
             chrome.pageAction.show(sender.tab.id);
             break;
