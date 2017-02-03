@@ -120,6 +120,10 @@ img {
 .fab:not(#bt_delay):hover {
     cursor: pointer;
 }
+.fab img{
+    width: 24px;
+    height: 24px;
+}
 
 
 /* BOX */
@@ -176,8 +180,8 @@ img {
     width: 0;
     transition: width 0.3s linear;
     display: inline-block;
-    vertical-align: middle;
-    margin: 0;
+    vertical-align: bottom;
+    margin: 0 0 4px 0;
 }
 
 
