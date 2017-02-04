@@ -72,7 +72,7 @@ function onLyricsLoadError(error) {
 }
 
 function onPositionChanged(position) {
-    if (!currentLyrics || currentLyrics.timmed.length < 1) {
+    if (!currentLyrics || currentLyrics.timmed==undefined || currentLyrics.timmed.length < 1) {
         return;
     }
     $("#delay_label").text(parseFloat(position.delay).toFixed(1) + "s");
@@ -110,9 +110,13 @@ function turnOnAutoScroll() {
 function displaySearchFields(display){
     $searchElm = $("#search_fields");
     if(display){
+        $("#input_artist").attr('tabindex', 1);
+        $("#input_track").attr('tabindex', 2);
         $searchElm.addClass("visible");
         $("#input_artist").focus();
     } else {
+        $("#input_artist").attr('tabindex', -1);
+        $("#input_track").attr('tabindex', -1);
         $searchElm.removeClass("visible");
         $("#input_artist").blur();
         $("#input_track").blur();
@@ -138,7 +142,7 @@ $(window).mousemove(function (event) {
             clearTimeout(visibilityTimeout);
             visibilityTimeout = setTimeout(function () {
                 $("#tools").addClass("hide");
-            }, 1000);
+            }, 3000);
         }
         lastScrollMilis = currentTimeMilis;
     }
@@ -185,7 +189,6 @@ $(document).ready(function () {
         $("#bt_newwindow").hide();
     }
     turnOnAutoScroll();
-    displaySearchFields(false);
     $("#bt_autoscroll").click(turnOnAutoScroll);
     $("#tools").mouseenter(function () {
         clearTimeout(visibilityTimeout);
@@ -237,7 +240,7 @@ $(document).ready(function () {
     });
 
     $("#bt_search").click(function(evt){
-        if($("#search_fields").hasClass("visible")){
+      if($("#search_fields").hasClass("visible")){
             displaySearchFields(false);
         } else {
             displaySearchFields(true);
@@ -250,5 +253,5 @@ $(document).ready(function () {
     $("#delay_panel").mouseleave(function(){
         $("#delay_controllers").removeClass("visible")
     });
-
+    displaySearchFields(false);
 });
