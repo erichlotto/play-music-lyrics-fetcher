@@ -10,6 +10,7 @@ jQuery.getJSON(chrome.extension.getURL("/lyrics_providers/_priority.json"), func
 
 function fetchFromFirstLyricsProvider(DOMArtist, DOMTrack){
     currentLyricsProviderIndex = -1;
+    onLyricsLoadStart();
     fetchFromNextLyricsProvider(DOMArtist, DOMTrack);
 }
 

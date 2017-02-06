@@ -1,5 +1,4 @@
 function fetchLyrics(DOMArtist, DOMTrack){
-    onLyricsLoadStart();
     var url = "https://api.genius.com/search?access_token=" + GENIUS_ACCESS_TOKEN + "&q=" + DOMArtist + "%20" + DOMTrack + "&per_page=1";
     jQuery.getJSON(url, function (data) {
         console.log(data)

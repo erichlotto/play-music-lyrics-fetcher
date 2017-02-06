@@ -181,7 +181,7 @@ img {
     transition: width 0.3s linear;
     display: inline-block;
     vertical-align: bottom;
-    margin: 0 0 4px 0;
+    margin: 0 0 6px 0;
 }
 
 
@@ -197,7 +197,7 @@ img {
     border: 0;
     vertical-align: top;
     background: #eee;
-
+    font-size: 14px;
 }
 #search_fields>input:first-child{
     margin-left: 5px;

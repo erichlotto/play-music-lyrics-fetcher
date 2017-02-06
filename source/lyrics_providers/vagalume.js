@@ -22,7 +22,6 @@
 var lyricsFetchTries = [];
 
 function fetchLyrics(DOMArtist, DOMTrack) {
-    onLyricsLoadStart();
     if (!lyricsFetchTries[DOMArtist + DOMTrack])
         lyricsFetchTries[DOMArtist + DOMTrack] = 0;
     lyricsFetchTries[DOMArtist + DOMTrack]++;
