@@ -41,7 +41,7 @@ function getCurrentDOMTrackPosition() {
 function getPositionWithDecimal() {
     var trackPosition = getDOMTrackPosition();
     // if the page does not provide position, we return -1;
-    if(trackPosition.length <1){
+    if(trackPosition == undefined || trackPosition.length <1){
         return -1;
     }
     if(timeOnLastFullSecond == -1){
@@ -66,7 +66,7 @@ function getPositionWithDecimal() {
 function listenForElementUpdate() {
     //Time elapsed is needed to create a decimal support
     var timeElapsedElement = getDOMTimeElapsedElement();
-    if (timeElapsedElement != null) {
+    if (timeElapsedElement != undefined) {
         timeElapsedElement.unbind('DOMSubtreeModified');
         timeElapsedElement.bind("DOMSubtreeModified", function () {
             timeOnLastFullSecond = new Date().getTime();

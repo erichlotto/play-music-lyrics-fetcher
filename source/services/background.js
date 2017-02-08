@@ -18,5 +18,22 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                 sendResponse(request.file);
             });
             return true;
+        case "ADD_REQUEST_LISTENER":
+            chrome.webRequest.onBeforeRequest.addListener(
+                function(details)
+                {
+                    if(details.requestBody != undefined){
+                        var postedString = decodeURIComponent(String.fromCharCode.apply(null,
+                                                      new Uint8Array(details.requestBody.raw[0].bytes)));
+                        chrome.tabs.sendMessage(sender.tab.id, {query: request.response, body: JSON.parse(postedString)});
+                    }
+
+                },
+                {urls: [request.url]},
+                ['requestBody']
+            );
+            break;
+
     }
 });
+

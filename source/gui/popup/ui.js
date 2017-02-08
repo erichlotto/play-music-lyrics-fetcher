@@ -6,6 +6,7 @@ jQuery.getJSON("/manifest.json", function (data) {
 
 var currentLyrics;
 var autoScroll = true;
+var timmingSupport;
 
 function onLyricsLoadStart() {
     $("#status").text("Lyrics Load Started");
@@ -24,7 +25,7 @@ function onLyricsLoadFinished(lyrics) {
     $("#info").show();
     $("#artist").text(lyrics.artist);
     $("#track").text(lyrics.track);
-    if (lyrics.timmed && lyrics.timmed.length > 0) {
+    if (lyrics.timmed && lyrics.timmed.length > 0 && timmingSupport==true) {
         $("#delay_panel").show();
         $("#lyrics").empty();
         for (i in lyrics.timmed) {
@@ -169,7 +170,7 @@ $(window).bind('mousewheel DOMMouseScroll mousedown', function (event) {
     if (!container.is(event.target) // if the target of the click isn't the container...
         && container.has(event.target).length === 0) // ... nor a descendant of the container
     {
-        if(currentLyrics.timmed.length > 1) {
+        if(timmingSupport && currentLyrics.timmed.length > 1) {
             $('html, body').stop(true);
             autoScroll = false;
             $("#bt_autoscroll").show();

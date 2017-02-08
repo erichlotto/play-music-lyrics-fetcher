@@ -38,7 +38,8 @@
     "storage",
     "unlimitedStorage",
     "http://*/",
-    "https://*/"
+    "https://*/",
+    "webRequest"
   ],
   "options_ui": {
     "page": "./gui/options.html",

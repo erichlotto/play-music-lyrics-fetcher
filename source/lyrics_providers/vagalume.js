@@ -57,10 +57,7 @@ function validateLyrics(data, DOMArtist, DOMTrack) {
             data.mus[0].text = "No lyrics found for this song. Is it instrumental?";
         }
 
-        if (getCurrentDOMTrackPosition().position != -1)
-            fetchTiming(DOMArtist, DOMTrack, data);
-        else
-            showLyrics(DOMArtist, DOMTrack, data);
+        fetchTiming(DOMArtist, DOMTrack, data);
 
     } else if (lyricsFetchTries[DOMArtist + DOMTrack] < 3) {
         fetchLyrics(DOMTrack, DOMArtist);

@@ -83,6 +83,7 @@ function start(){
                         onLyricsLoadStart();
                         break;
                     case "LOAD_FINISH":
+                        timmingSupport = message.timmingSupport;
                         onLyricsLoadFinished(message.lyrics);
                         break;
                     case "LOAD_ERROR":

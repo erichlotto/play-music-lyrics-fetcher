@@ -35,8 +35,10 @@ function checkForNewTrack() {
 function checkTrackPosition() {
 //    log('CHECK POSITION');
     var trackPosition = getCurrentDOMTrackPosition();
-    trackPosition.delay = delays[buildDelayId()] ? delays[buildDelayId()] : 0;
-    dispatchEventToConnectedClients({query: "POSITION_CHANGED", position: trackPosition});
+    if(trackPosition != undefined) {
+        trackPosition.delay = delays[buildDelayId()] ? delays[buildDelayId()] : 0;
+        dispatchEventToConnectedClients({query: "POSITION_CHANGED", position: trackPosition});
+    }
 }
 
 
@@ -50,7 +52,7 @@ function onLyricsLoadStart() {
 
 function onLyricsLoadFinished(lyricsData, DOMArtist, DOMTrack) {
     storeLyricsInCache(lyricsData, DOMArtist, DOMTrack);
-    lastLyricsEvent = {query: "LYRICS_EVENT", status: "LOAD_FINISH", lyrics: lyricsData};
+    lastLyricsEvent = {query: "LYRICS_EVENT", status: "LOAD_FINISH", lyrics: lyricsData, timmingSupport:(getCurrentDOMTrackPosition()!=undefined && getCurrentDOMTrackPosition().position!= -1) };
     dispatchEventToConnectedClients(lastLyricsEvent);
 }
 
@@ -67,11 +69,10 @@ function onLyricsLoadError(DOMArtist, DOMTrack, message) {
 function getLyricsFromCache(DOMArtist, DOMTrack) {
     chrome.storage.local.get(DOMArtist + DOMTrack, function (obj) {
         if (obj[DOMArtist + DOMTrack]) {
-            log("CACHED LYRICS FOUND");
-            console.log(obj);
+            // log("CACHED LYRICS FOUND");
             onLyricsLoadFinished(obj[DOMArtist + DOMTrack]);
         } else {
-            log("CACHED LYRICS NOT FOUND");
+            // log("CACHED LYRICS NOT FOUND");
             fetchFromFirstLyricsProvider(DOMArtist, DOMTrack);
         }
     });
@@ -82,7 +83,7 @@ function storeLyricsInCache(lyricsData, DOMArtist, DOMTrack) {
     var cachedObj = {}
     cachedObj[DOMArtist + DOMTrack] = lyricsData;
     chrome.storage.local.set(cachedObj);
-    log("LYRIC STORED ON CACHE");
+    // log("LYRIC STORED ON CACHE");
 }
 
 
