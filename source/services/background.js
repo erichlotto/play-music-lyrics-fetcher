@@ -19,6 +19,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             });
             return true;
         case "ADD_REQUEST_LISTENER":
+            // Used to intercept requests from tabs (see open.spotify.com.js)
             chrome.webRequest.onBeforeRequest.addListener(
                 function(details)
                 {
