@@ -11,8 +11,7 @@ function fetchLyrics(DOMArtist, DOMTrack) {
             var html = $($.parseHTML(response.content));
             parseArtistPage(html, DOMArtist, DOMTrack);
         } else {
-            console.log(response.error);
-            onLyricsLoadError(DOMArtist, DOMTrack, "We could not find artist " + DOMArtist);
+            onLyricsLoadError(DOMArtist, DOMTrack, "No lyrics found for " + toTitleCase(DOMTrack) + " by " + toTitleCase(DOMArtist));
         }
     });
 
@@ -29,7 +28,6 @@ function parseArtistPage(html, DOMArtist, DOMTrack){
                     //SUCCESS
                     parseLyricsPage(response.content, url.split('#')[1], DOMArtist, DOMTrack);
                 } else {
-                    console.log(response.error);
                     var artistName = html.find('h1').text().split("LYRICS")[0].trim();
                     onLyricsLoadError(DOMArtist, DOMTrack, "We could not find song " + DOMTrack + " by " + toTitleCase(artistName));
                 }
@@ -40,7 +38,7 @@ function parseArtistPage(html, DOMArtist, DOMTrack){
         }
 
     } else {
-        onLyricsLoadError(DOMArtist, DOMTrack, "We could not find artist " + DOMArtist);
+            onLyricsLoadError(DOMArtist, DOMTrack, "No lyrics found for " + toTitleCase(DOMTrack) + " by " + toTitleCase(DOMArtist));
     }
 }
 

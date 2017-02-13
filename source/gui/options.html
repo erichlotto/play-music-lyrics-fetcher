@@ -46,61 +46,70 @@ margin-top:10px;
 </head>
 <body>
 
-	<p class="settings_item">
-		<input type="checkbox" id="timed_lyrics" name="timed_lyrics" value="Use timed lyrics">
-		<label for="timed_lyrics">Use timed lyrics</label>
-	</p>
-	<p class="settings_item">
-		<input type="checkbox" id="auto_scroll" name="auto_scroll" value="Start auto scroll automatically">
-		<label for="auto_scroll">Start auto scroll automatically</label>
-	</p>
-	<p class="settings_item">
-		<input type="checkbox" id="display_new_window" name="display_new_window" value="Display open in new window button">
-		<label for="display_new_window">Display open in new window button</label>
-	</p>
-<!--	<p class="settings_item">
-		<input type="checkbox" id="overlay" name="overlay" value="Use lyrics overlay instead of popup">
-		<label for="overlay">Use lyrics overlay instead of popup</label>
-	</p>-->
-<fieldset>
-<legend>Visual:</legend>
-	<p class="settings_item">
-		<input type="checkbox" id="high_contrast" name="high_contrast" value="High contrast">
-		<label for="high_contrast">High contrast (karaoke mode)</label>
-	</p>
-	<form action="">
-	  Theme:<br>
-	  <input id="theme_light" class="settings_item" type="radio" name="theme" value="light">
-		<label for="theme_light" style="margin-right:10px">Light</label>
-	  <input id="theme_dark" class="settings_item" type="radio" name="theme" value="dark">
-		<label for="theme_dark">Dark</label>
-	</form>
-	<form action="">
-	  Font size:<br>
-	  <input id="font_small" class="settings_item" type="radio" name="font_size" value="font_size_small">
-		<label for="font_small" style="margin-right:10px">Small</label>
-	  <input id="font_normal" class="settings_item" type="radio" name="font_size" value="font_size_normal">
-		<label for="font_normal">Normal</label><br>
-	  <input id="font_large" class="settings_item" type="radio" name="font_size" value="font_size_large">
-		<label for="font_large" style="margin-right:10px">Large</label>
-	  <input id="font_xlarge" class="settings_item" type="radio" name="font_size" value="font_size_xlarge">
-		<label for="font_xlarge">Extra Large</label>
-	</form>
-</fieldset>
-	<p style="font-size:.7em">HINT: You can use Alt+Shift+L (default) to open the lyrics</p>
-	<p class="settings_item">
-		<input type="button" id="clear_cache" name="clear_cache" value="Clear cache">
-		<label id="clear_cache_feedback">--</label>
-	</p>
+	<!--<p class="settings_item">-->
+		<!--<input type="checkbox" id="timed_lyrics" name="timed_lyrics" value="Use timed lyrics">-->
+		<!--<label for="timed_lyrics">Use timed lyrics</label>-->
+	<!--</p>-->
+	<!--<p class="settings_item">-->
+		<!--<input type="checkbox" id="auto_scroll" name="auto_scroll" value="Start auto scroll automatically">-->
+		<!--<label for="auto_scroll">Start auto scroll automatically</label>-->
+	<!--</p>-->
+	<!--<p class="settings_item">-->
+		<!--<input type="checkbox" id="display_new_window" name="display_new_window" value="Display open in new window button">-->
+		<!--<label for="display_new_window">Display open in new window button</label>-->
+	<!--</p>-->
+<!--&lt;!&ndash;	<p class="settings_item">-->
+		<!--<input type="checkbox" id="overlay" name="overlay" value="Use lyrics overlay instead of popup">-->
+		<!--<label for="overlay">Use lyrics overlay instead of popup</label>-->
+	<!--</p>&ndash;&gt;-->
+<!--<fieldset>-->
+<!--<legend>Visual:</legend>-->
+	<!--<p class="settings_item">-->
+		<!--<input type="checkbox" id="high_contrast" name="high_contrast" value="High contrast">-->
+		<!--<label for="high_contrast">High contrast (karaoke mode)</label>-->
+	<!--</p>-->
+	<!--<form action="">-->
+	  <!--Theme:<br>-->
+	  <!--<input id="theme_light" class="settings_item" type="radio" name="theme" value="light">-->
+		<!--<label for="theme_light" style="margin-right:10px">Light</label>-->
+	  <!--<input id="theme_dark" class="settings_item" type="radio" name="theme" value="dark">-->
+		<!--<label for="theme_dark">Dark</label>-->
+	<!--</form>-->
+	<!--<form action="">-->
+	  <!--Font size:<br>-->
+	  <!--<input id="font_small" class="settings_item" type="radio" name="font_size" value="font_size_small">-->
+		<!--<label for="font_small" style="margin-right:10px">Small</label>-->
+	  <!--<input id="font_normal" class="settings_item" type="radio" name="font_size" value="font_size_normal">-->
+		<!--<label for="font_normal">Normal</label><br>-->
+	  <!--<input id="font_large" class="settings_item" type="radio" name="font_size" value="font_size_large">-->
+		<!--<label for="font_large" style="margin-right:10px">Large</label>-->
+	  <!--<input id="font_xlarge" class="settings_item" type="radio" name="font_size" value="font_size_xlarge">-->
+		<!--<label for="font_xlarge">Extra Large</label>-->
+	<!--</form>-->
+<!--</fieldset>-->
+	<!--<p style="font-size:.7em">HINT: You can use Alt+Shift+L (default) to open the lyrics</p>-->
+	<!--<p class="settings_item">-->
+		<!--<input type="button" id="clear_cache" name="clear_cache" value="Clear cache">-->
+		<!--<label id="clear_cache_feedback">&#45;&#45;</label>-->
+	<!--</p>-->
+
+
 	<p id="links">
 		<a href="http://github.com/erichlotto/Play-Music-Lyrics-Fetcher" title="View source"><img border=0 src="../images/github.png" alt="github" /></a>
 	</p>
 
 	<footer>
-		<label id="warning">Play Music Lyrics Fetcher proudly relies on Vagalume API.</label><br/>
-		<a target=_blank href="http://www.vagalume.com.br/">
-			<img border=0 src="http://api.vagalume.com.br/images/fundo-claro/103-fundo-claro-transparente.png" alt="Vagalume" />
-		</a>
+		<label id="warning">Play Music Lyrics Fetcher proudly relies on the following APIs.</label>
+		<div>
+			<a target=_blank href="http://www.vagalume.com.br/">
+				<img border=0 src="http://api.vagalume.com.br/images/fundo-claro/103-fundo-claro-transparente.png" alt="Vagalume" />
+			</a>
+		</div>
+		<div>
+			<a target=_blank href="http://www.darklyrics.com/">
+				<img border=0 src="http://www.darklyrics.com/dlogo.gif" alt="Dark Lyrics" style="background: #000; height: 34px;" />
+			</a>
+		</div>
 	</footer>
     <script src="../dependencies/jquery.min.js"></script>
     <script src="../scripts/options.js"></script>
