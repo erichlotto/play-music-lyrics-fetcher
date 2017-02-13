@@ -1,5 +1,4 @@
 function getDOMArtist(){
-    console.log($('.player__text div[data-bind="artist"]>a').first().text());
     return $('.player__text div[data-bind="artist"]>a').first().text();
 }
 
@@ -19,7 +18,7 @@ function getDOMTrackPosition(){
     var pos = $(".ui-slider-range").width();
     var total = $('.ui-slider-range').parent().width();
     var trackRelativePosition = pos/total;
-    return getDOMTrackDuration() * trackRelativePosition
+    return getDOMTrackDuration() * trackRelativePosition;
 }
 
 function getDOMTrackDuration(){
