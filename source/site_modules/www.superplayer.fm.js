@@ -1,9 +1,9 @@
 function getDOMArtist(){
-    return $("strong[data-value='artist']").first().text()
+    return $("strong[data-value='artist']").first().text();
 }
 
 function getDOMTrack(){
-    return $("span[data-value='name']").first().text()
+    return $("span[data-value='name']").first().text();
 }
 
 function getDOMAlbum(){
