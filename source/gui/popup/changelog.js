@@ -2,7 +2,7 @@ jQuery.getJSON("/manifest.json",function(data) {
 	document.title = data.name;
 	chrome.storage.sync.get('last_version', function(obj) {
 		var lastVersion = obj.last_version;
-		if(!lastVersion || lastVersion != data.version ){
+		if(!lastVersion || lastVersion != data.version){
 		    document.body.innerHTML = releaseNotes();
 		}
 		chrome.storage.sync.set({ 'last_version': data.version });
@@ -10,7 +10,7 @@ jQuery.getJSON("/manifest.json",function(data) {
 });
 
 function releaseNotes(){
-    return '<p id="status" style="min-width:500px"><h3>Changelog</h3><ul>' +
+    return '<p id="status"><h3 style="width: 500px">Changelog</h3><ul>' +
             '<li>Extension rewriten from scratch, please report any bug you find</li>' +
             '<li>New layout</li>' +
             '<li>Display in new window fully working with timing</li>' +
