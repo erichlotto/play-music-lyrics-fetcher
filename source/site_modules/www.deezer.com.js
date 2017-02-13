@@ -1,5 +1,3 @@
-// OLD LAYOUT
-
 function getDOMArtist(){
     return $(".player-track-artist:eq(0) .player-track-link:eq(0)").text();
 }
