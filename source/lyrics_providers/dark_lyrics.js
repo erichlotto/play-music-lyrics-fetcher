@@ -12,7 +12,7 @@ function fetchLyrics(DOMArtist, DOMTrack) {
             parseArtistPage(html, DOMArtist, DOMTrack);
         } else {
             console.log(response.error);
-            onLyricsLoadError(DOMArtist, DOMTrack, response.error);
+            onLyricsLoadError(DOMArtist, DOMTrack, "We could not find artist " + DOMArtist);
         }
     });
 
@@ -30,7 +30,8 @@ function parseArtistPage(html, DOMArtist, DOMTrack){
                     parseLyricsPage(response.content, url.split('#')[1], DOMArtist, DOMTrack);
                 } else {
                     console.log(response.error);
-                    onLyricsLoadError(DOMArtist, DOMTrack, response.error);
+                    var artistName = html.find('h1').text().split("LYRICS")[0].trim();
+                    onLyricsLoadError(DOMArtist, DOMTrack, "We could not find song " + DOMTrack + " by " + toTitleCase(artistName));
                 }
             });
         } else {
