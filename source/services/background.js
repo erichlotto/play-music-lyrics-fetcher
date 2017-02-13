@@ -34,6 +34,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                 ['requestBody']
             );
             break;
+        case "MAKE_INSECURE_REQUEST":
+            // Used to make http requests on https pages
+            var response = {};
+            $.get( request.url, function( data ) {
+                response.content = data;
+                sendResponse(response);
+            }).fail(function(err){
+                response.error = err;
+                sendResponse(response);
+            });
+            return true;
 
     }
 });

@@ -36,8 +36,6 @@ function fetchLyrics(DOMArtist, DOMTrack) {
         url += "&callback=?";
     }
 
-    log("Fetching lyrics for \"" + DOMArtist + "\" > \"" + DOMTrack + "\" ...");
-
     jQuery.getJSON(url, function (data) {
         //Continue
         validateLyrics(data, DOMArtist, DOMTrack);
@@ -80,8 +78,6 @@ function fetchTiming(DOMArtist, DOMTrack, trackData) {
     if (!jQuery.support.cors) {
         url += "&callback=?";
     }
-
-    log("Fetching timing...");
     jQuery.getJSON(url, function (timingData) {
         //Continue
         validateTiming(DOMArtist, DOMTrack, trackData, timingData);
@@ -97,7 +93,6 @@ function validateTiming(DOMArtist, DOMTrack, trackData, timingData) {
         showLyrics(DOMArtist, DOMTrack, trackData, timingData);
     } else {
         // Subtitle not found
-        log("Timing not found");
         showLyrics(DOMArtist, DOMTrack, trackData);
     }
 }
