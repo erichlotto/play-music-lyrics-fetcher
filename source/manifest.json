@@ -6,8 +6,7 @@
   "background": {
     "scripts": [
       "./services/dependencies/jquery.min.js",
-      "./services/background.js",
-      "./services/analytics.js"
+      "./services/background.js"
     ]
   },
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
