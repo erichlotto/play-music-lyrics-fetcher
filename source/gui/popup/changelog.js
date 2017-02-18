@@ -3,6 +3,7 @@ jQuery.getJSON("/manifest.json",function(data) {
 	chrome.storage.sync.get('last_version', function(obj) {
 		var lastVersion = obj.last_version;
 		if(!lastVersion || lastVersion != data.version){
+		    chrome.storage.local.clear();
 		    document.body.innerHTML = releaseNotes();
 		}
 		chrome.storage.sync.set({ 'last_version': data.version });
