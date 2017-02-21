@@ -11,8 +11,12 @@ jQuery.getJSON("/manifest.json",function(data) {
 });
 
 function releaseNotes(){
-    return '<p id="status"><h3 style="width: 500px">Changelog</h3><ul>' +
-            '<li>Extension rewriten from scratch, please report any bug you find</li>' +
+    return '<p id="status"><h3 style="width: 500px">Changelog</h3>' +
+		'<ul>v 1.0.2' +
+            '<li>Added support for Slacker Radio</li>' +
+		'</ul>' +
+		'<ul>v 1.0' +
+			'<li>Extension rewriten from scratch, please report any bug you find</li>' +
             '<li>New layout</li>' +
             '<li>Display in new window fully working with timing</li>' +
             '<li>Support for multiple lyrics provider (SUGGESTIONS ARE WELCOME)</li>' +
