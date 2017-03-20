@@ -100,20 +100,29 @@ function validateTiming(DOMArtist, DOMTrack, trackData, timingData) {
 function showLyrics(DOMArtist, DOMTrack, trackData, timingData) {
     var static;
     var timmed = [];
+
+    var engSubtitleIndex = -1;
+    for (i in timingData.subtitles) {
+        if (timingData.subtitles[i].lID == 2) {
+            engSubtitleIndex = i;
+        }
+    }
     try {
         static = trackData.mus[0].text
-        for (i in timingData.subtitles[0].text_compressed) {
-            var current_line = timingData.subtitles[0].text_compressed[i];
+        if (engSubtitleIndex > -1) {
+            for (i in timingData.subtitles[engSubtitleIndex].text_compressed) {
+                var current_line = timingData.subtitles[engSubtitleIndex].text_compressed[i];
 
-            // Prevent duplicated sentences display
-            if(timmed.length == 0 ||
-                current_line[0] != timmed[timmed.length-1].text ||
-                current_line[1] > timmed[timmed.length-1].enter + 0.5) {
-                timmed.push({
-                    "text": current_line[0],
-                    "enter": current_line[1],
-                    "exit": current_line[2]
-                });
+                // Prevent duplicated sentences display
+                if (timmed.length == 0 ||
+                    current_line[0] != timmed[timmed.length - 1].text ||
+                    current_line[1] > timmed[timmed.length - 1].enter + 0.5) {
+                    timmed.push({
+                        "text": current_line[0],
+                        "enter": current_line[1],
+                        "exit": current_line[2]
+                    });
+                }
             }
         }
     } catch (err) {
