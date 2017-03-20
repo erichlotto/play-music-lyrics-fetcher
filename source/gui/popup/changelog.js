@@ -14,6 +14,8 @@ function releaseNotes(){
     return '<p id="status"><h3 style="width: 500px">Changelog</h3>' +
 		'<ul>v 1.0.3' +
             '<li>Improved URL detection</li>' +
+            '<li>Timing support for spotify fixed</li>' +
+            '<li>Fixed a bug where sometimes lyrics are not displayed in english</li>' +
 		'</ul>' +
 		'<ul>v 1.0.2' +
             '<li>Added support for Slacker Radio</li>' +
