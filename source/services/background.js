@@ -13,13 +13,16 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             chrome.tabs.executeScript(sender.tab.id, {file: "./services/main.js"});
             chrome.pageAction.show(sender.tab.id);
             break;
+        case "HIDE_PAGE_ACTION":
+            chrome.pageAction.hide(sender.tab.id);
+            break;
         case "LOAD_LYRIC_PROVIDER":
             chrome.tabs.executeScript(sender.tab.id, {file: "./lyrics_providers/"+request.file}, function(){
                 sendResponse(request.file);
             });
             return true;
         case "ADD_REQUEST_LISTENER":
-            // Used to intercept requests from tabs (see open.spotify.com.js)
+            // Used to intercept requests from tabs (see spotify.open.js)
             chrome.webRequest.onBeforeRequest.addListener(
                 function(details)
                 {

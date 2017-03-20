@@ -1,0 +1,54 @@
+[
+  {
+    "url": "listen.tidal.com",
+    "file": "tidal.js"
+  },
+  {
+    "url": "music.microsoft.com",
+    "file": "microsoft.music.js"
+  },
+  {
+    "url": "open.spotify.com",
+    "file": "spotify.open.js"
+  },
+  {
+    "url": "play.spotify.com",
+    "file": "spotify.play.js"
+  },
+  {
+    "url": "play.google.com/music",
+    "file": "google.music.js"
+  },
+  {
+    "url": "accuradio.com",
+    "file": "accuradio.js"
+  },
+  {
+    "url": "claromusica.com",
+    "file": "claromusica.js"
+  },
+  {
+    "url": "deezer.com",
+    "file": "deezer.js"
+  },
+  {
+    "url": "last.fm",
+    "file": "lastfm.js"
+  },
+  {
+    "url": "pandora.com",
+    "file": "pandora.js"
+  },
+  {
+    "url": "slacker.com",
+    "file": "slacker.js"
+  },
+  {
+    "url": "superplayer.fm",
+    "file": "superplayer.js"
+  },
+  {
+    "url": "youtube.com",
+    "file": "youtube.js"
+  }
+]
