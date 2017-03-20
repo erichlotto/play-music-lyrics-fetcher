@@ -1,5 +1,5 @@
 function getDOMArtist(){
-    return $('.now-playing-bar > div:eq(0) > div:eq(0) > div:eq(1)').text().trim();
+    return $('.now-playing-bar > div:eq(0) > div:eq(0) > div:eq(1)').text().trim().split(",")[0];
 }
 
 function getDOMTrack(){
@@ -15,7 +15,7 @@ function isDOMTrackAvailable(){
 }
 
 function getDOMTrackPosition(){
-    var $elm = $(".player-controls .progress-bar-fg");
+    var $elm = $(".now-playing-bar div:not(.extra-controls) .progress-bar__fg");
     var percentage = $elm.width() / $elm.parent().width();
     return trackDuration * percentage;
 }
