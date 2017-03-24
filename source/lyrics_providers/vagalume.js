@@ -102,9 +102,11 @@ function showLyrics(DOMArtist, DOMTrack, trackData, timingData) {
     var timmed = [];
 
     var engSubtitleIndex = -1;
-    for (i in timingData.subtitles) {
-        if (timingData.subtitles[i].lID == 2) {
-            engSubtitleIndex = i;
+    if(timingData && timingData.subtitles){
+        for (i in timingData.subtitles) {
+            if (timingData.subtitles[i].lID == 2) {
+                engSubtitleIndex = i;
+            }
         }
     }
     try {
