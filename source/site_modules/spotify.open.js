@@ -1,9 +1,9 @@
 function getDOMArtist(){
-    return $('.now-playing-bar > div:eq(0) > div:eq(0) > div:eq(1)').text().trim().split(",")[0];
+    return $('.track-info__artists').text().trim().split(",")[0];
 }
 
 function getDOMTrack(){
-    return $('.now-playing-bar > div:eq(0) > div:eq(0) > div:eq(0)').text().trim();
+    return $('.track-info__name').text().trim();
 }
 
 function getDOMAlbum(){
