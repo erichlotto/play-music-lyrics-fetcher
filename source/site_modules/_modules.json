@@ -50,5 +50,9 @@
   {
     "url": "youtube.com",
     "file": "youtube.js"
+  },
+  {
+    "url": "soundcloud.com",
+    "file": "soundcloud.js"
   }
 ]
