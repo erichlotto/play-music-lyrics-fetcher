@@ -2,7 +2,7 @@ function fetchLyrics(DOMArtist, DOMTrack) {
     DOMArtist = DOMArtist.trim();
     DOMTrack = DOMTrack.trim();
 
-    var url = "http://www.darklyrics.com/" + DOMArtist.substring(0, 1).toLowerCase() + "/" + DOMArtist.toLowerCase() + ".html";
+    var url = "http://www.darklyrics.com/" + DOMArtist.substring(0, 1).toLowerCase() + "/" + DOMArtist.toLowerCase().replace(" ", "") + ".html";
 
 
     chrome.runtime.sendMessage({query: 'MAKE_INSECURE_REQUEST', url: url }, function(response){
@@ -46,10 +46,10 @@ function parseLyricsPage(htmlString, trackNumber, DOMArtist, DOMTrack){
     var html = $($.parseHTML(htmlString));
     var artistName = toTitleCase(html.find('h1').text().split("LYRICS")[0].trim());
     var trackName = html.find("a[name='" + trackNumber + "']").text().split(".")[1].trim();
-    var lyrics = htmlString.split('<h3><a name="' + trackNumber + '">')[1].split("<h3")[0].split("</h3>")[1];
+    var lyrics = htmlString.split('<h3><a name="' + trackNumber + '">')[1].split("<br /><br />")[0].split("</h3>")[1];
 
     var lyricsHTML = $($.parseHTML(lyrics));
-    if(lyricsHTML.text() != undefined && lyricsHTML.text().length > 0){
+    if(lyricsHTML.text() != undefined && lyricsHTML.text().trim().length > 0){
         onLyricsLoadFinished({
             "artist": artistName,
             "track": trackName,
