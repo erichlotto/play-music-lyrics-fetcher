@@ -42,7 +42,7 @@
     "webRequest"
   ],
   "options_ui": {
-    "page": "./gui/options.html",
+    "page": "./gui/options/options.html",
     "chrome_style": true
   },
   "web_accessible_resources": [

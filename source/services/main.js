@@ -119,7 +119,10 @@ chrome.runtime.onConnect.addListener(function(client) {
             switch (message.query) {
                 case 'INFO_REQUEST':
                     if (lastLyricsEvent) {
-                        dispatchEventToConnectedClients(lastLyricsEvent);
+                        chrome.storage.sync.get('timedLyrics', function(obj) {
+                            lastLyricsEvent.timmingSupport = (getCurrentDOMTrackPosition()!=undefined && getCurrentDOMTrackPosition().position!= -1 && obj.timedLyrics!=false);
+                            dispatchEventToConnectedClients(lastLyricsEvent);
+                        });
                     } else {
                         onLyricsLoadStart();
                     }
