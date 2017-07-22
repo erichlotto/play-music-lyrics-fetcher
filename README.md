@@ -29,4 +29,5 @@ This extension is now on the Chrome Web Store, and this is the preferred install
  - select "Load unpacked extension"
  - Choose the "source" directory
 
+---
 This is an ad-free extension. If you wish to support the development, my bitcoin wallet id is 1FwTyFASNkwKiRQJ1yVGaeRT3NqnsCp3SH
