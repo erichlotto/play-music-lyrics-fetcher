@@ -30,4 +30,4 @@ This extension is now on the Chrome Web Store, and this is the preferred install
  - Choose the "source" directory
 
 ---
-This is an ad-free extension. If you wish to support the development, my bitcoin wallet id is 1FwTyFASNkwKiRQJ1yVGaeRT3NqnsCp3SH
+This is an ad-free extension. If you wish to support the development, my bitcoin address is 1NiUwpF8BgoKqDtQn9quxFLimacTmSyZSq
