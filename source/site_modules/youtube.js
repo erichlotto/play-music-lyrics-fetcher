@@ -1,9 +1,9 @@
 function getDOMArtist(){
-    return parseInfo($("#eow-title").text()).artist.trim();
+    return parseInfo(getDOMArtistTrackElement().text()).artist.trim();
 }
 
 function getDOMTrack(){
-    return parseInfo($("#eow-title").text()).track.trim();
+    return parseInfo(getDOMArtistTrackElement().text()).track.trim();
 }
 
 function getDOMAlbum(){
@@ -11,7 +11,7 @@ function getDOMAlbum(){
 }
 
 function isDOMTrackAvailable(){
-  return $("#eow-title").length;
+  return getDOMArtistTrackElement().length;
 }
 
 function getDOMTrackPosition(){
@@ -38,6 +38,15 @@ function getDOMTrackDuration(){
 
 function getDOMTimeElapsedElement(){
    return $(".ytp-time-current:eq(0)");
+}
+
+function getDOMArtistTrackElement(){
+  if($("#eow-title").length){
+    return $("#eow-title");
+  } else if($("h1.title").length){// new layout
+    return $("h1.title");
+  }
+
 }
 
 
