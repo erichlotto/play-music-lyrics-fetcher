@@ -12,7 +12,9 @@ jQuery.getJSON("/manifest.json",function(data) {
 
 function releaseNotes(){
     return '<p id="status"><h3 style="width: 500px">Changelog</h3>' +
-		'<ul>v 1.0.7' +
+		'<ul>v 1.0.8' +
+            "<li>Fix for YouTube's new layout</li>" +
+		'</ul><ul>v 1.0.7' +
             '<li>Fixed Pandora integration</li>' +
             '<li>Added option to disable timed lyrics in (check the options page)</li>' +
             '<li>Fixed DarkLyrics integration</li>' +
