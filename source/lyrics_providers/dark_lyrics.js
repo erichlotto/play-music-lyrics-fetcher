@@ -2,7 +2,7 @@ function fetchLyrics(DOMArtist, DOMTrack) {
     DOMArtist = DOMArtist.trim();
     DOMTrack = DOMTrack.trim();
 
-    var url = "http://www.darklyrics.com/" + DOMArtist.substring(0, 1).toLowerCase() + "/" + DOMArtist.toLowerCase().replace(" ", "") + ".html";
+    var url = "http://www.darklyrics.com/" + DOMArtist.substring(0, 1).toLowerCase() + "/" + DOMArtist.toLowerCase().replace(/[ '’]/g, "") + ".html";
 
 
     chrome.runtime.sendMessage({query: 'MAKE_INSECURE_REQUEST', url: url }, function(response){
