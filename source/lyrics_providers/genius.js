@@ -1,27 +1,30 @@
 function fetchLyrics(DOMArtist, DOMTrack){
-    var url = "https://api.genius.com/search?access_token=" + GENIUS_ACCESS_TOKEN + "&q=" + DOMArtist + "%20" + DOMTrack + "&per_page=1";
-    jQuery.getJSON(url, function (data) {
-        console.log(data)
-
-        // Gorillaz Kids With Guns (feat. Neneh Cherry) is display album tracklist instead of lyrics
-        loadLyricsPage(DOMArtist, DOMTrack, "https://genius.com" + data.response.hits[0].result.path);
-    }).fail(function (err) {
+    chrome.storage.sync.get('geniusAccessToken', function(obj) {
+      if (!obj.geniusAccessToken) {
+        onLyricsLoadError(DOMArtist, DOMTrack, "No genius.com api access token provided");
+        return;
+      }
+      var url = "https://api.genius.com/search?access_token=" + obj.geniusAccessToken + "&q=" + DOMArtist + "%20" + DOMTrack + "&per_page=1";
+      jQuery.getJSON(url, function(data) {
+        loadLyricsPage(DOMArtist, DOMTrack, data.response.hits[0]);
+      }).fail(function(err) {
         // Something went wrong with the request. Alert the user
         onLyricsLoadError(DOMArtist, DOMTrack, "There was an error trying to reach the API");
         console.log(err);
-    });
+      });
+    })
 }
 
-function loadLyricsPage(DOMArtist, DOMTrack, url){
-    $.get( url, function( data ) {
+function loadLyricsPage(DOMArtist, DOMTrack, hit){
+    $.get( hit.result.url, function( data ) {
         var html = $($.parseHTML(data));
 
-        var artist = html.find(".song_header-primary_info-primary_artist").text();
-        var track = html.find(".song_header-primary_info-title").text();
-        var lyrics = html.find("lyrics").text().replace(/(\[.+\])/g, '');
+        var artist = hit.result.primary_artist && hit.result.primary_artist.name;
+        var track = hit.result.title;
+        var lyrics = html.find(".lyrics").text().replace(/(\[.+\])/g, '');
         var response = {
-            "artist": artist.trim(),
-            "track": track.trim(),
+            "artist": artist,
+            "track": track,
             "static": lyrics.trim()
         };
 
