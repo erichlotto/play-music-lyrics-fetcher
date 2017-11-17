@@ -1,5 +1,6 @@
 [
   "vagalume.js",
-  "dark_lyrics.js",
-  "metrolyrics.js"
+  "genius.js",
+  "metrolyrics.js",
+  "dark_lyrics.js"
 ]

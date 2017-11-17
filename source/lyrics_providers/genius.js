@@ -4,28 +4,35 @@ function fetchLyrics(DOMArtist, DOMTrack){
         loadLyricsPage(DOMArtist, DOMTrack, data.response.hits[0]);
     }).fail(function(err) {
         // Something went wrong with the request. Alert the user
-        onLyricsLoadError(DOMArtist, DOMTrack, "There was an error trying to reach the API");
+            onLyricsLoadError(DOMArtist, DOMTrack, "No lyrics found for " + DOMTrack + " by " + DOMArtist);
         console.log(err);
     });
 }
 
 function loadLyricsPage(DOMArtist, DOMTrack, hit){
-    $.get( hit.result.url, function( data ) {
-        var html = $($.parseHTML(data));
+    // we only display the result if it's the correct match
+    if(hit && hit.result.title.toLowerCase() == DOMTrack.toLowerCase() && hit.result.primary_artist.name.toLowerCase() == DOMArtist.toLowerCase()) {
+        $.get(hit.result.url, function (data) {
+            var html = $($.parseHTML(data));
 
-        var artist = hit.result.primary_artist && hit.result.primary_artist.name;
-        var track = hit.result.title;
-        var lyrics = html.find(".lyrics").text().replace(/(\[.+\])/g, '');
-        var response = {
-            "artist": artist,
-            "track": track,
-            "static": lyrics.trim()
-        };
+            var artist = hit.result.primary_artist && hit.result.primary_artist.name;
+            var track = hit.result.title;
+            var lyrics = html.find(".lyrics").text().replace(/(\[.+\])/g, '');
+            var response = {
+                "artist": artist,
+                "track": track,
+                "static": lyrics.trim()
+            };
 
-        onLyricsLoadFinished(response, DOMArtist, DOMTrack);
+            onLyricsLoadFinished(response, DOMArtist, DOMTrack);
 
-    }).fail(function(err){
-        // Something went wrong with the request. Alert the user
-        onLyricsLoadError(DOMArtist, DOMTrack, "There was an error trying to reach the API");
-    });
+        }).fail(function (err) {
+            // Something went wrong with the request. Alert the user
+            onLyricsLoadError(DOMArtist, DOMTrack, "No lyrics found for " + DOMTrack + " by " + DOMArtist);
+        });
+    } else {
+            onLyricsLoadError(DOMArtist, DOMTrack, "No lyrics found for " + DOMTrack + " by " + DOMArtist);
+    }
 }
+
+

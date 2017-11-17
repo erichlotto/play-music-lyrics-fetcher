@@ -46,19 +46,22 @@ function onLyricsLoadFinished(lyrics) {
 }
 
 function scaleWindowToFit(){
-    if(!docked) {
-        chrome.windows.getCurrent(function (window) {
-            var w = $("#lyrics").innerWidth() + 30;
-            chrome.windows.update(window.id, {width: w});
-        });
-    }
+    chrome.storage.sync.get('resize_external_window', function(obj) {
+        if(!docked && obj.resize_external_window!=false) {
+            chrome.windows.getCurrent(function (window) {
+                var w = $("#lyrics").innerWidth() + 30;
+                chrome.windows.update(window.id, {width: w});
+            });
+        }
 
-    // Fix for too long lines
-    if($("#lyrics").innerWidth()>700){
-        $("#lyrics").addClass('break-line');
-    } else {
-        $("#lyrics").removeClass('break-line');
-    }
+        // Fix for too long lines
+        if($("#lyrics").innerWidth()>700){
+            $("#lyrics").addClass('break-line');
+        } else {
+            $("#lyrics").removeClass('break-line');
+        }
+    });
+
 }
 
 
