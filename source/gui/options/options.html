@@ -15,6 +15,15 @@
 			text-align:center;
 			font-size:0.7em;
 		}
+		.footer-heading {
+			display: block;
+			margin-bottom: 5px;
+		}
+		footer a {
+			margin:5px;
+			display: inline-block;
+			vertical-align: middle;
+		}
 		.settings_item{
 			margin:2px;
 		}
@@ -99,17 +108,16 @@ margin-top:10px;
 	</p>
 
 	<footer>
-		<label id="warning">Play Music Lyrics Fetcher proudly relies on the following APIs.</label>
-		<div>
-			<a target=_blank href="http://www.vagalume.com.br/">
-				<img border=0 src="http://api.vagalume.com.br/images/fundo-claro/103-fundo-claro-transparente.png" alt="Vagalume" />
-			</a>
-		</div>
-		<div>
-			<a target=_blank href="http://www.darklyrics.com/">
-				<img border=0 src="http://www.darklyrics.com/dlogo.gif" alt="Dark Lyrics" style="background: #000; height: 34px;" />
-			</a>
-		</div>
+		<label class="footer-heading">Play Music Lyrics Fetcher proudly relies on the following APIs.</label>
+		<a target=_blank href="http://www.vagalume.com.br/">
+			<img border=0 src="http://api.vagalume.com.br/images/fundo-claro/103-fundo-claro-transparente.png" alt="Vagalume" />
+		</a>
+		<a target=_blank href="http://www.darklyrics.com/">
+			<img border=0 src="http://www.darklyrics.com/dlogo.gif" alt="Dark Lyrics" style="background: #000; height: 34px; padding: 0 5px; border-radius: 4px;" />
+		</a>
+		<a target=_blank href="http://genius.com/">
+			<img border=0 src="genius.png" style="border-radius: 4px;" />
+		</a>
 	</footer>
     <script src="/services/dependencies/jquery.min.js"></script>
     <script src="./options.js"></script>
