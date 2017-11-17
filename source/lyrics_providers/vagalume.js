@@ -108,6 +108,9 @@ function showLyrics(DOMArtist, DOMTrack, trackData, timingData) {
                 engSubtitleIndex = i;
             }
         }
+        if(engSubtitleIndex == -1 && timingData.subtitles.length > 0){
+            engSubtitleIndex = 0;
+        }
     }
     try {
         static = trackData.mus[0].text
