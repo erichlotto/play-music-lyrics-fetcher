@@ -12,8 +12,10 @@ jQuery.getJSON("/manifest.json",function(data) {
 
 function releaseNotes(){
     return '<p id="status"><h3 style="width: 500px">Changelog</h3>' +
-		'<ul>v 1.0.9' +
+		'<ul>v 1.0.12' +
             "<li>Genius integration fixed</li>" +
+            "<li>Fixed timed lyrics not showing for non-US songs</li>" +
+            "<li>Added option to disable window resizing in detached mode</li>" +
 		'</ul><ul>v 1.0.8' +
             "<li>Fix for YouTube's new layout</li>" +
 		'</ul><ul>v 1.0.7' +
