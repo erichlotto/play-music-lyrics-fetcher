@@ -54,5 +54,9 @@
   {
     "url": "soundcloud.com",
     "file": "soundcloud.js"
+  },
+  {
+    "url": "streamsquid.com",
+    "file": "streamsquid.js"
   }
 ]
