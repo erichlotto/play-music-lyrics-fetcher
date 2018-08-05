@@ -52,3 +52,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 });
 
+chrome.runtime.onInstalled.addListener(function() {
+    checkCompatibility();
+});
+
+checkCompatibility();
+
+function checkCompatibility(){
+    chrome.tabs.query({}, function(tabs){
+        for(tab in tabs) {
+            chrome.tabs.executeScript(tabs[tab].id, {file: "./services/dependencies/jquery.min.js"});
+            chrome.tabs.executeScript(tabs[tab].id, {file: "./services/launcher.js"});
+        }
+    });
+}
