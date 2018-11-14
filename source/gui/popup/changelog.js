@@ -12,7 +12,9 @@ jQuery.getJSON("/manifest.json",function(data) {
 
 function releaseNotes(){
     return '<p id="status"><h3 style="width: 500px">Changelog</h3>' +
-		'<ul>v 1.0.14' +
+		'<ul>v 1.0.16' +
+            "<li>Changed extension title to Lyrics Fetcher, complying with Google's policy</li>" +
+		'</ul><ul>v 1.0.14' +
             "<li>Added Streamsquid support</li>" +
             "<li>Player tab no longer needs to be refreshed after extension install or update</li>" +
 		'</ul><ul>v 1.0.13' +
@@ -21,8 +23,8 @@ function releaseNotes(){
             "<li>Genius integration fixed</li>" +
             "<li>Fixed timed lyrics not showing for non-US songs</li>" +
             "<li>Added option to disable window resizing in detached mode</li>" +
-		'</ul><ul>v 1.0.8' +
-            "<li>Fix for YouTube's new layout</li>" +
+		// '</ul><ul>v 1.0.8' +
+         //    "<li>Fix for YouTube's new layout</li>" +
 		// '</ul><ul>v 1.0.7' +
          //    '<li>Fixed Pandora integration</li>' +
          //    '<li>Added option to disable timed lyrics in (check the options page)</li>' +
