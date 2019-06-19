@@ -3,7 +3,7 @@ A Chrome extension for Google Play Music to load current song's lyrics.
 
 Now supporting also the following services:
   - Google Play Music
-  - Spotify [if using the new layout, please keep the tab visible to update lyrics position]
+  - Spotify
   - Deezer
   - Pandora
   - Superplayer
@@ -13,7 +13,9 @@ Now supporting also the following services:
   - Tidal
   - Last.fm
   - AccuRadio
-
+  - Slacker Radio
+  - SoundCloud
+  - Streamsquid
 
 
 Installation instructions:
@@ -30,4 +32,4 @@ This extension is now on the Chrome Web Store, and this is the preferred install
  - Choose the "source" directory
 
 ---
-This is an ad-free extension. If you wish to support the development, my bitcoin address is [1NiUwpF8BgoKqDtQn9quxFLimacTmSyZSq](bitcoin://1NiUwpF8BgoKqDtQn9quxFLimacTmSyZSq)
+This is an ad-free extension. If you wish to support the development, my bitcoin address is [35uk29rVoTRGbaMcSbBPK6JhZ7JsDwE61s](bitcoin://35uk29rVoTRGbaMcSbBPK6JhZ7JsDwE61s)
