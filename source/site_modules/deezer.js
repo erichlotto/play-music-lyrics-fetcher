@@ -1,9 +1,9 @@
 function getDOMArtist(){
-    return $(".player-track-artist:eq(0) .player-track-link:eq(0)").text();
+    return $(".marquee-content:eq(0) .track-link:eq(1)").first().text();
 }
 
 function getDOMTrack(){
-    return $(".player-track-title:eq(0)").text();
+    return $(".marquee-content:eq(0) .track-link:eq(0)").first().text();
 }
 
 function getDOMAlbum(){
@@ -15,11 +15,15 @@ function isDOMTrackAvailable(){
 }
 
 function getDOMTrackPosition(){
-    return hmsToSecondsOnly($(".progress-time:eq(0)").text(), ':');
+    var a = hmsToSecondsOnly($(".slider-counter.slider-counter-current").first().text(), ':');
+    console.log(`getDOMTrackPosition=${a}`);
+    return a;
 }
 
 function getDOMTrackDuration(){
-    return hmsToSecondsOnly($(".progress-length:eq(0)").text(), ':');
+    var a = hmsToSecondsOnly($(".slider-counter.slider-counter-max").first().text(), ':');
+    console.log(`getDOMTrackDuration=${a}`);
+    return a;
 }
 
 function getDOMTimeElapsedElement(){
