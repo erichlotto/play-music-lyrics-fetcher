@@ -12,7 +12,9 @@ jQuery.getJSON("/manifest.json",function(data) {
 
 function releaseNotes(){
     return '<p id="status"><h3 style="width: 500px">Changelog</h3>' +
-		'<ul>v 1.0.16' +
+		'<ul>v 1.0.17' +
+            "<li>Fixed Spotify integration</li>" +
+		'</ul><ul>v 1.0.16' +
             "<li>Changed extension title to Lyrics Fetcher, complying with Google's policy</li>" +
 		'</ul><ul>v 1.0.14' +
             "<li>Added Streamsquid support</li>" +

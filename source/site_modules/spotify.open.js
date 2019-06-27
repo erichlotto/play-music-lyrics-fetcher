@@ -4,11 +4,11 @@
  * reference.
  */
 function getDOMArtist(){
-    return $('.track-info__artists').text().trim().split(",")[0];
+    return $('.track-info__artists').first().text().trim().split(",")[0];
 }
 
 function getDOMTrack(){
-    return $('.track-info__name').text().trim();
+    return $('.track-info__name').first().text().trim();
 }
 
 function getDOMAlbum(){
